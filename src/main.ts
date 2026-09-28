@@ -501,13 +501,27 @@ function schedule() {
       if (!event.notes.length && event.percussion !== "body-tap")
         audio.dampAll(when);
       if (event.percussion) audio.percussion(when, event.percussion);
-      for (const { note: n, offset } of strokeNotes(event)) {
+      const strokes = strokeNotes(event);
+      const muted = strokes.filter((s) => s.note.technique === "muted");
+      if (event.strum && muted.length && !event.percussion)
+        audio.mutedBrush(
+          when + muted[0].offset,
+          muted.length,
+          muted.at(-1)!.offset - muted[0].offset,
+        );
+      if (
+        event.notes.some(
+          (n) => n.technique === "harmonic" && n.harmonicAttack === "tap",
+        )
+      )
+        audio.harmonicSlap(when);
+      for (const { note: n, offset } of strokes) {
         const onset = when + offset;
         const volume =
           (n.ghost ? 0.4 : 1) / Math.sqrt(Math.max(1, pitched.length));
         if (n.technique === "muted") {
           audio.dampString(n.string, onset);
-          if (!event.percussion)
+          if (!event.percussion && !event.strum)
             audio.percussion(
               onset,
               "muted",
@@ -518,6 +532,7 @@ function schedule() {
             string: n.string,
             volume,
             attack: n.harmonicAttack,
+            contact: n.harmonicAttack !== "tap",
             palmMute: event.palmMute,
           });
         } else {
@@ -535,6 +550,7 @@ function schedule() {
               string: n.string,
               volume,
               palmMute: event.palmMute,
+              strummed: Boolean(event.strum),
               letRing: score.letRing,
               link: n.link,
               continueToLink: links.some(

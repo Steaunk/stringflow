@@ -147,3 +147,23 @@ test("a standalone body tap is an attack rather than a rest", () => {
   assert.ok(!html.includes("rhythm-rest"));
   assert.ok(html.includes("rhythm-stem"));
 });
+
+test("muted-string brush has continuous contact and no repeated 12ms noise pattern", async () => {
+  const { mutedBrushSamples } = await import("../src/percussion.ts");
+  for (const rate of [44100, 48000]) {
+    const w = mutedBrushSamples(rate, 3, 0.024),
+      lag = Math.round(rate * 0.012);
+    let xy = 0,
+      xx = 0,
+      yy = 0;
+    for (let i = Math.round(rate * 0.003); i < Math.round(rate * 0.03); i++) {
+      xy += w[i] * w[i + lag];
+      xx += w[i] ** 2;
+      yy += w[i + lag] ** 2;
+    }
+    assert.ok(Math.abs(xy / Math.sqrt(xx * yy)) < 0.15);
+    assert.ok(w.every((v) => Number.isFinite(v) && Math.abs(v) < 1));
+    assert.equal(w[0], 0);
+    assert.ok(Math.abs(w.at(-1)!) < 0.00001);
+  }
+});

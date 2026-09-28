@@ -45,7 +45,7 @@ test("tapped harmonics stay at C5 D5 G5 through the attack and ring at both devi
         energy(wave, rate, 1.3, 0.1) > energy(wave, rate, 0.1, 0.1) * 0.001,
       );
       assert.ok(
-        energy(wave, rate, 2.5, 0.1) < energy(wave, rate, 0.5, 0.1) * 0.15,
+        energy(wave, rate, 2.3, 0.4) < energy(wave, rate, 0.1, 0.4) * 0.15,
       );
       assert.equal(wave[0], 0);
       assert.ok(Math.abs(wave.at(-1)!) < 0.00002);
@@ -60,7 +60,7 @@ test("tap contact is distinct from plucked harmonics and disappears into the pit
     plucked = harmonicSamples(hz, rate, "pluck", 1);
   const brightness = (w: Float32Array, t: number) =>
     energy(w, rate, t, 0.015, true) / energy(w, rate, t, 0.015);
-  assert.ok(brightness(tapped, 0.001) > brightness(plucked, 0.001) * 2);
+  assert.ok(brightness(tapped, 0.001) > brightness(plucked, 0.001) * 1.15);
   assert.ok(brightness(tapped, 0.001) > brightness(tapped, 0.3) * 1.5);
 });
 test("the actual three-string harmonic chord remains recognizable by score following", () => {
@@ -81,4 +81,44 @@ test("the actual three-string harmonic chord remains recognizable by score follo
     ),
     false,
   );
+});
+
+test("slap sustain is fundamental-led with weak higher partials and a separate short contact", () => {
+  for (const rate of [44100, 48000])
+    for (const [midi, string] of [
+      [72, 3],
+      [74, 2],
+      [79, 1],
+    ]) {
+      const hz = frequency(midi),
+        wave = harmonicSamples(hz, rate, "tap", string, false);
+      const amplitude = (f: number) => {
+        let re = 0,
+          im = 0;
+        const count = Math.round(rate * 0.12),
+          start = Math.round(rate * 0.15);
+        for (let i = 0; i < count; i++) {
+          const window = 0.5 - 0.5 * Math.cos((2 * Math.PI * i) / (count - 1));
+          const phase = (2 * Math.PI * f * i) / rate;
+          re += wave[start + i] * window * Math.cos(phase);
+          im += wave[start + i] * window * Math.sin(phase);
+        }
+        return Math.hypot(re, im);
+      };
+      const fundamental = amplitude(hz);
+      assert.ok(amplitude(hz * 2) / fundamental < 0.2);
+      assert.ok(amplitude(hz * 3) / fundamental < 0.05);
+      assert.ok(amplitude(hz / 2) / fundamental < 0.01);
+      const full = harmonicSamples(hz, rate, "tap", string, true);
+      assert.ok(
+        energy(
+          full.map((v, i) => v - wave[i]),
+          rate,
+          0,
+          0.02,
+        ) > 0.001,
+      );
+      for (let i = Math.round(0.16 * rate); i < wave.length; i++)
+        assert.equal(full[i], wave[i]);
+    }
 });

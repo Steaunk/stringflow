@@ -1,6 +1,7 @@
 import { palmMutedSamples } from "./palm-mute.ts";
 import { harmonicRoomImpulse } from "./ambience.ts";
-import { percussionSamples } from "./percussion.ts";
+import { slapContactSamples } from "./slap-harmonics.ts";
+import { percussionSamples, mutedBrushSamples } from "./percussion.ts";
 import type { PercussionKind } from "./percussion.ts";
 import type { NoteLink } from "./score.ts";
 import { harmonicSamples } from "./harmonics.ts";
@@ -20,6 +21,7 @@ export interface GuitarOptions {
   letRing?: boolean;
   link?: NoteLink;
   continueToLink?: boolean;
+  strummed?: boolean;
 }
 export class AudioEngine {
   context: AudioContext | null = null;
@@ -119,12 +121,18 @@ export class AudioEngine {
       attack?: HarmonicAttack;
       palmMute?: boolean;
       ambience?: boolean;
+      contact?: boolean;
     },
   ) {
     const ctx = this.context!;
     const attack = options.attack ?? "pluck";
     this.dampString(options.string, time);
-    const buffer = this.harmonicBuffer(hz, options.string, attack);
+    const buffer = this.harmonicBuffer(
+      hz,
+      options.string,
+      attack,
+      options.contact !== false,
+    );
     const source = ctx.createBufferSource(),
       gain = ctx.createGain();
     source.buffer = buffer;
@@ -136,12 +144,23 @@ export class AudioEngine {
     source.start(time);
     if (options.palmMute) this.dampString(options.string, time + 0.12);
   }
-  private harmonicBuffer(hz: number, string: number, attack: HarmonicAttack) {
+  private harmonicBuffer(
+    hz: number,
+    string: number,
+    attack: HarmonicAttack,
+    contact = true,
+  ) {
     const ctx = this.context!;
-    const key = `${ctx.sampleRate}:${hz}:${string}:${attack}`;
+    const key = `${ctx.sampleRate}:${hz}:${string}:${attack}:${contact}`;
     let buffer = this.harmonicBuffers.get(key);
     if (!buffer) {
-      const samples = harmonicSamples(hz, ctx.sampleRate, attack, string);
+      const samples = harmonicSamples(
+        hz,
+        ctx.sampleRate,
+        attack,
+        string,
+        contact,
+      );
       buffer = ctx.createBuffer(1, samples.length, ctx.sampleRate);
       buffer.copyToChannel(samples, 0);
       // Bound memory when many different imported scores are auditioned.
@@ -156,7 +175,12 @@ export class AudioEngine {
   ) {
     if (notes.length) this.harmonicRoom();
     for (const note of notes)
-      this.harmonicBuffer(note.hz, note.string, note.attack ?? "pluck");
+      this.harmonicBuffer(
+        note.hz,
+        note.string,
+        note.attack ?? "pluck",
+        note.attack !== "tap",
+      );
   }
   guitarNote(
     hz: number,
@@ -242,7 +266,7 @@ export class AudioEngine {
     filter.type = "lowpass";
     filter.Q.value = 0.55;
     filter.frequency.setValueAtTime(
-      Math.min(11000, hz * (options.palmMute ? 3 : 12)),
+      Math.min(11000, hz * (options.palmMute ? 3 : options.strummed ? 18 : 12)),
       time,
     );
     filter.frequency.exponentialRampToValueAtTime(
@@ -253,7 +277,7 @@ export class AudioEngine {
     // Direct seeks into a legato target still produce that target, with a softer attack.
     gain.gain.linearRampToValueAtTime(
       volume * (options.link ? 0.75 : 1),
-      time + (options.link ? 0.012 : 0.003),
+      time + (options.link ? 0.012 : options.strummed ? 0.0015 : 0.003),
     );
     gain.gain.exponentialRampToValueAtTime(0.0001, time + sustain);
     osc.connect(filter).connect(gain).connect(ctx.destination);
@@ -296,6 +320,36 @@ export class AudioEngine {
   dampAll(time: number) {
     for (const string of [...this.strings.keys()])
       this.dampString(string, time);
+  }
+  harmonicSlap(time: number, volume = 1) {
+    this.contactSound(
+      slapContactSamples(this.context!.sampleRate),
+      time,
+      0.13 * volume,
+    );
+  }
+  mutedBrush(time: number, strings: number, span: number, volume = 1) {
+    this.contactSound(
+      mutedBrushSamples(this.context!.sampleRate, strings, span),
+      time,
+      0.2 * volume,
+    );
+  }
+  private contactSound(
+    samples: Float32Array<ArrayBuffer>,
+    time: number,
+    volume: number,
+  ) {
+    const ctx = this.context!,
+      buffer = ctx.createBuffer(1, samples.length, ctx.sampleRate);
+    buffer.copyToChannel(samples, 0);
+    const source = ctx.createBufferSource(),
+      gain = ctx.createGain();
+    source.buffer = buffer;
+    gain.gain.value = volume;
+    source.connect(gain).connect(ctx.destination);
+    this.track(source, gain);
+    source.start(time);
   }
   percussion(time: number, kind: PercussionKind = "muted", volume = 1) {
     const ctx = this.context!,

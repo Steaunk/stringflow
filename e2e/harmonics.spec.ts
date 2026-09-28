@@ -184,3 +184,50 @@ test("harmonic space preserves the direct attack, produces stereo decay, and cle
   await page.locator("#harmonic-space").selectOption("0");
   await expect(page.locator("#harmonic-space")).toHaveValue("0");
 });
+
+test("a three-string slap has one shared contact and three independently damped harmonic voices", async ({
+  page,
+}) => {
+  await page.goto("/?song=something-just-like-this");
+  await page.locator("#metronome").uncheck();
+  await page.evaluate(async () => {
+    const path = "/src/audio.ts";
+    const { AudioEngine } = await import(/* @vite-ignore */ path);
+    const state = window as unknown as { hits: number[]; contacts: boolean[] };
+    state.hits = [];
+    state.contacts = [];
+    const hit = AudioEngine.prototype.harmonicSlap,
+      note = AudioEngine.prototype.harmonicNote;
+    AudioEngine.prototype.harmonicSlap = function (
+      t: number,
+      ...args: unknown[]
+    ) {
+      state.hits.push(t);
+      return hit.call(this, t, ...args);
+    };
+    AudioEngine.prototype.harmonicNote = function (
+      hz: number,
+      t: number,
+      options: { contact?: boolean },
+    ) {
+      state.contacts.push(options.contact !== false);
+      return note.call(this, hz, t, options);
+    };
+  });
+  await page
+    .locator("#bar-28 .tab-event")
+    .filter({ has: page.locator(".harmonic") })
+    .first()
+    .click();
+  await page.locator("#play").click();
+  expect(
+    await page.evaluate(
+      () => (window as unknown as { hits: number[] }).hits.length,
+    ),
+  ).toBe(1);
+  expect(
+    await page.evaluate(
+      () => (window as unknown as { contacts: boolean[] }).contacts,
+    ),
+  ).toEqual([false, false, false]);
+});

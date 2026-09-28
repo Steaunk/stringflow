@@ -26,3 +26,30 @@ export function percussionSamples(kind: PercussionKind, sampleRate: number) {
   }
   return data;
 }
+
+/** One continuous brush across muted strings; no repeated copies of the same hit. */
+export function mutedBrushSamples(rate: number, strings: number, span: number) {
+  const duration = span + 0.075,
+    data = new Float32Array(Math.ceil(duration * rate));
+  let state = 8431 + strings * 97,
+    low = 0,
+    body = 0;
+  const highCut = 1 - Math.exp((-2 * Math.PI * 5800) / rate);
+  const lowCut = 1 - Math.exp((-2 * Math.PI * 450) / rate);
+  for (let i = 0; i < data.length; i++) {
+    const t = i / rate;
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    low += highCut * (state / 2147483648 - 1 - low);
+    body += lowCut * (low - body);
+    const envelope =
+      (1 - Math.exp(-t / 0.0015)) *
+      Math.exp(-Math.max(0, t - span * 0.55) / 0.012);
+    data[i] =
+      ((low - body) * 0.26 +
+        0.06 * Math.sin(2 * Math.PI * 180 * t) * Math.exp(-t / 0.018)) *
+      envelope *
+      Math.min(1, (duration - t) / 0.01) *
+      Math.min(1.4, Math.sqrt(strings));
+  }
+  return data;
+}

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>P.M. 与泛音试听 · Stringflow</title>
+    <title>拍泛音与第 32 小节试听 · Stringflow</title>
     <style>
       body {
         font:
@@ -55,59 +55,92 @@
   </head>
   <body>
     <a href="./?song=something-just-like-this">← 返回曲谱</a>
-    <h1>P.M. 与泛音试听</h1>
+    <h1>拍泛音与第 32 小节试听</h1>
     <p>先听起音，再听余音。建议使用耳机比较泛音的立体声空间。</p>
     <section>
-      <h2>掌根制音 P.M.</h2>
+      <h2>拍泛音：C5、D5、G5 与三弦和弦</h2>
       <p class="note">
-        同一组低音与和弦：上一版 → 新版。保留音高、短促拨弦起音和琴体共鸣。
+        先比较干声的起音和余音，再听空间效果。前 700 ms 单音 RMS
+        已对齐，整段保持同一增益。
+      </p>
+      <label
+        >上一版：带空间<audio
+          controls
+          preload="metadata"
+          src="audio/slap-before.mp3"
+        ></audio
+      ></label>
+      <label
+        >新版：干声<audio
+          controls
+          preload="metadata"
+          src="audio/slap-after-dry.mp3"
+        ></audio
+      ></label>
+      <label
+        >新版：带空间<audio
+          id="after"
+          controls
+          preload="metadata"
+          src="audio/slap-after-space.mp3"
+        ></audio
+      ></label>
+      <button id="chord">只听三弦拍泛音</button>
+    </section>
+    <section>
+      <h2>第 32 小节：闷弦扫过与高音弦</h2>
+      <p class="note">
+        按原谱演奏整小节。新版将低音弦的 ×
+        作为一次连续扫过，保留高音弦的先后顺序。
       </p>
       <label
         >上一版<audio
           controls
           preload="metadata"
-          src="audio/pm-previous.mp3"
-        ></audio></label
-      ><label
+          src="audio/bar32-before.mp3"
+        ></audio
+      ></label>
+      <label
         >新版<audio
           controls
           preload="metadata"
-          src="audio/pm-current.mp3"
+          src="audio/bar32-after.mp3"
         ></audio
       ></label>
     </section>
     <section>
-      <h2>泛音</h2>
-      <p class="note">
-        每段依次为 C5、D5、G5，再同时弹响三音。对比前 700 毫秒的单音 RMS
-        音量已对齐。
-      </p>
+      <h2>放回曲子：第 29–32 小节</h2>
       <label
-        >上一版：拍泛音干声<audio
+        >上一版<audio
           controls
           preload="metadata"
-          src="audio/harmonic-previous.mp3"
-        ></audio></label
-      ><label
-        >新版：干声<audio
+          src="audio/bars29-32-before.mp3"
+        ></audio
+      ></label>
+      <label
+        >新版<audio
           controls
           preload="metadata"
-          src="audio/harmonic-dry.mp3"
-        ></audio></label
-      ><label
-        >新版：空灵空间<audio
-          id="after"
-          controls
-          preload="metadata"
-          src="audio/harmonic-space.mp3"
-        ></audio></label
-      ><button id="chord">只听三弦泛音：空灵</button>
+          src="audio/bars29-32-after.mp3"
+        ></audio
+      ></label>
     </section>
     <p class="note">
-      曲谱底部「记号 / 音色」可切换泛音空间：干声、自然、空灵。
+      三弦拍泛音共用一次短促接触声，各弦独立延音。曲谱底部「记号 /
+      音色」可切换干声、自然、空灵。
     </p>
     <p class="note">
-      全部音频来自网站自己的合成引擎，没有原演奏录音采样；混响不是原演奏效果器的复刻。播放器本身的音量不受这里的试听对齐影响。
+      研究参考：<a
+        href="https://hubguitar.com/technique/tap-harmonics-overview"
+        target="_blank"
+        rel="noopener"
+        >Hub Guitar 的拍泛音动作与实录示例</a
+      >、<a
+        href="https://blog.artistworks.com/acoustic-fingerstyle-guitar-lesson-slap-harmonics/"
+        target="_blank"
+        rel="noopener"
+        >Andy McKee 的 slap harmonics 教学</a
+      >。本站音频全部由合成引擎生成，未使用教学录音或原演奏采样；不代表已复刻实琴。
     </p>
     <script>
       const players = [...document.querySelectorAll("audio")];

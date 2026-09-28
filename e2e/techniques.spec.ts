@@ -156,3 +156,68 @@ test("clicking a down-strummed chord schedules low-to-high attacks without count
   for (let i = 1; i < 6; i++)
     expect(strokes[i].time - strokes[i - 1].time).toBeCloseTo(0.012, 4);
 });
+
+test("bar 32 sweeps three dead strings once, then sounds the upper strings in physical order", async ({
+  page,
+}) => {
+  await page.goto("/?song=something-just-like-this");
+  await page.locator("#metronome").uncheck();
+  await page.evaluate(async () => {
+    const path = "/src/audio.ts";
+    const { AudioEngine } = await import(/* @vite-ignore */ path);
+    const state = window as unknown as {
+      brushes: number[][];
+      percussion: number;
+      notes: { string: number; time: number; strummed: boolean }[];
+    };
+    state.brushes = [];
+    state.percussion = 0;
+    state.notes = [];
+    const brush = AudioEngine.prototype.mutedBrush,
+      percussion = AudioEngine.prototype.percussion,
+      note = AudioEngine.prototype.guitarNote;
+    AudioEngine.prototype.mutedBrush = function (
+      t: number,
+      n: number,
+      span: number,
+    ) {
+      state.brushes.push([t, n, span]);
+      return brush.call(this, t, n, span);
+    };
+    AudioEngine.prototype.percussion = function (...args: unknown[]) {
+      state.percussion++;
+      return percussion.apply(this, args);
+    };
+    AudioEngine.prototype.guitarNote = function (
+      hz: number,
+      t: number,
+      d: number,
+      options: { string: number; strummed: boolean },
+    ) {
+      state.notes.push({
+        string: options.string,
+        time: t,
+        strummed: options.strummed,
+      });
+      return note.call(this, hz, t, d, options);
+    };
+  });
+  await page.locator('[data-event="256"]').click();
+  await page.locator("#play").click();
+  const state = await page.evaluate(() => {
+    const s = window as unknown as {
+      brushes: number[][];
+      percussion: number;
+      notes: { string: number; time: number; strummed: boolean }[];
+    };
+    return { brushes: s.brushes, percussion: s.percussion, notes: s.notes };
+  });
+  expect(state.brushes).toHaveLength(1);
+  expect(state.brushes[0][1]).toBe(3);
+  expect(state.percussion).toBe(0);
+  const stroke = state.notes.filter((n) => n.time < state.brushes[0][0] + 0.08);
+  expect(stroke.map((n) => n.string)).toEqual([3, 2]);
+  expect(stroke.every((n) => n.strummed)).toBe(true);
+  expect(state.notes[0].time - state.brushes[0][0]).toBeCloseTo(0.036, 4);
+  expect(state.notes[1].time - state.notes[0].time).toBeCloseTo(0.012, 4);
+});

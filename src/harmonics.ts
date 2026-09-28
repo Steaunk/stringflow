@@ -1,3 +1,4 @@
+import { slappedStringSamples } from "./slap-harmonics.ts";
 /** Harmonic fret numbers are touch nodes relative to the capo, not stopped pitches.
  * This model intentionally supports the octave node only; score validation agrees.
  */
@@ -7,7 +8,7 @@ export const octaveHarmonicMidi = (openMidi: number, capo: number) =>
 
 /** Modal approximation of a steel-string harmonic, not a recorded guitar sample.
  * hz is the sounding harmonic (2 × the capoed open-string frequency).
- * Tap excitation has a brief broadband contact, then the same pitched string modes.
+ * Slapped harmonics use their own excitation/decay model in slap-harmonics.ts.
  * Partial decay and a fast/slow envelope keep the transient distinct from the ring.
  * Coefficients are sound-design parameters, not measurements of the source recording.
  */
@@ -16,8 +17,10 @@ export function harmonicSamples(
   sampleRate: number,
   attack: HarmonicAttack = "pluck",
   string = 1,
+  contact = true,
 ) {
-  const tapped = attack === "tap";
+  if (attack === "tap")
+    return slappedStringSamples(hz, sampleRate, string, contact);
   const scale = Math.max(0.7, Math.min(1.35, Math.sqrt(660 / hz)));
   const duration = 5.4 * scale;
   const samples = new Float32Array(Math.ceil(duration * sampleRate));
@@ -32,10 +35,9 @@ export function harmonicSamples(
     return {
       frequency,
       amplitude:
-        ((tapped ? 0.64 : 0.72) *
-          Math.abs(Math.cos(ratio * (0.37 + string * 0.018)))) /
-        ratio ** (tapped ? 1.15 : 1.7),
-      fast: ((tapped ? 0.12 : 0.2) * scale) / ratio ** 0.65,
+        (0.72 * Math.abs(Math.cos(ratio * (0.37 + string * 0.018)))) /
+        ratio ** 1.7,
+      fast: (0.2 * scale) / ratio ** 0.65,
       slow: (1.35 * scale) / ratio ** 0.72,
       phase: ratio === 1 ? 0 : string * ratio * 0.41,
     };
@@ -67,7 +69,7 @@ export function harmonicSamples(
   let peak = 0;
   for (let i = 0; i < samples.length; i++) {
     const t = i / sampleRate;
-    const onset = 1 - Math.exp(-t / (tapped ? 0.0007 : 0.002));
+    const onset = 1 - Math.exp(-t / 0.002);
     const release = Math.min(1, (duration - t) / 0.08);
     let value = samples[i];
     if (t < 0.12) {
@@ -75,12 +77,9 @@ export function harmonicSamples(
       seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
       const noise = seed / 2147483648 - 1;
       contactLow += contactAlpha * (noise - contactLow);
+      value += 0.025 * (noise - contactLow) * Math.exp(-t / 0.003);
       value +=
-        (tapped ? 0.18 : 0.025) *
-        (noise - contactLow) *
-        Math.exp(-t / (tapped ? 0.007 : 0.003));
-      value +=
-        (tapped ? 0.045 : 0.015) *
+        0.015 *
         (Math.sin(2 * Math.PI * 190 * t) +
           0.45 * Math.sin(2 * Math.PI * 410 * t)) *
         Math.exp(-t / 0.012);
