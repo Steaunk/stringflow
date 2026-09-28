@@ -19,9 +19,11 @@ test("imported song opens directly, tunes according to the source, and renders a
   await expect(page.locator("#bar-28 .harmonic").first()).toHaveText("◇12");
   await expect(page.locator("#bar-28 .muted").first()).toHaveText("×");
   await expect(page.locator("#bar-100 .rest")).toBeAttached();
+  await page.locator("#open-tuner").click();
   await page.locator("#tune-capo").check();
   await expect(page.locator('[data-string="0"]')).toContainText("F2");
   await expect(page.locator('[data-string="5"]')).toContainText("G4");
+  await page.locator("#close-tuner").click();
   await page.locator("#count-in").selectOption("0");
   await page.locator("#play").click();
   await expect(page.locator('[data-event="0"]')).not.toHaveClass(/current/);
@@ -29,8 +31,10 @@ test("imported song opens directly, tunes according to the source, and renders a
   await page.locator("#follow-mode").click();
   await page.locator("#play").click();
   await expect(page.locator("#status")).toContainText("和弦或打板");
+  await page.locator("#toggle-library").click();
   await page.locator('[data-demo="0"]').click();
   expect(new URL(page.url()).searchParams.has("song")).toBe(false);
+  await page.locator("#toggle-library").click();
   await page
     .getByRole("button", { name: "载入 Something Just Like This", exact: true })
     .click();

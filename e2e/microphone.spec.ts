@@ -40,13 +40,35 @@ test("real Web Audio microphone path detects E2 and advances exactly one held no
   try {
     const context = await browser.newContext({ permissions: ["microphone"] });
     const page = await context.newPage();
+    await page.addInitScript(() => {
+      const original = navigator.mediaDevices.getUserMedia.bind(
+        navigator.mediaDevices,
+      );
+      const tracks: MediaStreamTrack[] = [];
+      (window as unknown as { tracks: MediaStreamTrack[] }).tracks = tracks;
+      navigator.mediaDevices.getUserMedia = async (...args) => {
+        const stream = await original(...args);
+        tracks.push(...stream.getTracks());
+        return stream;
+      };
+    });
     await page.goto("http://localhost:5173");
+    await page.locator("#open-tuner").click();
     await page.locator("#mic-button").click();
     await expect(page.locator("#detected-note")).toContainText("E2", {
       timeout: 10000,
     });
     await expect(page.locator("#tuner-state")).toHaveText("音准刚刚好");
-    await page.locator("#mic-button").click();
+    await page.locator("#close-tuner").click();
+    await expect
+      .poll(() =>
+        page.evaluate(() =>
+          (window as unknown as { tracks: MediaStreamTrack[] }).tracks.every(
+            (t) => t.readyState === "ended",
+          ),
+        ),
+      )
+      .toBe(true);
     await expect(page.locator("#tuner-state")).toHaveText("等待麦克风");
     await page.locator("#follow-mode").click();
     await page.locator("#play").click();

@@ -1,5 +1,6 @@
 import "./style.css";
 import { AudioEngine } from "./audio.ts";
+import { beatX, rhythmMarkup, restSymbol } from "./notation.ts";
 import { Follower } from "./follower.ts";
 import {
   PRESETS,
@@ -69,20 +70,20 @@ const iconPlay =
 const iconPause =
   '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>';
 $("#app").innerHTML = `
-<aside class="sidebar"><a class="brand" href="${import.meta.env.BASE_URL}" aria-label="Stringflow 首页"><span class="brand-icon">≋</span>stringflow<span class="brand-dot">.</span></a><div class="nav-active"><span>♫</span> 六线谱练习室</div><div class="sidebar-label library-label">我的曲谱</div><div id="library"></div><button id="sidebar-import" class="sidebar-import">＋ 导入自己的曲谱</button></aside>
-<main><header class="topbar"><span>六线谱练习室</span><div class="top-right"><span class="local-dot"></span> 本地音频处理 <span class="avatar">S</span></div></header>
+<div id="sidebar-shade" hidden></div><aside id="library-panel" class="sidebar" inert><button id="close-library" class="icon-button" aria-label="关闭曲库">×</button><a class="brand" href="${import.meta.env.BASE_URL}" aria-label="Stringflow 首页"><span class="brand-icon">≋</span>stringflow<span class="brand-dot">.</span></a><div class="nav-active"><span>♫</span> 六线谱练习室</div><div class="sidebar-label library-label">我的曲谱</div><div id="library"></div><button id="sidebar-import" class="sidebar-import">＋ 导入自己的曲谱</button></aside>
+<main><header class="topbar"><button id="toggle-library" class="button secondary" aria-expanded="false" aria-controls="library-panel">☰ 曲库</button><span class="app-name">stringflow<span>.</span></span><div class="top-right"><button id="open-tuner" class="button secondary">♮ 调音器</button><button id="import-button" class="button secondary">导入曲谱</button><button id="edit-button" class="text-button">编辑</button></div></header>
 <div class="content">
-<section class="song-card"><div class="song-art"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M30 80Q5 58 29 42q12-5 19 1l27-29 11 11-30 28q5 12-5 23-11 14-21 4Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="39" cy="60" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m24 74 51-51m-47 54 51-51M22 68l13 12" stroke="currentColor"/></svg></div><div class="song-info"><h1 id="song-title"></h1><p id="song-artist"></p><div class="tags"><span id="tuning-tag"></span><span id="time-tag"></span><span id="capo-tag"></span></div></div><div class="song-actions"><button id="import-button" class="button secondary"><span>↥</span> 导入曲谱</button><button id="edit-button" class="text-button">编辑曲谱 ↗</button></div></section>
-<p id="notation-note" class="notation-note" hidden></p>
-<div class="workspace"><div class="practice-column"><section class="transport card"><div class="mode-tabs" role="group" aria-label="播放模式"><button id="tempo-mode" class="selected">◷ 节拍播放</button><button id="follow-mode">⌁ 智能跟奏 <span>MIC</span></button></div><div class="transport-controls"><button id="rewind" class="icon-button" aria-label="回到开头">↤</button><button id="play" class="play-button" aria-label="播放">${iconPlay}</button><div class="tempo-control"><label for="bpm">速度 <span>♩ = BPM</span></label><div><button id="slower" aria-label="减慢速度">−</button><input id="bpm" type="number" min="30" max="240" aria-label="每分钟四分音符数"/><button id="faster" aria-label="加快速度">＋</button></div></div><div class="transport-divider"></div><label class="check-control"><input id="metronome" type="checkbox" checked/>节拍器</label><label class="check-control"><input id="sound" type="checkbox" checked/>示范音</label><label class="count-control">预备<select id="count-in" aria-label="预备小节"><option value="1">1 小节</option><option value="0">无</option><option value="2">2 小节</option></select></label></div><div class="transport-bottom"><span id="mode-help">按设定速度播放，谱面随当前音符自动滚动。</span><span id="beat-dots"></span></div></section>
-<section class="score-card card"><div class="score-toolbar"><div><span class="section-icon">≡</span><b>六线谱</b><span id="bar-position" class="muted"></span></div><div class="score-actions"><label class="check-control"><input id="loop" type="checkbox"/>循环</label><select id="loop-start" aria-label="循环起始小节"></select><span>—</span><select id="loop-end" aria-label="循环结束小节"></select><button id="export" class="icon-button" aria-label="导出 JSON 曲谱">↓</button></div></div><div class="progress-track"><div id="progress"></div></div><div id="score" class="score-scroll" tabindex="0" aria-label="六线谱，点击音符或小节从此播放"></div><div class="score-footer"><span><i class="legend-dot"></i> 当前音符</span><span>点击音符 / 小节播放 · 空格暂停 / 继续</span></div></section>
+<section class="song-card"><div class="song-info"><h1 id="song-title"></h1><p id="song-artist"></p></div><div class="tags"><span id="tuning-tag"></span><span id="time-tag"></span><span id="capo-tag"></span></div></section>
+<div class="workspace"><div class="practice-column"><section class="transport card"><div class="mode-tabs" role="group" aria-label="播放模式"><button id="tempo-mode" class="selected">◷ 节拍播放</button><button id="follow-mode">⌁ 智能跟奏 <span>MIC</span></button></div><div class="transport-controls"><button id="rewind" class="icon-button" aria-label="回到开头">↤</button><button id="play" class="play-button" aria-label="播放">${iconPlay}</button><div class="tempo-control"><label for="bpm">速度 <span>♩ = BPM</span></label><div><button id="slower" aria-label="减慢速度">−</button><input id="bpm" type="number" min="30" max="240" aria-label="每分钟四分音符数"/><button id="faster" aria-label="加快速度">＋</button></div></div><div class="transport-divider"></div><label class="check-control"><input id="metronome" type="checkbox" checked/>节拍器</label><label class="check-control"><input id="sound" type="checkbox" checked/>示范音</label><label class="count-control">预备<select id="count-in" aria-label="预备小节"><option value="1">1 小节</option><option value="0">无</option><option value="2">2 小节</option></select></label></div><div class="transport-bottom"><span id="mode-help">按设定速度播放，谱面随当前音符自动滚动。</span><span id="target-note" hidden></span><span id="beat-dots"></span></div></section>
+<section class="score-card card"><div class="score-toolbar"><div><span class="section-icon">≡</span><b>六线谱</b><span id="bar-position" class="muted"></span></div><div class="score-actions"><label class="zoom-control">谱面<select id="score-size" aria-label="谱面大小"><option value="normal">标准</option><option value="large">放大</option></select></label><button id="focus-score" class="text-button" aria-pressed="false">专注</button><label class="check-control"><input id="loop" type="checkbox"/>循环</label><select id="loop-start" aria-label="循环起始小节"></select><span>—</span><select id="loop-end" aria-label="循环结束小节"></select><button id="export" class="icon-button" aria-label="导出 JSON 曲谱">↓</button></div></div><div class="progress-track"><div id="progress"></div></div><div id="score" class="score-scroll" tabindex="0" aria-label="六线谱，点击音符或小节从此播放"></div><div class="score-footer"><details class="notation-key"><summary>谱面记号</summary><p id="notation-note"></p><p>下方数字是拍点，&amp; 是半拍。单符杠：八分音符；双符杠：十六分音符；圆点：附点。</p></details><span>点击音符 / 小节播放 · 空格暂停 / 继续</span></div></section>
 <div id="status" class="status" role="status" aria-live="polite">已就绪。</div></div>
-<aside class="right-column"><section class="tuner-card card"><div class="panel-heading"><h3>随谱调音</h3></div><p class="panel-description">按谱面定弦调音。</p><select id="tuning-preset" aria-label="调弦方案"></select><div class="tuner-display"><span id="tuner-state" class="tuner-state">等待麦克风</span><div id="detected-note" class="detected-note">—<small>轻拨一根空弦</small></div><div class="tuner-scale"><span>偏低</span><span>准</span><span>偏高</span><div class="scale-lines"></div><div id="needle" class="needle"></div></div><div id="cents" class="cents">— cents</div><div id="frequency" class="frequency">A4 = 440 Hz</div></div><div id="strings" class="strings"></div><label class="check-control capo-check"><input id="tune-capo" type="checkbox"/>已夹变调夹，按夹后空弦调音</label><button id="mic-button" class="button mic-button">◉ 开启麦克风</button><button id="reference" class="text-button reference">♪ 播放选中弦的参考音</button><p id="tuner-hint" class="fineprint"></p></section>
-<section class="follow-card"><h3>跟奏提示</h3><p>匹配目标音后自动推进。</p><div id="target-note" class="target-note"></div><p class="fineprint">首版支持单音与分解和弦。连续同音请重新拨弦；整和弦请使用节拍播放。</p></section></aside></div><footer class="page-footer"><span>音频仅在设备上分析，不上传录音。</span></footer></div></main>
+</div></div></main><dialog id="tuner" aria-label="随谱调音"><section class="tuner-card card"><div class="panel-heading"><h3>调音器</h3><button id="close-tuner" class="icon-button" aria-label="关闭调音器">×</button></div><p class="panel-description">按谱面定弦调音。</p><select id="tuning-preset" aria-label="调弦方案"></select><div class="tuner-display"><span id="tuner-state" class="tuner-state">等待麦克风</span><div id="detected-note" class="detected-note">—<small>轻拨一根空弦</small></div><div class="tuner-scale"><span>偏低</span><span>准</span><span>偏高</span><div class="scale-lines"></div><div id="needle" class="needle"></div></div><div id="cents" class="cents">— cents</div><div id="frequency" class="frequency">A4 = 440 Hz</div></div><div id="strings" class="strings"></div><label class="check-control capo-check"><input id="tune-capo" type="checkbox"/>已夹变调夹，按夹后空弦调音</label><button id="mic-button" class="button mic-button">◉ 开启麦克风</button><button id="reference" class="text-button reference">♪ 播放选中弦的参考音</button><p id="tuner-hint" class="fineprint"></p></section>
+<p id="tuner-feedback" role="status"></p></dialog>
 <dialog id="editor"><form method="dialog"><div class="dialog-heading"><div><h2>导入 / 编辑曲谱</h2></div><button class="icon-button" aria-label="关闭编辑器">×</button></div></form><p>支持 JSON 曲谱与等时值文本六线谱；图片、PDF 和 Guitar Pro 尚未支持。</p><div class="editor-actions"><label class="button secondary file-button">选择文件<input id="file" type="file" accept=".json,.txt,.tab"/></label><button id="ascii-example" class="text-button">文本谱示例</button><button id="json-current" class="text-button">当前谱 JSON</button></div><textarea id="score-input" spellcheck="false" aria-label="曲谱内容"></textarea><p class="fineprint">文本谱：1 弦到 6 弦排列，品数按列对齐；@step 以四分音符为单位。@tuning 从低音 6 弦到高音 1 弦。变调夹用 @capo 指定。</p><p id="editor-error" class="error" role="alert"></p><div class="dialog-footer"><span>只保存于当前浏览器</span><button id="apply-score" class="button primary">载入曲谱 →</button></div></dialog>`;
 
 function status(message: string, error = false) {
   $("#status").textContent = message;
+  $("#tuner-feedback").textContent = message;
   $("#status").classList.toggle("error", error);
 }
 function persist() {
@@ -148,7 +149,7 @@ function renderScore() {
   $("#notation-note").hidden = !hasTechniques;
   $("#notation-note").textContent =
     "谱面记号：◇12 自然泛音 · × 闷音/打板 · ( ) 弱奏 · P.M. 掌根制音。示范音为简化合成音，击勾弦、滑音和扫弦按离散音近似播放；此和弦谱请使用节拍模式。";
-  $("#score").classList.toggle("detailed-score", hasTechniques);
+
   $("#song-artist").textContent = score.artist;
   $("#tuning-tag").textContent =
     `${tuningName()} · ${score.tuning.map(noteName).join(" ")}`;
@@ -180,12 +181,13 @@ function renderScore() {
       .map((n) => `<span>${noteName(n).replace(/\d/g, "")}</span>`)
       .join(
         "",
-      )}</div><div class="staff-body">${Array.from({ length: 6 }, (_, i) => `<div class="staff-line" style="top:${i * 28 + 12}px"></div>`).join("")}${notes.map(({ event, i, beat }) => `<button class="tab-event" data-event="${i}" aria-label="音符 ${i + 1}，${event.notes.length ? event.notes.map((n) => `${n.string} 弦 ${fretLabel(n)}`).join("，") : "休止"}" style="left:${4 + ((beat - b * bar) / bar) * 90}%;width:${Math.min((event.beats / bar) * 90, 18)}%">${event.notes.length ? event.notes.map((n) => `<span class="fret ${n.technique ?? ""} ${n.ghost ? "ghost" : ""}" style="top:${(n.string - 1) * 28}px">${fretLabel(n)}</span>`).join("") : '<span class="rest">𝄽</span>'}<span class="rhythm">${event.beats < 0.5 ? "♬" : event.beats < 1 ? "♪" : event.beats === 1.5 ? "♩·" : event.beats >= 4 ? "𝅝" : "♩"}</span></button>`).join("")}<div class="beat-labels">${Array.from({ length: score.timeSignature[0] }, (_, i) => `<span>${i + 1}</span>`).join("")}</div></div></div></div>`;
+      )}</div><div class="staff-body">${Array.from({ length: 6 }, (_, i) => `<div class="staff-line" style="top:${i * 22 + 10}px"></div>`).join("")}${notes.map(({ event, i, beat }) => `<button class="tab-event" data-event="${i}" aria-label="音符 ${i + 1}，${event.notes.length ? event.notes.map((n) => `${n.string} 弦 ${fretLabel(n)}`).join("，") : "休止"}" title="${event.beats} 拍" style="left:${beatX(beat - b * bar, bar)}%">${event.notes.length ? event.notes.map((n) => `<span class="fret ${n.technique ?? ""} ${n.ghost ? "ghost" : ""}" style="top:${(n.string - 1) * 22}px">${fretLabel(n)}</span>`).join("") : `<span class="rest">${restSymbol(event.beats)}</span>`}</button>`).join("")}${rhythmMarkup(notes, b * bar, bar, score.timeSignature)}<div class="beat-labels">${Array.from({ length: score.timeSignature[0] * 2 }, (_, i) => `<span class="${i % 2 ? "offbeat" : "onbeat"}" style="left:${beatX(i * (2 / score.timeSignature[1]), bar)}%">${i % 2 ? "&" : i / 2 + 1}</span>`).join("")}</div><div class="beat-grid" aria-hidden="true">${Array.from({ length: score.timeSignature[0] }, (_, i) => `<i style="left:${beatX(i * (4 / score.timeSignature[1]), bar)}%"></i>`).join("")}</div><div class="playhead" aria-hidden="true"></div></div></div></div>`;
   });
   $("#score").innerHTML = bars.join("");
+  $("#score").scrollTop = 0;
   $("#beat-dots").innerHTML = Array.from(
     { length: score.timeSignature[0] },
-    () => "<i></i>",
+    (_, i) => `<i>${i + 1}</i>`,
   ).join("");
   renderStrings();
   updatePosition(false);
@@ -206,14 +208,37 @@ function updatePosition(scroll = true) {
   if (scroll && b !== lastBar) {
     const bar = $(`#bar-${b}`),
       container = $("#score");
-    container.scrollTo({
-      top: bar.offsetTop - 16,
-      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? "instant"
-        : "smooth",
-    });
+    const top = bar.offsetTop;
+    if (
+      top < container.scrollTop ||
+      top + bar.offsetHeight > container.scrollTop + container.clientHeight
+    )
+      container.scrollTo({
+        top: top - 12,
+        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "instant"
+          : "smooth",
+      });
   }
   lastBar = b;
+  showBeat(eventStarts[index] ?? 0);
+}
+function showBeat(beat: number) {
+  const barBeats = beatsPerBar(score);
+  const b = Math.floor(beat / barBeats);
+  const bar = $(`#bar-${b}`);
+  document
+    .querySelector(".tab-bar.playing-bar")
+    ?.classList.remove("playing-bar");
+  bar?.classList.add("playing-bar");
+  const head = bar?.querySelector<HTMLElement>(".playhead");
+  if (head) head.style.left = `${beatX(beat - b * barBeats, barBeats)}%`;
+  const pulse = Math.floor(
+    (beat - b * barBeats) / (4 / score.timeSignature[1]),
+  );
+  bar
+    ?.querySelectorAll(".onbeat")
+    .forEach((el, i) => el.classList.toggle("active", i === pulse));
 }
 function stopMic() {
   micRequest++;
@@ -386,8 +411,11 @@ function schedule() {
       const event = score.events[nextEvent];
       const when = Math.max(t, ctx.currentTime);
       const pitched = event.notes.filter((n) => n.technique !== "muted");
-      if (event.notes.some((n) => n.technique === "muted"))
+      if (event.notes.some((n) => n.technique === "muted")) {
+        for (const n of event.notes)
+          if (n.technique === "muted") audio.dampString(n.string, when);
         audio.percussion(when);
+      }
       for (const n of pitched)
         audio.tone(
           frequency(eventPitch(score, n)),
@@ -396,6 +424,7 @@ function schedule() {
           false,
           (n.ghost ? 0.45 : 1) / Math.sqrt(Math.max(1, pitched.length)),
           n.technique === "harmonic",
+          n.string,
         );
     }
     nextEvent++;
@@ -460,6 +489,7 @@ function animate() {
       }
       $("#progress").style.width =
         `${(Math.max(0, beat) / totalBeats()) * 100}%`;
+      showBeat(beat);
       const pulse =
         Math.floor(beat / (4 / score.timeSignature[1])) %
         score.timeSignature[0];
@@ -520,6 +550,7 @@ async function play(countIn = true) {
     if (generation !== playGeneration) return;
     playPending = false;
     playing = true;
+    setLibrary(false);
     follower.reset();
     restUntil = 0;
     $("#play").innerHTML = iconPause;
@@ -541,6 +572,7 @@ async function play(countIn = true) {
   }
 }
 function changeScore(next: Score) {
+  setLibrary(false);
   pause();
   stopMic();
   score = next;
@@ -556,6 +588,7 @@ function changeScore(next: Score) {
   status("曲谱已载入，定弦与变调夹已同步。");
 }
 function openEditor(current: boolean) {
+  setLibrary(false);
   $<HTMLTextAreaElement>("#score-input").value = current
     ? JSON.stringify(score, null, 2)
     : ASCII_EXAMPLE;
@@ -585,6 +618,7 @@ for (const next of ["tempo", "follow"] as const) {
   $(`#${next}-mode`).onclick = () => {
     pause();
     mode = next;
+    $("#target-note").hidden = next !== "follow";
     $("#tempo-mode").classList.toggle("selected", next === "tempo");
     $("#follow-mode").classList.toggle("selected", next === "follow");
     $("#mode-help").textContent =
@@ -747,7 +781,7 @@ $("#export").onclick = () => {
 document.addEventListener("keydown", (e) => {
   if (
     e.code === "Space" &&
-    !$<HTMLDialogElement>("#editor").open &&
+    !document.querySelector("dialog[open]") &&
     (!["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(
       (e.target as HTMLElement).tagName,
     ) ||
@@ -771,3 +805,45 @@ window.addEventListener("pagehide", () => {
   stopMic();
 });
 renderScore();
+
+function setLibrary(open: boolean) {
+  $("main").inert = open;
+  $("#library-panel").inert = !open;
+  $("#sidebar-shade").hidden = !open;
+  $("#toggle-library").setAttribute("aria-expanded", String(open));
+  document.body.classList.toggle("library-open", open);
+  if (open) $("#close-library").focus();
+  else if ($("#library-panel").contains(document.activeElement))
+    $("#toggle-library").focus();
+}
+$("#toggle-library").onclick = () =>
+  setLibrary(!document.body.classList.contains("library-open"));
+$("#close-library").onclick = $("#sidebar-shade").onclick = () =>
+  setLibrary(false);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") setLibrary(false);
+});
+$("#open-tuner").onclick = () => {
+  pause();
+  setLibrary(false);
+  $("#tuner-feedback").textContent = "";
+  $<HTMLDialogElement>("#tuner").showModal();
+};
+$("#close-tuner").onclick = () => $<HTMLDialogElement>("#tuner").close();
+$("#tuner").addEventListener("close", () => {
+  stopMic();
+  audio.silence();
+});
+$("#focus-score").onclick = () => {
+  const focused = document.body.classList.toggle("score-focus");
+  $("#focus-score").setAttribute("aria-pressed", String(focused));
+  $("#focus-score").textContent = focused ? "退出专注" : "专注";
+};
+$("#score-size").onchange = () => {
+  $("#score").classList.toggle(
+    "large-score",
+    $<HTMLSelectElement>("#score-size").value === "large",
+  );
+  lastBar = -1;
+  requestAnimationFrame(() => updatePosition());
+};

@@ -37,12 +37,15 @@ test("score import handles validation, escaping, tuning and capo", async ({
   await page.locator("#ascii-example").click();
   await page.locator("#apply-score").click();
   await expect(page.locator("#song-title")).toHaveText("我的第一段旋律");
+  await page.locator("#toggle-library").click();
   await page.locator('[data-demo="2"]').click();
   await expect(page.locator("#tuning-tag")).toContainText("DADGAD");
   await expect(page.locator("#capo-tag")).toHaveText("Capo 2");
+  await page.locator("#open-tuner").click();
   await expect(page.locator('[data-string="0"]')).toContainText("D2");
   await page.locator("#tune-capo").check();
   await expect(page.locator('[data-string="0"]')).toContainText("E2");
+  await page.locator("#close-tuner").click();
   await page.locator("#edit-button").click();
   const raw = JSON.parse(await page.locator("#score-input").inputValue());
   raw.title = "<img src=x onerror=alert(1)>";
@@ -53,6 +56,7 @@ test("score import handles validation, escaping, tuning and capo", async ({
 });
 test("loop stays in range and metronome mode finishes", async ({ page }) => {
   await page.goto("/");
+  await page.locator("#toggle-library").click();
   await page.locator('[data-demo="1"]').click();
   await page.locator("#count-in").selectOption("0");
   await page.fill("#bpm", "240");
@@ -114,8 +118,6 @@ test("selecting a distant note automatically scrolls its bar into view", async (
   await page
     .locator('[data-event="56"]')
     .evaluate((button: HTMLElement) => button.click());
-  await expect
-    .poll(() => page.locator("#score").evaluate((el) => el.scrollTop))
-    .toBeGreaterThan(200);
+  await expect(page.locator("#bar-7")).toBeInViewport({ ratio: 1 });
   await expect(page.locator("#bar-position")).toHaveText("8 / 8 小节");
 });

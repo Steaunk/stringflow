@@ -1,7 +1,13 @@
+import { harmonicSamples } from "./harmonics.ts";
 import { detectPitch } from "./pitch.ts";
 export class AudioEngine {
   context: AudioContext | null = null;
   private sources = new Set<AudioScheduledSourceNode>();
+  private strings = new Map<
+    number,
+    { source: AudioScheduledSourceNode; gain: GainNode }
+  >();
+  private harmonicBuffers = new Map<number, AudioBuffer>();
   private stream: MediaStream | null = null;
   private input: MediaStreamAudioSourceNode | null = null;
   private analyser: AnalyserNode | null = null;
@@ -19,11 +25,30 @@ export class AudioEngine {
     click = false,
     volume = 1,
     harmonic = false,
+    string?: number,
   ) {
     const ctx = this.context!;
+    if (string !== undefined) this.dampString(string, time);
+    if (harmonic && !click) {
+      let buffer = this.harmonicBuffers.get(hz);
+      if (!buffer) {
+        const samples = harmonicSamples(hz, ctx.sampleRate);
+        buffer = ctx.createBuffer(1, samples.length, ctx.sampleRate);
+        buffer.copyToChannel(samples, 0);
+        this.harmonicBuffers.set(hz, buffer);
+      }
+      const source = ctx.createBufferSource(),
+        gain = ctx.createGain();
+      source.buffer = buffer;
+      gain.gain.value = 0.14 * volume;
+      source.connect(gain).connect(ctx.destination);
+      this.track(source, gain, string);
+      source.start(time);
+      return;
+    }
     const osc = ctx.createOscillator(),
       gain = ctx.createGain();
-    osc.type = click || harmonic ? "sine" : "triangle";
+    osc.type = click ? "sine" : "triangle";
     osc.frequency.value = hz;
     gain.gain.setValueAtTime(0, time);
     gain.gain.linearRampToValueAtTime(
@@ -37,12 +62,30 @@ export class AudioEngine {
     osc.connect(gain).connect(ctx.destination);
     osc.start(time);
     osc.stop(time + duration + 0.02);
-    this.sources.add(osc);
-    osc.onended = () => {
-      this.sources.delete(osc);
-      osc.disconnect();
+    this.track(osc, gain, string);
+  }
+  private track(
+    source: AudioScheduledSourceNode,
+    gain: GainNode,
+    string?: number,
+  ) {
+    this.sources.add(source);
+    if (string !== undefined) this.strings.set(string, { source, gain });
+    source.onended = () => {
+      this.sources.delete(source);
+      if (string !== undefined && this.strings.get(string)?.source === source)
+        this.strings.delete(string);
+      source.disconnect();
       gain.disconnect();
     };
+  }
+  dampString(string: number, time: number) {
+    const voice = this.strings.get(string);
+    if (!voice) return;
+    voice.gain.gain.cancelScheduledValues(time);
+    voice.gain.gain.setTargetAtTime(0.00001, time, 0.006);
+    voice.source.stop(time + 0.04);
+    this.strings.delete(string);
   }
   percussion(time: number) {
     const ctx = this.context!,
@@ -76,6 +119,7 @@ export class AudioEngine {
       } catch {}
     }
     this.sources.clear();
+    this.strings.clear();
   }
   async listen(
     onPitch: (pitch: ReturnType<typeof detectPitch>) => void,
