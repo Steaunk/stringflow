@@ -1775,3 +1775,26 @@ main {
     max-width: 66px;
   }
 }
+
+/* Keep two complete rows visible on smaller laptop screens. */
+@media (min-width: 681px) and (max-height: 850px) {
+  .song-info p {
+    display: none;
+  }
+  .song-card {
+    padding: 8px 0;
+  }
+  .transport-bottom {
+    display: none;
+  }
+  .score-scroll {
+    padding-block: 10px;
+    row-gap: 12px;
+  }
+  .staff-body {
+    height: 178px;
+  }
+  .bar-heading {
+    height: 24px;
+  }
+}

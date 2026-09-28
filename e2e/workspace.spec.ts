@@ -26,6 +26,17 @@ test("score gets the full desktop width with six readable measures and aligned b
   expect(
     Math.abs(note!.x + note!.width / 2 - beat!.x - beat!.width / 2),
   ).toBeLessThan(1);
+  await page.setViewportSize({ width: 1280, height: 720 });
+  const laptopRows = await page.locator("#score").evaluate(
+    (el) =>
+      [...el.querySelectorAll(".tab-bar")].filter((b) => {
+        const r = b.getBoundingClientRect(),
+          view = el.getBoundingClientRect();
+        return r.top >= view.top && r.bottom <= view.bottom;
+      }).length,
+  );
+  expect(laptopRows).toBeGreaterThanOrEqual(4);
+  await page.setViewportSize({ width: 1440, height: 900 });
   const original = (await page.locator("#score").boundingBox())!.height;
   await page.locator("#focus-score").click();
   expect((await page.locator("#score").boundingBox())!.height).toBeGreaterThan(
