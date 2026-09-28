@@ -101,6 +101,7 @@ a {
   margin: 48px 11px 18px;
 }
 .nav-active {
+  margin-top: 32px;
   background: #2b3340;
   padding: 14px 13px;
   border-radius: 9px;
@@ -113,15 +114,6 @@ a {
 .nav-active > span:first-child {
   color: var(--lime);
   font-size: 19px;
-}
-.nav-pill {
-  font-size: 8px;
-  padding: 3px 5px;
-  background: #424f45;
-  color: #cdf9a5;
-  border-radius: 4px;
-  margin-left: auto;
-  letter-spacing: 0.8px;
 }
 .library-label {
   margin-top: 40px;
@@ -179,22 +171,6 @@ a {
   padding: 12px;
   font-size: 12px;
 }
-.sidebar-footer {
-  margin-top: auto;
-  display: flex;
-  gap: 10px;
-  padding: 22px 2px 0;
-  border-top: 1px solid #303642;
-  font-size: 11px;
-  color: #c3c9d3;
-}
-.sidebar-footer small {
-  display: block;
-  color: #747f90;
-  font-size: 10px;
-  margin-top: 8px;
-}
-.live-dot,
 .local-dot {
   width: 6px;
   height: 6px;
@@ -202,9 +178,6 @@ a {
   border-radius: 100%;
   display: inline-block;
   margin-top: 4px;
-}
-.sidebar-footer .live-dot {
-  box-shadow: 0 0 0 4px #2d3b2e;
 }
 main {
   margin-left: 242px;
@@ -223,10 +196,6 @@ main {
 .topbar b {
   font-weight: 500;
   color: #535965;
-}
-.slash {
-  margin: 0 15px;
-  color: #c6c9d1;
 }
 .top-right {
   display: flex;
@@ -255,34 +224,15 @@ main {
   margin: auto;
   padding: 37px 42px 24px;
 }
-.page-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 28px;
-}
-.eyebrow {
-  font-size: 9px;
-  color: #8f949e;
-  letter-spacing: 2px;
-  font-weight: 600;
-}
 h1 {
   font-weight: 600;
   font-size: 29px;
   letter-spacing: 1px;
   margin: 13px 0 11px;
 }
-h1 span {
-  color: var(--purple);
-}
 p {
   line-height: 1.8;
   margin: 0;
-}
-.page-heading p {
-  font-size: 12px;
-  color: #959aa5;
 }
 .button {
   display: inline-flex;
@@ -339,15 +289,7 @@ p {
   width: 80px;
   position: relative;
 }
-.song-eyebrow {
-  font-size: 8px;
-  letter-spacing: 1.7px;
-  color: #929995;
-}
-.song-eyebrow span {
-  margin: 0 7px;
-}
-.song-info h2 {
+.song-info h1 {
   font-size: 23px;
   font-weight: 600;
   margin: 8px 0 5px;
@@ -376,11 +318,6 @@ p {
   color: #837c9f;
   font-size: 11px;
   padding: 8px;
-}
-.song-card > .text-button {
-  margin-left: auto;
-  align-self: flex-start;
-  white-space: nowrap;
 }
 .workspace {
   display: grid;
@@ -773,36 +710,6 @@ p {
 .error {
   color: #b35456;
 }
-.practice-note {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  background: #eff2eb;
-  border: 1px solid #e5eadf;
-  padding: 17px 21px;
-  border-radius: 9px;
-  color: #7d8a70;
-}
-.practice-note > span:first-child {
-  font-size: 25px;
-  color: #a0ae8e;
-}
-.practice-note b {
-  font-size: 11px;
-  font-weight: 500;
-}
-.practice-note p {
-  font-size: 10px;
-  color: #9ba393;
-  margin-top: 5px;
-}
-.note-lines {
-  margin-left: auto;
-  font-size: 28px;
-  font-weight: 200;
-  letter-spacing: 5px;
-  color: #c3cdb8;
-}
 .right-column {
   display: flex;
   flex-direction: column;
@@ -820,14 +727,6 @@ p {
   font-size: 13px;
   font-weight: 600;
   margin: 0;
-}
-.small-tag {
-  font-size: 7px;
-  color: #a0a3ad;
-  background: #f3f4f7;
-  letter-spacing: 1px;
-  border-radius: 4px;
-  padding: 5px 6px;
 }
 .panel-description {
   font-size: 10px;
@@ -1003,11 +902,6 @@ p {
   background: linear-gradient(130deg, #eeebf7, #f7f6fa);
   border-radius: 11px;
   padding: 20px 21px;
-}
-.follow-icon {
-  font-size: 28px;
-  color: #ab98cf;
-  line-height: 1.1;
 }
 .follow-card h3 {
   font-size: 13px;
@@ -1202,7 +1096,6 @@ dialog .fineprint {
   .brand-dot,
   .sidebar-label,
   .nav-active,
-  .sidebar-footer,
   .sidebar-import,
   .library-item > span:not(:first-child) {
     display: none;
@@ -1235,11 +1128,8 @@ dialog .fineprint {
   .score-scroll {
     height: 489px;
   }
-  .song-info h2 {
+  .song-info h1 {
     font-size: 20px;
-  }
-  .page-heading h1 {
-    font-size: 25px;
   }
   .transport-controls {
     gap: 14px;
@@ -1299,29 +1189,6 @@ dialog .fineprint {
   .content {
     padding: 25px 16px;
   }
-  .page-heading {
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 22px;
-  }
-  .eyebrow {
-    font-size: 7px;
-    letter-spacing: 1.3px;
-  }
-  .page-heading h1 {
-    font-size: 23px;
-    letter-spacing: 0;
-    margin-top: 11px;
-  }
-  .page-heading p {
-    font-size: 10px;
-  }
-  .page-heading .button {
-    font-size: 10px;
-    padding: 8px 10px;
-    margin-top: 20px;
-    white-space: nowrap;
-  }
   .song-card {
     padding: 16px;
     gap: 13px;
@@ -1334,12 +1201,8 @@ dialog .fineprint {
   .song-art svg {
     width: 58px;
   }
-  .song-info h2 {
+  .song-info h1 {
     font-size: 19px;
-  }
-  .song-eyebrow {
-    font-size: 6px;
-    letter-spacing: 1px;
   }
   .song-info p {
     font-size: 9px;
@@ -1347,10 +1210,6 @@ dialog .fineprint {
   .tags span {
     font-size: 7px;
     padding: 3px 4px;
-  }
-  .song-card > .text-button {
-    font-size: 9px;
-    padding: 2px;
   }
   .workspace {
     grid-template-columns: 1fr;
@@ -1542,20 +1401,15 @@ dialog .fineprint {
 .song-info {
   min-width: 0;
 }
-.song-info h2 {
+.song-info h1 {
   overflow-wrap: anywhere;
 }
 @media (max-width: 680px) {
-  .song-info h2 {
+  .song-info h1 {
     font-size: 17px;
   }
   .notation-note {
     font-size: 10px;
-  }
-  .song-card > .text-button {
-    max-width: 55px;
-    white-space: normal;
-    flex-shrink: 0;
   }
   .detailed-score .fret {
     font-size: 10px;
@@ -1578,5 +1432,42 @@ dialog .fineprint {
   .score-toolbar b,
   .score-toolbar .muted {
     white-space: nowrap;
+  }
+}
+
+.song-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.song-info h1 {
+  letter-spacing: 0;
+}
+@media (max-width: 1100px) {
+  .song-actions {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+}
+@media (max-width: 680px) {
+  .song-card {
+    flex-wrap: wrap;
+  }
+  .song-info {
+    flex: 1;
+  }
+  .song-actions {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+  }
+  .song-actions .button {
+    padding: 8px 12px;
+    font-size: 11px;
   }
 }
