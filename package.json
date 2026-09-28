@@ -10,7 +10,8 @@
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "test:e2e": "playwright test",
     "format": "prettier --write src tests e2e *.json *.ts *.html README.md .github/workflows/ci.yml",
-    "format:check": "prettier --check src tests e2e *.json *.ts *.html README.md .github/workflows/ci.yml"
+    "format:check": "prettier --check src tests e2e *.json *.ts *.html README.md .github/workflows/ci.yml",
+    "build:site": "tsc --noEmit && vite build --base=/stringflow/"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

@@ -23,7 +23,9 @@ npx playwright install chromium
 npm run test:e2e    # 浏览器测试，包括合成 WAV 麦克风输入
 ```
 
-`dist/` 可部署到任何 HTTPS 静态站点。当前仓库没有自动发布流程，没有公开托管的演示站点。GitHub Actions 负责构建与测试。
+线上地址：**https://example.invalid/stringflow/**。网站部署在 `user@example.invalid`，由现有 Nginx 通过 HTTPS 提供服务。GitHub Actions 负责构建与测试；提交代码不会自动发布。
+
+子路径部署使用 `npm run build:site`，资源与首页链接会指向 `/stringflow/`。部署产物保存在服务器 `/path/to/site/releases/`，`/path/to/site/current` 指向当前版本，站点目录中的 `stringflow` 链接指向它。只上传 `dist/` 的内容；仓库源码保持私有。
 
 ## 使用
 
