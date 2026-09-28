@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>泛音试听 · Stringflow</title>
+    <style>
+      body {
+        font:
+          16px/1.7 system-ui,
+          sans-serif;
+        color: #263342;
+        background: #f6f7fb;
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+      h1 {
+        font-size: 26px;
+      }
+      h2 {
+        font-size: 18px;
+        margin-top: 0;
+      }
+      section {
+        background: white;
+        border: 1px solid #dfe3eb;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 20px 0;
+      }
+      audio {
+        width: 100%;
+        margin-top: 8px;
+      }
+      a {
+        color: #6651bb;
+      }
+      p {
+        margin: 8px 0;
+      }
+      .note {
+        font-size: 14px;
+        color: #586779;
+      }
+      button {
+        padding: 9px 16px;
+        border: 1px solid #ccc3e4;
+        border-radius: 8px;
+        background: white;
+        color: #56439c;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="./?song=something-just-like-this">← 返回曲谱</a>
+    <h1>泛音试听</h1>
+    <p>
+      C5 → D5 → G5 → 三弦同时发声。两版使用相同音高，单音前 700
+      毫秒的均方根音量已对齐。
+    </p>
+    <section>
+      <h2>旧版</h2>
+      <p class="note">四个分音，统一拨弦起音。</p>
+      <audio
+        id="before"
+        controls
+        preload="metadata"
+        src="audio/harmonic-before.wav"
+      ></audio>
+    </section>
+    <section>
+      <h2>新版 · 拍泛音</h2>
+      <p class="note">短促触弦声、多分音衰减和弦共鸣。</p>
+      <audio
+        id="after"
+        controls
+        preload="metadata"
+        src="audio/harmonic-after.wav"
+      ></audio>
+    </section>
+    <button id="chord">只听三弦泛音：新版</button>
+    <p class="note">
+      本曲按谱面相对品位解释：Capo 5 + ◇12，触弦位置为实际第 17 品。3 / 2 / 1
+      弦分别发出 C5 / D5 / G5。
+    </p>
+    <p class="note">
+      这是程序合成对照，不是原演奏录音，也未使用原录音采样。音频只用于比较泛音音色。
+    </p>
+    <script>
+      const players = [...document.querySelectorAll("audio")];
+      players.forEach((player) =>
+        player.addEventListener("play", () =>
+          players
+            .filter((other) => other !== player)
+            .forEach((other) => other.pause()),
+        ),
+      );
+      document.querySelector("#chord").onclick = () => {
+        const player = document.querySelector("#after");
+        player.currentTime = 5.2;
+        player.play().catch(() => {});
+      };
+    </script>
+  </body>
+</html>

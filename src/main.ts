@@ -162,7 +162,7 @@ function renderScore() {
   );
   $("#notation-note").hidden = !hasTechniques;
   $("#notation-note").textContent =
-    "H + 弧线：击弦 · P + 弧线：勾弦 · S + 斜线：滑音 · ↑：6→1 弦下扫 · ↓：1→6 弦上扫 · 拍：拍琴身 · 拍弦 / ×：无固定音高的弦击打 · P.M.：掌根制音 · ◇12：自然泛音 · ( )：弱奏 · let ring：保留余音。";
+    "H + 弧线：击弦 · P + 弧线：勾弦 · S + 斜线：滑音 · ↑：6→1 弦下扫 · ↓：1→6 弦上扫 · 拍：拍琴身 · 拍弦 / ×：无固定音高的弦击打 · P.M.：掌根制音 · ◇12：八度泛音 · T.H.：拍泛音（品位相对变调夹） · ( )：弱奏 · let ring：保留余音。";
 
   $("#song-artist").textContent = score.artist;
   $("#tuning-tag").textContent =
@@ -469,15 +469,12 @@ function schedule() {
               (n.ghost ? 0.35 : 1) / Math.sqrt(event.notes.length),
             );
         } else if (n.technique === "harmonic") {
-          audio.tone(
-            frequency(eventPitch(score, n)),
-            onset,
-            event.beats * seconds,
-            false,
+          audio.harmonicNote(frequency(eventPitch(score, n)), onset, {
+            string: n.string,
             volume,
-            true,
-            n.string,
-          );
+            attack: n.harmonicAttack,
+            palmMute: event.palmMute,
+          });
         } else {
           const connection = n.link
             ? links.find((l) => l.to === nextEvent && l.string === n.string)
@@ -612,6 +609,18 @@ async function play(countIn = true) {
       }
     } else if (mic !== "off" || micPending) stopMic();
     if (generation !== playGeneration) return;
+    if (mode === "tempo" && $<HTMLInputElement>("#sound").checked)
+      audio.prepareHarmonics(
+        score.events.flatMap((event) =>
+          event.notes
+            .filter((note) => note.technique === "harmonic")
+            .map((note) => ({
+              hz: frequency(eventPitch(score, note)),
+              string: note.string,
+              attack: note.harmonicAttack,
+            })),
+        ),
+      );
     playPending = false;
     playing = true;
     setLibrary(false);

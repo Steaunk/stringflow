@@ -1,8 +1,10 @@
 import type { Score, TabEvent, TabNote, NoteLink } from "../score.ts";
 
 // Local transcription of the user's score. One row per printed measure.
+// The PDF says Harm.; tap articulation is corroborated by the Youngso arrangement
+// transcriber notes: https://www.guitarworld.com.cn/pu/q13170 (see docs/harmonics.md).
 // s:f = string:fret; + = simultaneous; @ = duration in quarter-note beats
-// (default 0.5); h12 = harmonic; x = muted; g = parenthesized ghost note.
+// (default 0.5); h12 = octave slap harmonic; x = muted; g = parenthesized ghost note.
 const rows: Record<number, string> = {
   1: "6:0+5:0+4:5@1 3:0 1:0 3:0 6:2+5:2+4:4 3:0 1:0",
   2: "6:4+5:4+4:5@1 4:g5 3:g0 4:g5 6:2+1:0 3:0 4:4",
@@ -263,7 +265,10 @@ export function songBars(): TabEvent[][] {
                     ...(match[4] === "x"
                       ? { technique: "muted" as const }
                       : match[3]
-                        ? { technique: "harmonic" as const }
+                        ? {
+                            technique: "harmonic" as const,
+                            harmonicAttack: "tap" as const,
+                          }
                         : {}),
                   };
                 });

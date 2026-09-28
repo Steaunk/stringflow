@@ -1,9 +1,12 @@
+import { octaveHarmonicMidi } from "./harmonics.ts";
+import type { HarmonicAttack } from "./harmonics.ts";
 import { STANDARD, parseNote } from "./music.ts";
 export type NoteLink = "hammer" | "pull" | "slide" | "tie";
 export interface TabNote {
   string: number;
   fret: number;
   technique?: "harmonic" | "muted";
+  harmonicAttack?: HarmonicAttack;
   ghost?: boolean;
   link?: NoteLink;
 }
@@ -30,7 +33,9 @@ export interface Score {
 export const beatsPerBar = (s: Score) =>
   (s.timeSignature[0] * 4) / s.timeSignature[1];
 export const eventPitch = (s: Score, n: TabNote) =>
-  s.tuning[6 - n.string] + s.capo + n.fret;
+  n.technique === "harmonic"
+    ? octaveHarmonicMidi(s.tuning[6 - n.string], s.capo)
+    : s.tuning[6 - n.string] + s.capo + n.fret;
 export const starts = (s: Score) => {
   let t = 0;
   return s.events.map((e) => {
@@ -133,7 +138,13 @@ export function validateScore(raw: unknown): Score {
       )
         fail("technique 仅支持 harmonic / muted。");
       if (n.technique === "harmonic" && n.fret !== 12)
-        fail("目前只支持第 12 品自然泛音。");
+        fail("目前只支持相对变调夹第 12 品的八度泛音。");
+      if (
+        n.harmonicAttack !== undefined &&
+        (n.technique !== "harmonic" ||
+          !["pluck", "tap"].includes(n.harmonicAttack))
+      )
+        fail("harmonicAttack 仅用于泛音，须为 pluck / tap。");
       if (n.ghost !== undefined && typeof n.ghost !== "boolean")
         fail("ghost 须为布尔值。");
       if (n.link !== undefined) {

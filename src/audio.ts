@@ -2,6 +2,7 @@ import { percussionSamples } from "./percussion.ts";
 import type { PercussionKind } from "./percussion.ts";
 import type { NoteLink } from "./score.ts";
 import { harmonicSamples } from "./harmonics.ts";
+import type { HarmonicAttack } from "./harmonics.ts";
 import { detectPitch } from "./pitch.ts";
 interface GuitarVoice {
   pitch: AudioParam;
@@ -25,7 +26,7 @@ export class AudioEngine {
     { source: AudioScheduledSourceNode; gain: GainNode; guitar?: GuitarVoice }
   >();
   private guitarWave: PeriodicWave | null = null;
-  private harmonicBuffers = new Map<number, AudioBuffer>();
+  private harmonicBuffers = new Map<string, AudioBuffer>();
   private stream: MediaStream | null = null;
   private input: MediaStreamAudioSourceNode | null = null;
   private analyser: AnalyserNode | null = null;
@@ -46,24 +47,11 @@ export class AudioEngine {
     string?: number,
   ) {
     const ctx = this.context!;
-    if (string !== undefined) this.dampString(string, time);
     if (harmonic && !click) {
-      let buffer = this.harmonicBuffers.get(hz);
-      if (!buffer) {
-        const samples = harmonicSamples(hz, ctx.sampleRate);
-        buffer = ctx.createBuffer(1, samples.length, ctx.sampleRate);
-        buffer.copyToChannel(samples, 0);
-        this.harmonicBuffers.set(hz, buffer);
-      }
-      const source = ctx.createBufferSource(),
-        gain = ctx.createGain();
-      source.buffer = buffer;
-      gain.gain.value = 0.14 * volume;
-      source.connect(gain).connect(ctx.destination);
-      this.track(source, gain, string);
-      source.start(time);
+      this.harmonicNote(hz, time, { string: string ?? 1, volume });
       return;
     }
+    if (string !== undefined) this.dampString(string, time);
     const osc = ctx.createOscillator(),
       gain = ctx.createGain();
     osc.type = click ? "sine" : "triangle";
@@ -81,6 +69,50 @@ export class AudioEngine {
     osc.start(time);
     osc.stop(time + duration + 0.02);
     this.track(osc, gain, string);
+  }
+  harmonicNote(
+    hz: number,
+    time: number,
+    options: {
+      string: number;
+      volume: number;
+      attack?: HarmonicAttack;
+      palmMute?: boolean;
+    },
+  ) {
+    const ctx = this.context!;
+    const attack = options.attack ?? "pluck";
+    this.dampString(options.string, time);
+    const buffer = this.harmonicBuffer(hz, options.string, attack);
+    const source = ctx.createBufferSource(),
+      gain = ctx.createGain();
+    source.buffer = buffer;
+    gain.gain.setValueAtTime(0.19 * options.volume, time);
+    source.connect(gain).connect(ctx.destination);
+    this.track(source, gain, options.string);
+    source.start(time);
+    if (options.palmMute) this.dampString(options.string, time + 0.12);
+  }
+  private harmonicBuffer(hz: number, string: number, attack: HarmonicAttack) {
+    const ctx = this.context!;
+    const key = `${ctx.sampleRate}:${hz}:${string}:${attack}`;
+    let buffer = this.harmonicBuffers.get(key);
+    if (!buffer) {
+      const samples = harmonicSamples(hz, ctx.sampleRate, attack, string);
+      buffer = ctx.createBuffer(1, samples.length, ctx.sampleRate);
+      buffer.copyToChannel(samples, 0);
+      // Bound memory when many different imported scores are auditioned.
+      if (this.harmonicBuffers.size >= 48)
+        this.harmonicBuffers.delete(this.harmonicBuffers.keys().next().value!);
+      this.harmonicBuffers.set(key, buffer);
+    }
+    return buffer;
+  }
+  prepareHarmonics(
+    notes: { hz: number; string: number; attack?: HarmonicAttack }[],
+  ) {
+    for (const note of notes)
+      this.harmonicBuffer(note.hz, note.string, note.attack ?? "pluck");
   }
   guitarNote(
     hz: number,

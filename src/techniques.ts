@@ -37,6 +37,7 @@ export const LINK_NAMES: Record<NoteLink, string> = {
 };
 export function techniqueDescription(event: TabEvent) {
   return [
+    event.notes.some((n) => n.harmonicAttack === "tap") ? "拍泛音" : "",
     event.palmMute ? "掌根制音" : "",
     event.strum
       ? event.strum === "down"
@@ -80,6 +81,7 @@ export function techniqueMarkup(
     if (starts[i] < begin || starts[i] >= end) return;
     const x = beatX(starts[i] - begin, barBeats);
     const label = [
+      event.notes.some((n) => n.harmonicAttack === "tap") ? "T.H." : "",
       event.palmMute ? "P.M." : "",
       event.percussion === "body-tap"
         ? "拍"

@@ -71,7 +71,9 @@ test("harmonic voices retain the requested pitch, ring past an eighth note and d
         wave.slice(start, start + 2400).reduce((a, v) => a + v * v, 0) / 2400,
       );
     assert.ok(rms(rate * 0.5) > 0.1);
-    assert.ok(rms(rate * 1.3) < rms(rate * 0.5) * 0.25);
+    // The slow string component should still ring, then decay rather than cut off.
+    assert.ok(rms(rate * 1.3) < rms(rate * 0.5) * 0.55);
+    assert.ok(rms(rate * 1.3) > rms(rate * 0.5) * 0.1);
     assert.equal(wave[0], 0);
     assert.ok(Math.abs(wave.at(-1)!) < 0.00002);
     assert.ok(wave.every((v) => Number.isFinite(v) && Math.abs(v) < 1));

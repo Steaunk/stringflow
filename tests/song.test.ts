@@ -62,6 +62,16 @@ test("notation preserves opening rhythm, ghost notes, 12th-fret harmonics, and n
       [3, 12, "harmonic"],
     ],
   );
+  const harmonics = song.events
+    .flatMap((e) => e.notes)
+    .filter((n) => n.technique === "harmonic");
+  assert.ok(harmonics.every((n) => n.harmonicAttack === "tap"));
+  assert.deepEqual(
+    [...new Set(harmonics.map((n) => eventPitch(song, n)))].sort(
+      (a, b) => a - b,
+    ),
+    [72, 74, 79],
+  );
   assert.equal(bars[85].at(-1)?.beats, 1);
   assert.equal(bars[99].at(-1)?.beats, 1);
   assert.deepEqual(parseScore(JSON.stringify(song)), song);
@@ -76,6 +86,17 @@ test("import rejects unsupported special-note metadata", () => {
     validateScore(invalid({ technique: "harmonic", fret: 7 })),
   );
   assert.throws(() => validateScore(invalid({ ghost: "true" })));
+  assert.throws(() => validateScore(invalid({ harmonicAttack: "tap" })));
+  assert.throws(() =>
+    validateScore(
+      invalid({ technique: "harmonic", harmonicAttack: "invalid" }),
+    ),
+  );
+  assert.equal(
+    validateScore(invalid({ technique: "harmonic" })).events[0].notes[0]
+      .harmonicAttack,
+    undefined,
+  );
   assert.throws(() =>
     validateScore({ ...song, barAnnotations: { 1: "x".repeat(121) } }),
   );
