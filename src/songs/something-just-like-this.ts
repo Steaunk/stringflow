@@ -1,4 +1,4 @@
-import type { Score, TabEvent, TabNote } from "../score.ts";
+import type { Score, TabEvent, TabNote, NoteLink } from "../score.ts";
 
 // Local transcription of the user's score. One row per printed measure.
 // s:f = string:fret; + = simultaneous; @ = duration in quarter-note beats
@@ -106,34 +106,188 @@ const rows: Record<number, string> = {
   100: "4:5+5:4+6:4 6:g4 3:0 4:5 1:0+6:2 3:0 4:4@1",
   101: "-@4",
 };
+// Target beat positions are zero-based; the source is the preceding note on that string.
+// Transcribed from the printed arcs/diagonal slides, not inferred from fret movement.
+const links: Record<number, [number, number, NoteLink][]> = {
+  8: [
+    [2.25, 2, "hammer"],
+    [3.5, 2, "hammer"],
+  ],
+  9: [[3, 2, "pull"]],
+  10: [[3.75, 2, "hammer"]],
+  11: [[0.5, 2, "pull"]],
+  12: [[2.25, 2, "hammer"]],
+  16: [[2.25, 2, "hammer"]],
+  18: [[3.5, 2, "hammer"]],
+  20: [[1.75, 2, "hammer"]],
+  21: [
+    [1.75, 3, "hammer"],
+    [2.75, 3, "hammer"],
+  ],
+  22: [[1.75, 3, "hammer"]],
+  23: [
+    [1.75, 3, "hammer"],
+    [2.75, 3, "hammer"],
+  ],
+  24: [[1.75, 2, "hammer"]],
+  25: [
+    [1.75, 3, "hammer"],
+    [2.75, 3, "hammer"],
+  ],
+  26: [[1.75, 3, "hammer"]],
+  28: [[1.75, 2, "hammer"]],
+  32: [[1.75, 2, "hammer"]],
+  40: [
+    [2.25, 2, "hammer"],
+    [3.5, 2, "hammer"],
+  ],
+  41: [[3.5, 2, "hammer"]],
+  42: [[3.75, 2, "hammer"]],
+  43: [[0.5, 2, "pull"]],
+  44: [[2.25, 2, "hammer"]],
+  48: [[2.25, 2, "hammer"]],
+  50: [[3.5, 2, "hammer"]],
+  56: [
+    [1.75, 3, "hammer"],
+    [3.5, 1, "slide"],
+  ],
+  61: [
+    [1.75, 3, "hammer"],
+    [2.75, 3, "hammer"],
+  ],
+  62: [[1.75, 3, "hammer"]],
+  63: [
+    [1.75, 3, "hammer"],
+    [2.75, 3, "hammer"],
+  ],
+  64: [[1.75, 2, "hammer"]],
+  65: [
+    [1.75, 3, "hammer"],
+    [2.75, 3, "hammer"],
+  ],
+  66: [[1.75, 3, "hammer"]],
+  68: [
+    [2, 4, "hammer"],
+    [3.5, 4, "slide"],
+  ],
+  69: [
+    [2.25, 3, "hammer"],
+    [3.5, 3, "hammer"],
+  ],
+  71: [
+    [0.5, 3, "pull"],
+    [2, 3, "hammer"],
+    [3.5, 3, "hammer"],
+  ],
+  72: [[3.5, 4, "hammer"]],
+  73: [[3.5, 3, "hammer"]],
+  74: [[3.5, 3, "pull"]],
+  76: [[1.75, 2, "hammer"]],
+  85: [
+    [3.5, 4, "slide"],
+    [3.5, 5, "slide"],
+    [3.5, 6, "slide"],
+  ],
+  88: [
+    [0, 4, "slide"],
+    [0, 5, "slide"],
+    [0, 6, "slide"],
+    [1.75, 2, "hammer"],
+  ],
+  96: [[1.75, 2, "hammer"]],
+};
+const palmMutes: Record<number, number[]> = {
+  29: [0, 1.5, 2, 3.5],
+  30: [0, 2.5],
+  36: [0],
+  85: [0, 1.5, 3.5],
+  86: [0, 2.5],
+};
+// Downstroke travels 6 → 1, drawn ↑ on TAB (high string at the top).
+const strums: Record<number, [number, "down" | "up"][]> = {
+  28: [[3, "down"]],
+  30: [
+    [1.5, "down"],
+    [2, "up"],
+    [3.5, "up"],
+  ],
+  32: [
+    [1, "down"],
+    [3, "down"],
+  ],
+  45: [[0, "down"]],
+  56: [
+    [0, "down"],
+    [1, "down"],
+    [1.5, "down"],
+    [2, "down"],
+    [2.5, "down"],
+    [3, "down"],
+  ],
+  61: [[0, "down"]],
+  84: [[3, "down"]],
+  85: [
+    [2, "down"],
+    [2.5, "up"],
+  ],
+  86: [
+    [1.5, "down"],
+    [2, "up"],
+  ],
+  88: [
+    [0.5, "up"],
+    [1, "down"],
+    [3, "down"],
+  ],
+};
+
 export function songBars(): TabEvent[][] {
   const parseBar = (bar: number): TabEvent[] => {
     const row = rows[bar];
     if (!row) throw new Error(`Missing source bar ${bar}`);
-    if (row.startsWith("="))
-      return structuredClone(parseBar(Number(row.slice(1))));
-    const events = row.split(/\s+/).map((token) => {
-      const [chord, duration] = token.split("@");
-      const notes: TabNote[] =
-        chord === "-"
-          ? []
-          : chord.split("+").map((value) => {
-              const match = /^([1-6]):(g?)(h?)(\d+|x)$/.exec(value);
-              if (!match)
-                throw new Error(`Invalid note ${value} in bar ${bar}`);
-              return {
-                string: Number(match[1]),
-                fret: match[4] === "x" ? 0 : Number(match[4]),
-                ...(match[2] ? { ghost: true } : {}),
-                ...(match[4] === "x"
-                  ? { technique: "muted" as const }
-                  : match[3]
-                    ? { technique: "harmonic" as const }
-                    : {}),
-              };
-            });
-      return { beats: duration ? Number(duration) : 0.5, notes };
-    });
+    const events: TabEvent[] = row.startsWith("=")
+      ? structuredClone(parseBar(Number(row.slice(1))))
+      : row.split(/\s+/).map((token) => {
+          const [chord, duration] = token.split("@");
+          const notes: TabNote[] =
+            chord === "-"
+              ? []
+              : chord.split("+").map((value) => {
+                  const match = /^([1-6]):(g?)(h?)(\d+|x)$/.exec(value);
+                  if (!match)
+                    throw new Error(`Invalid note ${value} in bar ${bar}`);
+                  return {
+                    string: Number(match[1]),
+                    fret: match[4] === "x" ? 0 : Number(match[4]),
+                    ...(match[2] ? { ghost: true } : {}),
+                    ...(match[4] === "x"
+                      ? { technique: "muted" as const }
+                      : match[3]
+                        ? { technique: "harmonic" as const }
+                        : {}),
+                  };
+                });
+          return { beats: duration ? Number(duration) : 0.5, notes };
+        });
+    let beat = 0;
+    for (const event of events) {
+      for (const [target, string, kind] of links[bar] ?? []) {
+        if (target !== beat) continue;
+        const note = event.notes.find((n) => n.string === string);
+        if (!note)
+          throw new Error(
+            `Missing link target: bar ${bar}, beat ${beat}, string ${string}`,
+          );
+        note.link = kind;
+      }
+      if (palmMutes[bar]?.includes(beat)) event.palmMute = true;
+      const strum = strums[bar]?.find(([target]) => target === beat);
+      if (strum) event.strum = strum[1];
+      if (bar === 29 && beat === 0.5) event.percussion = "string-slap";
+      if (bar === 85 && beat === 0.5) event.percussion = "string-slap";
+      if (bar === 85 && beat === 3) event.percussion = "body-tap";
+      beat += event.beats;
+    }
     if (events.reduce((sum, e) => sum + e.beats, 0) !== 4)
       throw new Error(`Bar ${bar} must contain exactly four beats`);
     return events;
@@ -151,6 +305,7 @@ export const SOMETHING_JUST_LIKE_THIS: Score = {
   timeSignature: [4, 4],
   tuning: [36, 43, 50, 55, 57, 62],
   capo: 5,
+  letRing: true,
   events: songBars().flat(),
   barAnnotations: Object.fromEntries(
     Array.from({ length: 101 }, (_, i) => {
@@ -163,10 +318,10 @@ export const SOMETHING_JUST_LIKE_THIS: Score = {
         ].includes(bar)
       )
         return [bar, "P.M. · Harm. · let ring"];
-      if (bar === 56) return [bar, "扫弦 · 击勾弦 · let ring"];
+      if (bar === 56) return [bar, "扫弦 · 击弦 · 滑音 · let ring"];
       if (bar === 88) return [bar, "滑音 · 扫弦 · let ring"];
       if ([28, 32, 37, 38, 52, 68, 78, 82, 84].includes(bar))
-        return [bar, "闷音 / 打板 · let ring"];
+        return [bar, "闷弦 · let ring"];
       return [bar, "let ring"];
     }),
   ),

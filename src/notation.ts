@@ -25,8 +25,8 @@ export function rhythmMarkup(
   const linked = (a: number, b: number, level: number) => {
     if (a < 0 || b >= notes.length) return false;
     return Boolean(
-      notes[a].event.notes.length &&
-      notes[b].event.notes.length &&
+      (notes[a].event.notes.length || notes[a].event.percussion) &&
+      (notes[b].event.notes.length || notes[b].event.percussion) &&
       (values[a]?.flags ?? 0) >= level &&
       (values[b]?.flags ?? 0) >= level &&
       Math.floor((notes[a].beat - barStart) / group) ===
@@ -43,7 +43,7 @@ export function rhythmMarkup(
       const dots = v.dots
         ? `<span class="rhythm-dot" style="left:${x}%">${"·".repeat(v.dots)}</span>`
         : "";
-      if (!event.notes.length) {
+      if (!event.notes.length && !event.percussion) {
         const rest = (
           { 4: "𝄻", 2: "𝄼", 1: "𝄽", 0.5: "𝄾", 0.25: "𝄿", 0.125: "𝅀" } as Record<
             number,

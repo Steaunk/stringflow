@@ -1,12 +1,30 @@
+import { percussionSamples } from "./percussion.ts";
+import type { PercussionKind } from "./percussion.ts";
+import type { NoteLink } from "./score.ts";
 import { harmonicSamples } from "./harmonics.ts";
 import { detectPitch } from "./pitch.ts";
+interface GuitarVoice {
+  pitch: AudioParam;
+  hz: number;
+  started: number;
+  end: number;
+  filter: BiquadFilterNode;
+}
+export interface GuitarOptions {
+  string: number;
+  volume: number;
+  palmMute?: boolean;
+  letRing?: boolean;
+  link?: NoteLink;
+}
 export class AudioEngine {
   context: AudioContext | null = null;
   private sources = new Set<AudioScheduledSourceNode>();
   private strings = new Map<
     number,
-    { source: AudioScheduledSourceNode; gain: GainNode }
+    { source: AudioScheduledSourceNode; gain: GainNode; guitar?: GuitarVoice }
   >();
+  private guitarWave: PeriodicWave | null = null;
   private harmonicBuffers = new Map<number, AudioBuffer>();
   private stream: MediaStream | null = null;
   private input: MediaStreamAudioSourceNode | null = null;
@@ -64,53 +82,136 @@ export class AudioEngine {
     osc.stop(time + duration + 0.02);
     this.track(osc, gain, string);
   }
+  guitarNote(
+    hz: number,
+    time: number,
+    duration: number,
+    options: GuitarOptions,
+  ) {
+    const ctx = this.context!;
+    const sustain = options.palmMute
+      ? Math.min(0.18, Math.max(0.09, duration))
+      : options.letRing
+        ? Math.max(1.5, Math.min(3.8, 3.2 * Math.sqrt(220 / hz)))
+        : Math.max(0.08, duration);
+    const volume = 0.12 * options.volume * (options.palmMute ? 0.72 : 1);
+    const previous = this.strings.get(options.string);
+    if (
+      options.link &&
+      previous?.guitar &&
+      previous.guitar.end > ctx.currentTime
+    ) {
+      const voice = previous.guitar;
+      if (options.link === "slide") {
+        // Schedule the glide before its destination; the scheduler looks ahead 220 ms.
+        const begin = Math.max(
+          ctx.currentTime,
+          voice.started + 0.015,
+          time - 0.12,
+        );
+        voice.pitch.cancelScheduledValues(begin);
+        voice.pitch.setValueAtTime(voice.hz, begin);
+        voice.pitch.exponentialRampToValueAtTime(
+          hz,
+          Math.max(begin + 0.001, time),
+        );
+      } else if (options.link !== "tie") voice.pitch.setValueAtTime(hz, time);
+      previous.gain.gain.cancelAndHoldAtTime(time);
+      if (options.link === "hammer" || options.link === "pull")
+        previous.gain.gain.linearRampToValueAtTime(
+          volume * (options.link === "hammer" ? 0.7 : 0.8),
+          time + 0.008,
+        );
+      previous.gain.gain.exponentialRampToValueAtTime(0.0001, time + sustain);
+      previous.source.stop(time + sustain + 0.025);
+      voice.hz = hz;
+      voice.end = time + sustain;
+      voice.started = time;
+      return;
+    }
+    this.dampString(options.string, time);
+    const osc = ctx.createOscillator(),
+      gain = ctx.createGain(),
+      filter = ctx.createBiquadFilter();
+    if (!this.guitarWave) {
+      const real = new Float32Array(20),
+        imag = new Float32Array(20);
+      for (let n = 1; n < imag.length; n++)
+        imag[n] = Math.sin(Math.PI * n * 0.23) / n ** 1.35;
+      this.guitarWave = ctx.createPeriodicWave(real, imag);
+    }
+    osc.setPeriodicWave(this.guitarWave);
+    osc.frequency.value = hz;
+    filter.type = "lowpass";
+    filter.Q.value = 0.55;
+    filter.frequency.setValueAtTime(
+      Math.min(11000, hz * (options.palmMute ? 3 : 12)),
+      time,
+    );
+    filter.frequency.exponentialRampToValueAtTime(
+      Math.min(9000, hz * 2.5),
+      time + Math.min(0.3, sustain),
+    );
+    gain.gain.setValueAtTime(0, time);
+    // Direct seeks into a legato target still produce that target, with a softer attack.
+    gain.gain.linearRampToValueAtTime(
+      volume * (options.link ? 0.75 : 1),
+      time + (options.link ? 0.012 : 0.003),
+    );
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + sustain);
+    osc.connect(filter).connect(gain).connect(ctx.destination);
+    this.track(osc, gain, options.string, {
+      pitch: osc.frequency,
+      hz,
+      started: time,
+      end: time + sustain,
+      filter,
+    });
+    osc.start(time);
+    osc.stop(time + sustain + 0.025);
+  }
   private track(
     source: AudioScheduledSourceNode,
     gain: GainNode,
     string?: number,
+    guitar?: GuitarVoice,
   ) {
     this.sources.add(source);
-    if (string !== undefined) this.strings.set(string, { source, gain });
+    if (string !== undefined)
+      this.strings.set(string, { source, gain, guitar });
     source.onended = () => {
       this.sources.delete(source);
       if (string !== undefined && this.strings.get(string)?.source === source)
         this.strings.delete(string);
       source.disconnect();
       gain.disconnect();
+      guitar?.filter.disconnect();
     };
   }
   dampString(string: number, time: number) {
     const voice = this.strings.get(string);
     if (!voice) return;
-    voice.gain.gain.cancelScheduledValues(time);
+    voice.gain.gain.cancelAndHoldAtTime(time);
     voice.gain.gain.setTargetAtTime(0.00001, time, 0.006);
     voice.source.stop(time + 0.04);
     this.strings.delete(string);
   }
-  percussion(time: number) {
+  dampAll(time: number) {
+    for (const string of [...this.strings.keys()])
+      this.dampString(string, time);
+  }
+  percussion(time: number, kind: PercussionKind = "muted", volume = 1) {
     const ctx = this.context!,
-      duration = 0.07;
+      samples = percussionSamples(kind, ctx.sampleRate);
     const source = ctx.createBufferSource(),
       gain = ctx.createGain();
-    const buffer = ctx.createBuffer(
-      1,
-      Math.ceil(ctx.sampleRate * duration),
-      ctx.sampleRate,
-    );
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < data.length; i++)
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (data.length * 0.16));
+    const buffer = ctx.createBuffer(1, samples.length, ctx.sampleRate);
+    buffer.copyToChannel(samples, 0);
     source.buffer = buffer;
-    gain.gain.value = 0.13;
+    gain.gain.value = (kind === "body-tap" ? 0.38 : 0.22) * volume;
     source.connect(gain).connect(ctx.destination);
+    this.track(source, gain);
     source.start(time);
-    source.stop(time + duration);
-    this.sources.add(source);
-    source.onended = () => {
-      this.sources.delete(source);
-      source.disconnect();
-      gain.disconnect();
-    };
   }
   silence() {
     for (const osc of this.sources) {

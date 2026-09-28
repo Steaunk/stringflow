@@ -1,13 +1,18 @@
 import { STANDARD, parseNote } from "./music.ts";
+export type NoteLink = "hammer" | "pull" | "slide" | "tie";
 export interface TabNote {
   string: number;
   fret: number;
   technique?: "harmonic" | "muted";
   ghost?: boolean;
+  link?: NoteLink;
 }
 export interface TabEvent {
   beats: number;
   notes: TabNote[];
+  palmMute?: boolean;
+  strum?: "down" | "up";
+  percussion?: "body-tap" | "string-slap";
 }
 export interface Score {
   version: 1;
@@ -19,6 +24,7 @@ export interface Score {
   timeSignature: [number, number];
   tuning: number[];
   capo: number;
+  letRing?: boolean;
   events: TabEvent[];
 }
 export const beatsPerBar = (s: Score) =>
@@ -83,6 +89,9 @@ export function validateScore(raw: unknown): Score {
     fail("变调夹须为 0–12 品。");
   if (!Array.isArray(s.events) || !s.events.length || s.events.length > 2048)
     fail("谱子需要 1–2048 个事件。");
+  if (s.letRing !== undefined && typeof s.letRing !== "boolean")
+    fail("letRing 须为布尔值。");
+  const previous = new Map<number, TabNote>();
   for (const e of s.events) {
     if (
       !e ||
@@ -94,6 +103,17 @@ export function validateScore(raw: unknown): Score {
       fail("每个事件的 beats 须为 0.125–16，且为 0.125 的倍数。");
     if (!Array.isArray(e.notes) || e.notes.length > 6)
       fail("每个事件最多六个音；空数组表示休止。");
+    if (e.palmMute !== undefined && typeof e.palmMute !== "boolean")
+      fail("palmMute 须为布尔值。");
+    if (e.strum !== undefined && !["down", "up"].includes(e.strum))
+      fail("strum 须为 down / up。");
+    if (
+      e.percussion !== undefined &&
+      !["body-tap", "string-slap"].includes(e.percussion)
+    )
+      fail("percussion 须为 body-tap / string-slap。");
+    if (e.strum && e.notes.length < 2) fail("扫弦至少需要两根弦。");
+    if (!e.notes.length && !e.percussion) previous.clear();
     const seen = new Set<number>();
     for (const n of e.notes) {
       if (
@@ -116,6 +136,21 @@ export function validateScore(raw: unknown): Score {
         fail("目前只支持第 12 品自然泛音。");
       if (n.ghost !== undefined && typeof n.ghost !== "boolean")
         fail("ghost 须为布尔值。");
+      if (n.link !== undefined) {
+        if (!["hammer", "pull", "slide", "tie"].includes(n.link))
+          fail("link 须为 hammer / pull / slide / tie。");
+        const source = previous.get(n.string);
+        if (!source || source.technique || n.technique)
+          fail("连音需要同弦的前一个普通音。");
+        if (
+          (n.link === "hammer" && n.fret <= source!.fret) ||
+          (n.link === "pull" && n.fret >= source!.fret) ||
+          (n.link === "slide" && n.fret === source!.fret) ||
+          (n.link === "tie" && n.fret !== source!.fret)
+        )
+          fail("连音方向或品位不匹配。");
+      }
+      previous.set(n.string, n);
       seen.add(n.string);
     }
   }
