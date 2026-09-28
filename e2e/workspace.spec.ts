@@ -84,7 +84,11 @@ test("harmonic audio sustains independently of notation and damps on the same st
       const ctx = new OfflineAudioContext(1, 48000, 48000);
       const engine = new AudioEngine();
       engine.context = ctx;
-      engine.tone(783.991, 0, 0.125, false, 1, true, 1);
+      engine.harmonicNote(783.991, 0, {
+        string: 1,
+        volume: 1,
+        ambience: false,
+      });
       if (damp) engine.dampString(1, 0.4);
       const samples = (await ctx.startRendering()).getChannelData(0);
       return Math.sqrt(

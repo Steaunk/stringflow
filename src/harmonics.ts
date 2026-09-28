@@ -19,7 +19,7 @@ export function harmonicSamples(
 ) {
   const tapped = attack === "tap";
   const scale = Math.max(0.7, Math.min(1.35, Math.sqrt(660 / hz)));
-  const duration = 4.2 * scale;
+  const duration = 5.4 * scale;
   const samples = new Float32Array(Math.ceil(duration * sampleRate));
   // An octave node suppresses the original open-string fundamental and odd modes.
   // These ratios are relative to the surviving second mode, so they remain 1,2,3…
@@ -36,7 +36,7 @@ export function harmonicSamples(
           Math.abs(Math.cos(ratio * (0.37 + string * 0.018)))) /
         ratio ** (tapped ? 1.15 : 1.7),
       fast: ((tapped ? 0.12 : 0.2) * scale) / ratio ** 0.65,
-      slow: (0.95 * scale) / ratio ** 0.85,
+      slow: (1.35 * scale) / ratio ** 0.72,
       phase: ratio === 1 ? 0 : string * ratio * 0.41,
     };
   }).filter((m) => m.frequency < sampleRate * 0.45);
@@ -50,8 +50,8 @@ export function harmonicSamples(
     const slowDecay = Math.exp(-1 / (sampleRate * m.slow));
     let sine = Math.sin(m.phase),
       cosine = Math.cos(m.phase);
-    let fast = 0.55,
-      slow = 0.45;
+    let fast = 0.38,
+      slow = 0.62;
     for (let i = 0; i < samples.length; i++) {
       samples[i] += m.amplitude * sine * (fast + slow);
       const nextSine = sine * rotationCos + cosine * rotationSin;
@@ -76,11 +76,11 @@ export function harmonicSamples(
       const noise = seed / 2147483648 - 1;
       contactLow += contactAlpha * (noise - contactLow);
       value +=
-        (tapped ? 0.38 : 0.025) *
+        (tapped ? 0.18 : 0.025) *
         (noise - contactLow) *
         Math.exp(-t / (tapped ? 0.007 : 0.003));
       value +=
-        (tapped ? 0.12 : 0.015) *
+        (tapped ? 0.045 : 0.015) *
         (Math.sin(2 * Math.PI * 190 * t) +
           0.45 * Math.sin(2 * Math.PI * 410 * t)) *
         Math.exp(-t / 0.012);

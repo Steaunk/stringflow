@@ -1,3 +1,5 @@
+import { palmMutedSamples } from "./palm-mute.ts";
+import { harmonicRoomImpulse } from "./ambience.ts";
 import { percussionSamples } from "./percussion.ts";
 import type { PercussionKind } from "./percussion.ts";
 import type { NoteLink } from "./score.ts";
@@ -17,6 +19,7 @@ export interface GuitarOptions {
   palmMute?: boolean;
   letRing?: boolean;
   link?: NoteLink;
+  continueToLink?: boolean;
 }
 export class AudioEngine {
   context: AudioContext | null = null;
@@ -26,6 +29,43 @@ export class AudioEngine {
     { source: AudioScheduledSourceNode; gain: GainNode; guitar?: GuitarVoice }
   >();
   private guitarWave: PeriodicWave | null = null;
+  private palmBuffers = new Map<string, AudioBuffer>();
+  private room: {
+    convolver: ConvolverNode;
+    wet: GainNode;
+    input: GainNode;
+  } | null = null;
+  private roomBuffer: AudioBuffer | null = null;
+  private harmonicSpace = 0.38;
+  setHarmonicSpace(amount: number) {
+    this.harmonicSpace = Math.max(0, Math.min(0.65, amount));
+    if (this.room)
+      this.room.wet.gain.setTargetAtTime(
+        this.harmonicSpace,
+        this.context!.currentTime,
+        0.025,
+      );
+  }
+  private harmonicRoom() {
+    if (this.room) return this.room.input;
+    const ctx = this.context!;
+    if (!this.roomBuffer) {
+      const channels = harmonicRoomImpulse(ctx.sampleRate);
+      this.roomBuffer = ctx.createBuffer(2, channels[0].length, ctx.sampleRate);
+      channels.forEach((data, channel) =>
+        this.roomBuffer!.copyToChannel(data, channel),
+      );
+    }
+    const convolver = ctx.createConvolver(),
+      wet = ctx.createGain(),
+      input = ctx.createGain();
+    convolver.normalize = false;
+    convolver.buffer = this.roomBuffer;
+    wet.gain.value = this.harmonicSpace;
+    input.connect(convolver).connect(wet).connect(ctx.destination);
+    this.room = { convolver, wet, input };
+    return input;
+  }
   private harmonicBuffers = new Map<string, AudioBuffer>();
   private stream: MediaStream | null = null;
   private input: MediaStreamAudioSourceNode | null = null;
@@ -78,6 +118,7 @@ export class AudioEngine {
       volume: number;
       attack?: HarmonicAttack;
       palmMute?: boolean;
+      ambience?: boolean;
     },
   ) {
     const ctx = this.context!;
@@ -87,8 +128,10 @@ export class AudioEngine {
     const source = ctx.createBufferSource(),
       gain = ctx.createGain();
     source.buffer = buffer;
-    gain.gain.setValueAtTime(0.19 * options.volume, time);
+    gain.gain.setValueAtTime(0.16 * options.volume, time);
     source.connect(gain).connect(ctx.destination);
+    if (options.ambience !== false && !options.palmMute)
+      gain.connect(this.harmonicRoom());
     this.track(source, gain, options.string);
     source.start(time);
     if (options.palmMute) this.dampString(options.string, time + 0.12);
@@ -111,6 +154,7 @@ export class AudioEngine {
   prepareHarmonics(
     notes: { hz: number; string: number; attack?: HarmonicAttack }[],
   ) {
+    if (notes.length) this.harmonicRoom();
     for (const note of notes)
       this.harmonicBuffer(note.hz, note.string, note.attack ?? "pluck");
   }
@@ -121,6 +165,27 @@ export class AudioEngine {
     options: GuitarOptions,
   ) {
     const ctx = this.context!;
+    if (options.palmMute && !options.link && !options.continueToLink) {
+      this.dampString(options.string, time);
+      const key = `${ctx.sampleRate}:${hz}:${options.string}`;
+      let buffer = this.palmBuffers.get(key);
+      if (!buffer) {
+        const samples = palmMutedSamples(hz, ctx.sampleRate, options.string);
+        buffer = ctx.createBuffer(1, samples.length, ctx.sampleRate);
+        buffer.copyToChannel(samples, 0);
+        if (this.palmBuffers.size >= 96)
+          this.palmBuffers.delete(this.palmBuffers.keys().next().value!);
+        this.palmBuffers.set(key, buffer);
+      }
+      const source = ctx.createBufferSource(),
+        gain = ctx.createGain();
+      source.buffer = buffer;
+      gain.gain.value = 0.23 * options.volume;
+      source.connect(gain).connect(ctx.destination);
+      this.track(source, gain, options.string);
+      source.start(time);
+      return;
+    }
     const sustain = options.palmMute
       ? Math.min(0.18, Math.max(0.09, duration))
       : options.letRing
@@ -253,6 +318,13 @@ export class AudioEngine {
     }
     this.sources.clear();
     this.strings.clear();
+    // Seeking, pause and microphone mode must not leave an old reverberant tail.
+    if (this.room) {
+      this.room.input.disconnect();
+      this.room.convolver.disconnect();
+      this.room.wet.disconnect();
+      this.room = null;
+    }
   }
   async listen(
     onPitch: (pitch: ReturnType<typeof detectPitch>) => void,

@@ -81,6 +81,7 @@ test("rendered tapped harmonics ring across other strings, stop on their own str
         volume: 1,
         attack: "tap",
         palmMute: action === "mute",
+        ambience: false,
       });
       if (action !== "none" && action !== "mute")
         engine.dampString(action === "same" ? 1 : 6, 0.3);
@@ -121,4 +122,65 @@ test("rendered tapped harmonics ring across other strings, stop on their own str
   expect(result.mute).toBeLessThan(result.ring * 0.001);
   expect(result.separate).toBe(true);
   expect(result.reused).toBe(true);
+});
+
+test("harmonic space preserves the direct attack, produces stereo decay, and clears on stop", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const result = await page.evaluate(async () => {
+    const path = "/src/audio.ts";
+    const { AudioEngine } = await import(/* @vite-ignore */ path);
+    const render = async (wet: boolean, stop = false) => {
+      const ctx = new OfflineAudioContext(2, 48000 * 2, 48000),
+        engine = new AudioEngine();
+      engine.context = ctx;
+      engine.harmonicNote(783.991, 0, {
+        string: 1,
+        volume: 1,
+        attack: "tap",
+        ambience: wet,
+      });
+      if (!stop) engine.dampString(1, 0.2);
+      const pause = stop
+        ? ctx.suspend(0.256).then(() => {
+            engine.silence();
+            return ctx.resume();
+          })
+        : Promise.resolve();
+      const buffer = await ctx.startRendering();
+      await pause;
+      return [
+        Array.from(buffer.getChannelData(0)),
+        Array.from(buffer.getChannelData(1)),
+      ];
+    };
+    const dry = await render(false),
+      wet = await render(true),
+      stopped = await render(true, true);
+    const energy = (wave: number[], begin: number, end: number) =>
+      wave.slice(begin * 48000, end * 48000).reduce((s, v) => s + v * v, 0) /
+      ((end - begin) * 48000);
+    return {
+      directError: wet[0]
+        .slice(0, 700)
+        .reduce((s, v, i) => s + Math.abs(v - dry[0][i]), 0),
+      dryTail: energy(dry[0], 0.6, 0.9),
+      wetTail: energy(wet[0], 0.6, 0.9),
+      stereo: energy(
+        wet[0].map((v, i) => v - wet[1][i]),
+        0.3,
+        0.9,
+      ),
+      stopped: energy(stopped[0], 0.4, 0.9),
+    };
+  });
+  expect(result.directError).toBeLessThan(1e-5);
+  expect(result.dryTail).toBeLessThan(1e-10);
+  expect(result.wetTail).toBeGreaterThan(1e-8);
+  expect(result.stereo).toBeGreaterThan(1e-7);
+  expect(result.stopped).toBeLessThan(1e-10);
+  await page.locator(".notation-key summary").click();
+  await page.locator("#harmonic-space").selectOption("0");
+  await expect(page.locator("#harmonic-space")).toHaveValue("0");
 });

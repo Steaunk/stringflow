@@ -2,8 +2,8 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>泛音试听 · Stringflow</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>P.M. 与泛音试听 · Stringflow</title>
     <style>
       body {
         font:
@@ -55,38 +55,59 @@
   </head>
   <body>
     <a href="./?song=something-just-like-this">← 返回曲谱</a>
-    <h1>泛音试听</h1>
-    <p>
-      C5 → D5 → G5 → 三弦同时发声。两版使用相同音高，单音前 700
-      毫秒的均方根音量已对齐。
-    </p>
+    <h1>P.M. 与泛音试听</h1>
+    <p>先听起音，再听余音。建议使用耳机比较泛音的立体声空间。</p>
     <section>
-      <h2>旧版</h2>
-      <p class="note">四个分音，统一拨弦起音。</p>
-      <audio
-        id="before"
-        controls
-        preload="metadata"
-        src="audio/harmonic-before.wav"
-      ></audio>
+      <h2>掌根制音 P.M.</h2>
+      <p class="note">
+        同一组低音与和弦：上一版 → 新版。保留音高、短促拨弦起音和琴体共鸣。
+      </p>
+      <label
+        >上一版<audio
+          controls
+          preload="metadata"
+          src="audio/pm-previous.mp3"
+        ></audio></label
+      ><label
+        >新版<audio
+          controls
+          preload="metadata"
+          src="audio/pm-current.mp3"
+        ></audio
+      ></label>
     </section>
     <section>
-      <h2>新版 · 拍泛音</h2>
-      <p class="note">短促触弦声、多分音衰减和弦共鸣。</p>
-      <audio
-        id="after"
-        controls
-        preload="metadata"
-        src="audio/harmonic-after.wav"
-      ></audio>
+      <h2>泛音</h2>
+      <p class="note">
+        每段依次为 C5、D5、G5，再同时弹响三音。对比前 700 毫秒的单音 RMS
+        音量已对齐。
+      </p>
+      <label
+        >上一版：拍泛音干声<audio
+          controls
+          preload="metadata"
+          src="audio/harmonic-previous.mp3"
+        ></audio></label
+      ><label
+        >新版：干声<audio
+          controls
+          preload="metadata"
+          src="audio/harmonic-dry.mp3"
+        ></audio></label
+      ><label
+        >新版：空灵空间<audio
+          id="after"
+          controls
+          preload="metadata"
+          src="audio/harmonic-space.mp3"
+        ></audio></label
+      ><button id="chord">只听三弦泛音：空灵</button>
     </section>
-    <button id="chord">只听三弦泛音：新版</button>
     <p class="note">
-      本曲按谱面相对品位解释：Capo 5 + ◇12，触弦位置为实际第 17 品。3 / 2 / 1
-      弦分别发出 C5 / D5 / G5。
+      曲谱底部「记号 / 音色」可切换泛音空间：干声、自然、空灵。
     </p>
     <p class="note">
-      这是程序合成对照，不是原演奏录音，也未使用原录音采样。音频只用于比较泛音音色。
+      全部音频来自网站自己的合成引擎，没有原演奏录音采样；混响不是原演奏效果器的复刻。播放器本身的音量不受这里的试听对齐影响。
     </p>
     <script>
       const players = [...document.querySelectorAll("audio")];
