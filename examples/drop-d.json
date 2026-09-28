@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "title": "低音漫步",
+  "artist": "Stringflow 原创 · Drop D 练习",
+  "bpm": 72,
+  "timeSignature": [
+    4,
+    4
+  ],
+  "tuning": [
+    38,
+    45,
+    50,
+    55,
+    59,
+    64
+  ],
+  "capo": 0,
+  "events": [
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 3
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 5
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 7
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 5
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 3
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 3
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 5
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 7
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 10
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 7
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 5
+        }
+      ]
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 3
+        }
+      ]
+    }
+  ]
+}

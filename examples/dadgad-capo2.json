@@ -1,0 +1,237 @@
+{
+  "version": 1,
+  "title": "山间回声",
+  "artist": "Stringflow 原创 · DADGAD / 6/8",
+  "bpm": 90,
+  "timeSignature": [
+    6,
+    8
+  ],
+  "tuning": [
+    38,
+    45,
+    50,
+    55,
+    57,
+    62
+  ],
+  "capo": 2,
+  "events": [
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 4,
+          "fret": 2
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 3,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 2,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 2,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 5,
+          "fret": 3
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 4,
+          "fret": 2
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 3,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 2,
+          "fret": 1
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 2,
+          "fret": 1
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 5,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 4,
+          "fret": 2
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 3,
+          "fret": 2
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 2,
+          "fret": 1
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 2,
+          "fret": 1
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 6,
+          "fret": 3
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 5,
+          "fret": 2
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 4,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 3,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 2,
+          "fret": 0
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 3,
+          "fret": 0
+        }
+      ]
+    }
+  ]
+}
