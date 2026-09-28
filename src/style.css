@@ -1888,3 +1888,67 @@ main {
   min-width: 24px;
   font-size: 12px;
 }
+.follow-panel {
+  margin-top: 8px;
+  padding: 8px 12px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-shrink: 0;
+  border-color: #dfd9ee;
+}
+.follow-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+.follow-feedback #target-note {
+  margin: 0;
+  font-size: 13px;
+}
+#follow-heard {
+  color: #687380;
+  font-size: 11px;
+}
+.follow-input {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+  font-size: 10px;
+  color: #727983;
+}
+#follow-level {
+  width: 90px;
+  height: 12px;
+}
+.follow-panel.matching {
+  border-color: #90b180;
+  background: #f5faf1;
+}
+@media (max-width: 680px) {
+  .follow-panel {
+    padding: 7px 9px;
+    gap: 8px;
+  }
+  .follow-feedback #target-note {
+    font-size: 11px;
+  }
+  #follow-heard {
+    font-size: 10px;
+  }
+  #follow-level {
+    width: 48px;
+  }
+  #follow-next {
+    padding: 4px;
+    white-space: nowrap;
+  }
+}
+/* Following is silent and starts listening immediately; retain tempo settings. */
+.transport:has(#follow-mode.selected) .transport-controls .check-control,
+.transport:has(#follow-mode.selected) .count-control {
+  display: none;
+}

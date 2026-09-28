@@ -76,7 +76,7 @@ test("loop stays in range and metronome mode finishes", async ({ page }) => {
   await page.locator('[data-event="15"]').click();
   await expect(page.locator("#status")).toContainText("这一遍完成了");
 });
-test("denied microphone and polyphonic follow show actionable messages", async ({
+test("denied microphone shows actionable messages for both notes and chords", async ({
   page,
   context,
 }) => {
@@ -92,7 +92,7 @@ test("denied microphone and polyphonic follow show actionable messages", async (
   await page.locator("#score-input").fill(JSON.stringify(raw));
   await page.locator("#apply-score").click();
   await page.locator("#play").click();
-  await expect(page.locator("#status")).toContainText("同时发声的和弦");
+  await expect(page.locator("#status")).toContainText(/麦克风|设备/);
 });
 test("mobile layout fits viewport and editor is usable", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });

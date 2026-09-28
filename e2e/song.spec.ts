@@ -30,7 +30,7 @@ test("imported song opens directly, tunes according to the source, and renders a
   await page.locator("#play").click();
   await page.locator("#follow-mode").click();
   await page.locator("#play").click();
-  await expect(page.locator("#status")).toContainText("和弦或打板");
+  await expect(page.locator("#status")).toContainText(/麦克风|设备/);
   await page.locator("#toggle-library").click();
   await page.locator('[data-demo="0"]').click();
   expect(new URL(page.url()).searchParams.has("song")).toBe(false);

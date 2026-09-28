@@ -7,7 +7,8 @@ import {
 import "./style.css";
 import { AudioEngine } from "./audio.ts";
 import { beatX, rhythmMarkup, restSymbol } from "./notation.ts";
-import { Follower } from "./follower.ts";
+import { ScoreFollower } from "./follower.ts";
+import { ListeningAnalyzer, targetMatch } from "./listening.ts";
 import {
   PRESETS,
   centsFrom,
@@ -39,7 +40,8 @@ const escape = (s: string) =>
       ]!,
   );
 const audio = new AudioEngine(),
-  follower = new Follower();
+  follower = new ScoreFollower(),
+  listening = new ListeningAnalyzer();
 let score: Score = structuredClone(DEMOS[0]);
 try {
   const saved = localStorage.getItem("stringflow-score");
@@ -81,8 +83,8 @@ $("#app").innerHTML = `
 <main><header class="topbar"><button id="toggle-library" class="button secondary" aria-expanded="false" aria-controls="library-panel">☰ 曲库</button><span class="app-name">stringflow<span>.</span></span><div class="top-right"><button id="open-tuner" class="button secondary">♮ 调音器</button><button id="import-button" class="button secondary">导入曲谱</button><button id="edit-button" class="text-button">编辑</button></div></header>
 <div class="content">
 <section class="song-card"><div class="song-info"><h1 id="song-title"></h1><p id="song-artist"></p></div><div class="tags"><span id="tuning-tag"></span><span id="time-tag"></span><span id="capo-tag"></span></div></section>
-<div class="workspace"><div class="practice-column"><section class="transport card"><div class="mode-tabs" role="group" aria-label="播放模式"><button id="tempo-mode" class="selected">◷ 节拍播放</button><button id="follow-mode">⌁ 智能跟奏 <span>MIC</span></button></div><div class="transport-controls"><button id="rewind" class="icon-button" aria-label="回到开头">↤</button><button id="play" class="play-button" aria-label="播放">${iconPlay}</button><div class="tempo-control"><label for="bpm">速度 <span>♩ = BPM</span></label><div><button id="slower" aria-label="减慢速度">−</button><input id="bpm" type="number" min="30" max="240" aria-label="每分钟四分音符数"/><button id="faster" aria-label="加快速度">＋</button></div></div><div class="transport-divider"></div><label class="check-control"><input id="metronome" type="checkbox" checked/>节拍器</label><label class="check-control"><input id="sound" type="checkbox" checked/>示范音</label><label class="count-control">预备<select id="count-in" aria-label="预备小节"><option value="1">1 小节</option><option value="0">无</option><option value="2">2 小节</option></select></label></div><div class="transport-bottom"><span id="mode-help">按设定速度播放，谱面随当前音符自动滚动。</span><span id="target-note" hidden></span><span id="beat-dots"></span></div></section>
-<section class="score-card card"><div class="score-toolbar"><div><span class="section-icon">≡</span><b>六线谱</b><span id="bar-position" class="muted"></span><span id="ring-tag" class="muted" hidden>let ring</span></div><div class="score-actions"><label class="zoom-control">谱面<select id="score-size" aria-label="谱面大小"><option value="normal">标准</option><option value="large">放大</option></select></label><button id="focus-score" class="text-button" aria-pressed="false">专注</button><label class="check-control"><input id="loop" type="checkbox"/>循环</label><select id="loop-start" aria-label="循环起始小节"></select><span>—</span><select id="loop-end" aria-label="循环结束小节"></select><button id="export" class="icon-button" aria-label="导出 JSON 曲谱">↓</button></div></div><div class="progress-track"><div id="progress"></div></div><div id="score" class="score-scroll" tabindex="0" aria-label="六线谱，点击音符或小节从此播放"></div><div class="score-footer"><details class="notation-key"><summary>谱面记号</summary><p id="notation-note"></p><p>下方数字是拍点，&amp; 是半拍。单符杠：八分音符；双符杠：十六分音符；圆点：附点。</p></details><span>点击音符 / 小节播放 · 空格暂停 / 继续</span></div></section>
+<div class="workspace"><div class="practice-column"><section class="transport card"><div class="mode-tabs" role="group" aria-label="播放模式"><button id="tempo-mode" class="selected">◷ 节拍播放</button><button id="follow-mode">⌁ 智能跟奏 <span>MIC</span></button></div><div class="transport-controls"><button id="rewind" class="icon-button" aria-label="回到开头">↤</button><button id="play" class="play-button" aria-label="播放">${iconPlay}</button><div class="tempo-control"><label for="bpm">速度 <span>♩ = BPM</span></label><div><button id="slower" aria-label="减慢速度">−</button><input id="bpm" type="number" min="30" max="240" aria-label="每分钟四分音符数"/><button id="faster" aria-label="加快速度">＋</button></div></div><div class="transport-divider"></div><label class="check-control"><input id="metronome" type="checkbox" checked/>节拍器</label><label class="check-control"><input id="sound" type="checkbox" checked/>示范音</label><label class="count-control">预备<select id="count-in" aria-label="预备小节"><option value="1">1 小节</option><option value="0">无</option><option value="2">2 小节</option></select></label></div><div class="transport-bottom"><span id="mode-help">按设定速度播放，谱面随当前音符自动滚动。</span><span id="beat-dots"></span></div></section>
+<section id="follow-panel" class="follow-panel card" hidden aria-label="跟奏状态"><div class="follow-feedback"><b id="target-note"></b><span id="follow-heard">点击播放开启麦克风</span></div><div class="follow-input"><meter id="follow-level" min="0" max="1" value="0" aria-label="麦克风输入音量"></meter><span id="follow-signal">未开启</span></div><button id="follow-next" class="text-button" aria-label="手动跳到下一音">跳过 ›</button></section><section class="score-card card"><div class="score-toolbar"><div><span class="section-icon">≡</span><b>六线谱</b><span id="bar-position" class="muted"></span><span id="ring-tag" class="muted" hidden>let ring</span></div><div class="score-actions"><label class="zoom-control">谱面<select id="score-size" aria-label="谱面大小"><option value="normal">标准</option><option value="large">放大</option></select></label><button id="focus-score" class="text-button" aria-pressed="false">专注</button><label class="check-control"><input id="loop" type="checkbox"/>循环</label><select id="loop-start" aria-label="循环起始小节"></select><span>—</span><select id="loop-end" aria-label="循环结束小节"></select><button id="export" class="icon-button" aria-label="导出 JSON 曲谱">↓</button></div></div><div class="progress-track"><div id="progress"></div></div><div id="score" class="score-scroll" tabindex="0" aria-label="六线谱，点击音符或小节从此播放"></div><div class="score-footer"><details class="notation-key"><summary>谱面记号</summary><p id="notation-note"></p><p>下方数字是拍点，&amp; 是半拍。单符杠：八分音符；双符杠：十六分音符；圆点：附点。</p></details><span>点击音符 / 小节播放 · 空格暂停 / 继续</span></div></section>
 <div id="status" class="status" role="status" aria-live="polite">已就绪。</div></div>
 </div></div></main><dialog id="tuner" aria-label="随谱调音"><section class="tuner-card card"><div class="panel-heading"><h3>调音器</h3><button id="close-tuner" class="icon-button" aria-label="关闭调音器">×</button></div><p class="panel-description">按谱面定弦调音。</p><select id="tuning-preset" aria-label="调弦方案"></select><div class="tuner-display"><span id="tuner-state" class="tuner-state">等待麦克风</span><div id="detected-note" class="detected-note">—<small>轻拨一根空弦</small></div><div class="tuner-scale"><span>偏低</span><span>准</span><span>偏高</span><div class="scale-lines"></div><div id="needle" class="needle"></div></div><div id="cents" class="cents">— cents</div><div id="frequency" class="frequency">A4 = 440 Hz</div></div><div id="strings" class="strings"></div><label class="check-control capo-check"><input id="tune-capo" type="checkbox"/>已夹变调夹，按夹后空弦调音</label><button id="mic-button" class="button mic-button">◉ 开启麦克风</button><button id="reference" class="text-button reference">♪ 播放选中弦的参考音</button><p id="tuner-hint" class="fineprint"></p></section>
 <p id="tuner-feedback" role="status"></p></dialog>
@@ -215,9 +217,12 @@ function updatePosition(scroll = true) {
   $("#progress").style.width =
     `${((eventStarts[index] ?? 0) / totalBeats()) * 100}%`;
   const e = score.events[index];
-  $("#target-note").textContent = e.notes.length
-    ? `下一个音 · ${e.notes.map((n) => (n.technique === "muted" ? "×" : noteName(eventPitch(score, n)))).join(" + ")}`
-    : "下一拍 · 休止";
+  const pitches = e.notes.filter((n) => n.technique !== "muted");
+  $("#target-note").textContent = pitches.length
+    ? `等待 ${pitches.map((n) => noteName(eventPitch(score, n))).join(" + ")}${e.percussion ? " · 拍击" : ""}`
+    : e.percussion || e.notes.length
+      ? "等待拍击 / 闷弦起音"
+      : "休止";
   if (scroll && b !== lastBar) {
     const bar = $(`#bar-${b}`),
       container = $("#score");
@@ -254,6 +259,10 @@ function showBeat(beat: number) {
     .forEach((el, i) => el.classList.toggle("active", i === pulse));
 }
 function stopMic() {
+  $("#follow-heard").textContent = "麦克风未开启";
+  $("#follow-signal").textContent = "未开启";
+  $<HTMLMeterElement>("#follow-level").value = 0;
+  $("#follow-panel").classList.remove("matching");
   micRequest++;
   audio.stopMic();
   mic = "off";
@@ -343,19 +352,33 @@ function onPitch(p: ReturnType<typeof import("./pitch.ts").detectPitch>) {
       .querySelectorAll(".string-button")
       .forEach((el) => el.classList.remove("hearing"));
   }
-  if (playing && mode === "follow") {
-    const e = score.events[index];
-    if (e.notes.length !== 1) return;
-    if (
-      follower.update(
-        p?.hz ?? null,
-        p?.rms ?? 0,
-        eventPitch(score, e.notes[0]),
-        performance.now(),
-      )
-    )
-      advanceFollow();
-  }
+}
+function onFollowFrame(samples: Float32Array, sampleRate: number, now: number) {
+  if (!playing || mode !== "follow") return;
+  const frame = listening.analyze(samples, sampleRate);
+  const event = score.events[index];
+  const expected = event.notes
+    .filter((n) => n.technique !== "muted")
+    .map((n) => eventPitch(score, n));
+  const percussive = Boolean(
+    event.percussion || event.notes.some((n) => n.technique === "muted"),
+  );
+  $<HTMLMeterElement>("#follow-level").value = Math.min(1, frame.peak * 5);
+  $("#follow-heard").textContent = frame.pitches.length
+    ? `检测音高 ${frame.pitches.slice(0, 6).map(noteName).join(" · ")}`
+    : frame.rms < 0.0025
+      ? "输入较小，请靠近麦克风拨弦"
+      : "已收到声音，等待目标音高或拍击";
+  $("#follow-signal").textContent =
+    frame.rms < 0.0025
+      ? "输入较小"
+      : frame.peak > 0.8
+        ? "输入过强"
+        : targetMatch(frame, expected)
+          ? "匹配中"
+          : "聆听中";
+  $("#follow-panel").classList.toggle("matching", targetMatch(frame, expected));
+  if (follower.update(frame, expected, percussive, now)) advanceFollow();
 }
 async function startMic(purpose: "tuner" | "follow") {
   if (mic === purpose) return true;
@@ -363,12 +386,18 @@ async function startMic(purpose: "tuner" | "follow") {
   micPending = true;
   const request = micRequest;
   $("#mic-button").textContent = "正在请求麦克风…";
+  if (purpose === "follow")
+    $("#follow-heard").textContent = "正在请求麦克风权限…";
   try {
-    const started = await audio.listen(onPitch, () => {
-      pause();
-      stopMic();
-      status("麦克风已断开，请重新开启。", true);
-    });
+    const started = await audio.listen(
+      onPitch,
+      () => {
+        pause();
+        stopMic();
+        status("麦克风已断开，请重新开启。", true);
+      },
+      purpose === "follow" ? onFollowFrame : undefined,
+    );
     if (!started || request !== micRequest) return false;
     mic = purpose;
     micPending = false;
@@ -543,7 +572,10 @@ function animate() {
       if ($("#status").textContent?.startsWith("预备"))
         status("正在按节拍播放。");
     }
-  } else if (!score.events[index].notes.length) {
+  } else if (
+    !score.events[index].notes.length &&
+    !score.events[index].percussion
+  ) {
     if (!restUntil)
       restUntil =
         performance.now() + (score.events[index].beats * 60000) / score.bpm;
@@ -555,21 +587,6 @@ async function play(countIn = true) {
   if (playing || playPending) {
     pause();
     status("已暂停。");
-    return;
-  }
-  if (
-    mode === "follow" &&
-    score.events.some(
-      (e) =>
-        e.notes.length > 1 ||
-        e.percussion ||
-        e.notes.some((n) => n.technique === "muted"),
-    )
-  ) {
-    status(
-      "这份谱子包含同时发声的和弦或打板，当前跟奏仅支持单音。请切换节拍播放。",
-      true,
-    );
     return;
   }
   if (completed) {
@@ -611,7 +628,7 @@ async function play(countIn = true) {
           ? "预备拍… 跟着节拍进入。"
           : "正在按节拍播放。",
       );
-    } else status("正在聆听：弹出高亮音符后，谱面自动前进。");
+    } else status("跟奏已开启：单音 / 和弦按音高推进；拍击按新起音推进。");
     frame = requestAnimationFrame(animate);
   } catch (e) {
     pause();
@@ -665,7 +682,9 @@ for (const next of ["tempo", "follow"] as const) {
   $(`#${next}-mode`).onclick = () => {
     pause();
     mode = next;
-    $("#target-note").hidden = next !== "follow";
+    $("#follow-panel").hidden = next !== "follow";
+    $<HTMLInputElement>("#sound").disabled = next === "follow";
+    $<HTMLInputElement>("#metronome").disabled = next === "follow";
     $("#tempo-mode").classList.toggle("selected", next === "tempo");
     $("#follow-mode").classList.toggle("selected", next === "follow");
     $("#mode-help").textContent =
@@ -674,7 +693,7 @@ for (const next of ["tempo", "follow"] as const) {
         : "弹对再前进 · 示范音与节拍器自动静音，避免干扰识别。";
     status(
       next === "follow"
-        ? "点击播放并允许麦克风，开始单音跟奏。"
+        ? "点击播放并允许麦克风。和弦按主要音高匹配，拍击按新起音推进。"
         : "已切换为节拍播放。",
     );
   };
@@ -893,4 +912,10 @@ $("#score-size").onchange = () => {
   );
   lastBar = -1;
   requestAnimationFrame(() => updatePosition());
+};
+
+$("#follow-next").onclick = () => {
+  if (mode !== "follow") return;
+  follower.reset();
+  advanceFollow();
 };

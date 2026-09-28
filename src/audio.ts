@@ -225,6 +225,7 @@ export class AudioEngine {
   async listen(
     onPitch: (pitch: ReturnType<typeof detectPitch>) => void,
     onEnded: () => void,
+    onFrame?: (samples: Float32Array, sampleRate: number, now: number) => void,
   ) {
     this.stopMic();
     const generation = this.generation;
@@ -246,7 +247,7 @@ export class AudioEngine {
     this.stream = stream;
     this.input = ctx.createMediaStreamSource(stream);
     this.analyser = ctx.createAnalyser();
-    this.analyser.fftSize = 4096;
+    this.analyser.fftSize = onFrame ? 8192 : 4096;
     this.input.connect(this.analyser);
     stream.getAudioTracks().forEach((t) => {
       t.onended = () => {
@@ -254,13 +255,14 @@ export class AudioEngine {
         onEnded();
       };
     });
-    const data = new Float32Array(4096);
+    const data = new Float32Array(this.analyser.fftSize);
     let last = 0;
     const tick = (now: number) => {
       if (!this.analyser) return;
-      if (now - last >= 45) {
+      if (now - last >= (onFrame ? 35 : 45)) {
         this.analyser.getFloatTimeDomainData(data);
-        onPitch(detectPitch(data, ctx.sampleRate));
+        if (onFrame) onFrame(data, ctx.sampleRate, now);
+        else onPitch(detectPitch(data, ctx.sampleRate));
         last = now;
       }
       this.frame = requestAnimationFrame(tick);
