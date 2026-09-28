@@ -583,7 +583,15 @@ p {
   font-size: 9px;
   height: 27px;
 }
-.bar-heading span:first-child {
+.bar-start {
+  border: 0;
+  background: transparent;
+  padding: 0 5px;
+  min-width: 26px;
+  height: 22px;
+  text-align: left;
+  border-radius: 4px;
+  font-size: 10px;
   font-family: ui-monospace, monospace;
   color: #8a7da8;
 }
@@ -1470,4 +1478,14 @@ dialog .fineprint {
     padding: 8px 12px;
     font-size: 11px;
   }
+}
+
+.bar-start:hover:not(:disabled) {
+  background: #eee9fb;
+}
+.bar-start:disabled {
+  opacity: 0.5;
+}
+.staff-body {
+  cursor: pointer;
 }

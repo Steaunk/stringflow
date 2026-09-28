@@ -70,7 +70,6 @@ test("loop stays in range and metronome mode finishes", async ({ page }) => {
   await page.locator("#play").click();
   await page.locator("#loop").uncheck();
   await page.locator('[data-event="15"]').click();
-  await page.locator("#play").click();
   await expect(page.locator("#status")).toContainText("这一遍完成了");
 });
 test("denied microphone and polyphonic follow show actionable messages", async ({

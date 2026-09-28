@@ -75,7 +75,7 @@ $("#app").innerHTML = `
 <section class="song-card"><div class="song-art"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M30 80Q5 58 29 42q12-5 19 1l27-29 11 11-30 28q5 12-5 23-11 14-21 4Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="39" cy="60" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m24 74 51-51m-47 54 51-51M22 68l13 12" stroke="currentColor"/></svg></div><div class="song-info"><h1 id="song-title"></h1><p id="song-artist"></p><div class="tags"><span id="tuning-tag"></span><span id="time-tag"></span><span id="capo-tag"></span></div></div><div class="song-actions"><button id="import-button" class="button secondary"><span>↥</span> 导入曲谱</button><button id="edit-button" class="text-button">编辑曲谱 ↗</button></div></section>
 <p id="notation-note" class="notation-note" hidden></p>
 <div class="workspace"><div class="practice-column"><section class="transport card"><div class="mode-tabs" role="group" aria-label="播放模式"><button id="tempo-mode" class="selected">◷ 节拍播放</button><button id="follow-mode">⌁ 智能跟奏 <span>MIC</span></button></div><div class="transport-controls"><button id="rewind" class="icon-button" aria-label="回到开头">↤</button><button id="play" class="play-button" aria-label="播放">${iconPlay}</button><div class="tempo-control"><label for="bpm">速度 <span>♩ = BPM</span></label><div><button id="slower" aria-label="减慢速度">−</button><input id="bpm" type="number" min="30" max="240" aria-label="每分钟四分音符数"/><button id="faster" aria-label="加快速度">＋</button></div></div><div class="transport-divider"></div><label class="check-control"><input id="metronome" type="checkbox" checked/>节拍器</label><label class="check-control"><input id="sound" type="checkbox" checked/>示范音</label><label class="count-control">预备<select id="count-in" aria-label="预备小节"><option value="1">1 小节</option><option value="0">无</option><option value="2">2 小节</option></select></label></div><div class="transport-bottom"><span id="mode-help">按设定速度播放，谱面随当前音符自动滚动。</span><span id="beat-dots"></span></div></section>
-<section class="score-card card"><div class="score-toolbar"><div><span class="section-icon">≡</span><b>六线谱</b><span id="bar-position" class="muted"></span></div><div class="score-actions"><label class="check-control"><input id="loop" type="checkbox"/>循环</label><select id="loop-start" aria-label="循环起始小节"></select><span>—</span><select id="loop-end" aria-label="循环结束小节"></select><button id="export" class="icon-button" aria-label="导出 JSON 曲谱">↓</button></div></div><div class="progress-track"><div id="progress"></div></div><div id="score" class="score-scroll" tabindex="0" aria-label="六线谱，点击音符跳转"></div><div class="score-footer"><span><i class="legend-dot"></i> 当前音符</span><span>点击音符定位 · 空格播放 / 暂停</span></div></section>
+<section class="score-card card"><div class="score-toolbar"><div><span class="section-icon">≡</span><b>六线谱</b><span id="bar-position" class="muted"></span></div><div class="score-actions"><label class="check-control"><input id="loop" type="checkbox"/>循环</label><select id="loop-start" aria-label="循环起始小节"></select><span>—</span><select id="loop-end" aria-label="循环结束小节"></select><button id="export" class="icon-button" aria-label="导出 JSON 曲谱">↓</button></div></div><div class="progress-track"><div id="progress"></div></div><div id="score" class="score-scroll" tabindex="0" aria-label="六线谱，点击音符或小节从此播放"></div><div class="score-footer"><span><i class="legend-dot"></i> 当前音符</span><span>点击音符 / 小节播放 · 空格暂停 / 继续</span></div></section>
 <div id="status" class="status" role="status" aria-live="polite">已就绪。</div></div>
 <aside class="right-column"><section class="tuner-card card"><div class="panel-heading"><h3>随谱调音</h3></div><p class="panel-description">按谱面定弦调音。</p><select id="tuning-preset" aria-label="调弦方案"></select><div class="tuner-display"><span id="tuner-state" class="tuner-state">等待麦克风</span><div id="detected-note" class="detected-note">—<small>轻拨一根空弦</small></div><div class="tuner-scale"><span>偏低</span><span>准</span><span>偏高</span><div class="scale-lines"></div><div id="needle" class="needle"></div></div><div id="cents" class="cents">— cents</div><div id="frequency" class="frequency">A4 = 440 Hz</div></div><div id="strings" class="strings"></div><label class="check-control capo-check"><input id="tune-capo" type="checkbox"/>已夹变调夹，按夹后空弦调音</label><button id="mic-button" class="button mic-button">◉ 开启麦克风</button><button id="reference" class="text-button reference">♪ 播放选中弦的参考音</button><p id="tuner-hint" class="fineprint"></p></section>
 <section class="follow-card"><h3>跟奏提示</h3><p>匹配目标音后自动推进。</p><div id="target-note" class="target-note"></div><p class="fineprint">首版支持单音与分解和弦。连续同音请重新拨弦；整和弦请使用节拍播放。</p></section></aside></div><footer class="page-footer"><span>音频仅在设备上分析，不上传录音。</span></footer></div></main>
@@ -173,7 +173,7 @@ function renderScore() {
     const notes = score.events
       .map((event, i) => ({ event, i, beat: eventStarts[i] }))
       .filter((e) => e.beat >= b * bar && e.beat < (b + 1) * bar);
-    return `<div class="tab-bar" id="bar-${b}"><div class="bar-heading"><span>${String(b + 1).padStart(2, "0")}</span><span>${escape(score.barAnnotations?.[String(b + 1)] ?? (b === 0 ? tuningName() : ""))}</span></div><div class="staff"><div class="staff-labels">${[
+    return `<div class="tab-bar" id="bar-${b}"><div class="bar-heading"><button class="bar-start" data-bar-start="${notes[0]?.i ?? ""}" aria-label="从第 ${b + 1} 小节播放" ${notes.length ? "" : "disabled"}>${String(b + 1).padStart(2, "0")}</button><span>${escape(score.barAnnotations?.[String(b + 1)] ?? (b === 0 ? tuningName() : ""))}</span></div><div class="staff"><div class="staff-labels">${[
       ...score.tuning,
     ]
       .reverse()
@@ -477,7 +477,7 @@ function animate() {
   }
   frame = requestAnimationFrame(animate);
 }
-async function play() {
+async function play(countIn = true) {
   if (playing || playPending) {
     pause();
     status("已暂停。");
@@ -526,10 +526,10 @@ async function play() {
     $("#play").setAttribute("aria-label", "暂停");
     updatePosition();
     if (mode === "tempo") {
-      beginTempo(true);
+      beginTempo(countIn);
       timer = window.setInterval(schedule, 25);
       status(
-        Number($<HTMLSelectElement>("#count-in").value)
+        countIn && Number($<HTMLSelectElement>("#count-in").value)
           ? "预备拍… 跟着节拍进入。"
           : "正在按节拍播放。",
       );
@@ -614,15 +614,39 @@ $<HTMLInputElement>("#bpm").onchange = (e) =>
   setBpm(Number((e.target as HTMLInputElement).value));
 $("#slower").onclick = () => setBpm(Math.max(30, score.bpm - 5));
 $("#faster").onclick = () => setBpm(Math.min(240, score.bpm + 5));
+function seekTo(next: number) {
+  if (!Number.isInteger(next) || next < 0 || next >= score.events.length)
+    return;
+  pause();
+  completed = false;
+  index = next;
+  const range = bounds();
+  if (eventStarts[index] < range.start || eventStarts[index] >= range.end)
+    $<HTMLInputElement>("#loop").checked = false;
+  updatePosition();
+  // A direct seek plays immediately; the transport button retains count-in.
+  void play(false);
+}
 $("#score").onclick = (e) => {
-  const el = (e.target as HTMLElement).closest<HTMLElement>("[data-event]");
-  if (el) {
-    pause();
-    completed = false;
-    index = Number(el.dataset.event);
-    updatePosition();
-    status(`已定位到音符 ${index + 1}。`);
-  }
+  const target = e.target as HTMLElement;
+  const note = target.closest<HTMLElement>("[data-event]");
+  if (note) return seekTo(Number(note.dataset.event));
+  const bar = target.closest<HTMLButtonElement>("[data-bar-start]");
+  if (bar && !bar.disabled) return seekTo(Number(bar.dataset.barStart));
+  const staff = target.closest<HTMLElement>(".staff-body");
+  if (!staff) return;
+  // Also accept taps in the whitespace between note columns.
+  const notes = [...staff.querySelectorAll<HTMLElement>("[data-event]")];
+  const nearest = notes.reduce<HTMLElement | undefined>((best, candidate) => {
+    const rect = candidate.getBoundingClientRect();
+    const distance = Math.abs(e.clientX - (rect.left + rect.width / 2));
+    if (!best) return candidate;
+    const previous = best.getBoundingClientRect();
+    return distance < Math.abs(e.clientX - (previous.left + previous.width / 2))
+      ? candidate
+      : best;
+  }, undefined);
+  if (nearest) seekTo(Number(nearest.dataset.event));
 };
 ["#loop", "#loop-start", "#loop-end"].forEach((id) => {
   $(id).onchange = () => {
@@ -724,12 +748,15 @@ document.addEventListener("keydown", (e) => {
   if (
     e.code === "Space" &&
     !$<HTMLDialogElement>("#editor").open &&
-    !["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(
+    (!["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(
       (e.target as HTMLElement).tagName,
-    )
+    ) ||
+      Boolean(
+        (e.target as HTMLElement).closest("[data-event], [data-bar-start]"),
+      ))
   ) {
     e.preventDefault();
-    void play();
+    if (!e.repeat) void play();
   }
 });
 document.addEventListener("visibilitychange", () => {
