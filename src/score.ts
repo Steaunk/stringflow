@@ -2,6 +2,8 @@ import { STANDARD, parseNote } from "./music.ts";
 export interface TabNote {
   string: number;
   fret: number;
+  technique?: "harmonic" | "muted";
+  ghost?: boolean;
 }
 export interface TabEvent {
   beats: number;
@@ -9,6 +11,8 @@ export interface TabEvent {
 }
 export interface Score {
   version: 1;
+  id?: string;
+  barAnnotations?: Record<string, string>;
   title: string;
   artist: string;
   bpm: number;
@@ -35,6 +39,25 @@ export function validateScore(raw: unknown): Score {
     throw new Error(message);
   };
   if (!s || s.version !== 1) fail("谱子需要 version: 1。");
+  if (
+    s.id !== undefined &&
+    (typeof s.id !== "string" || !/^[a-z0-9-]{1,80}$/.test(s.id))
+  )
+    fail("曲目 id 只能包含小写字母、数字和短横线。");
+  if (
+    s.barAnnotations !== undefined &&
+    (typeof s.barAnnotations !== "object" ||
+      s.barAnnotations === null ||
+      Array.isArray(s.barAnnotations) ||
+      Object.entries(s.barAnnotations).some(
+        ([bar, text]) =>
+          !/^[1-9]\d{0,2}$/.test(bar) ||
+          Number(bar) > 512 ||
+          typeof text !== "string" ||
+          text.length > 120,
+      ))
+  )
+    fail("小节提示格式无效。");
   if (typeof s.title !== "string" || !s.title.trim() || s.title.length > 120)
     fail("标题须为 1–120 个字符。");
   if (typeof s.artist !== "string" || s.artist.length > 120)
@@ -84,6 +107,15 @@ export function validateScore(raw: unknown): Score {
         seen.has(n.string)
       )
         fail("音符需要不重复的 string 1–6，以及 fret 0–24。");
+      if (
+        n.technique !== undefined &&
+        !["harmonic", "muted"].includes(n.technique)
+      )
+        fail("technique 仅支持 harmonic / muted。");
+      if (n.technique === "harmonic" && n.fret !== 12)
+        fail("目前只支持第 12 品自然泛音。");
+      if (n.ghost !== undefined && typeof n.ghost !== "boolean")
+        fail("ghost 须为布尔值。");
       seen.add(n.string);
     }
   }

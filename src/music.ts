@@ -17,6 +17,7 @@ export const PRESETS: Record<string, number[]> = {
   Standard: STANDARD,
   "Drop D": [38, 45, 50, 55, 59, 64],
   DADGAD: [38, 45, 50, 55, 57, 62],
+  CGDGAD: [36, 43, 50, 55, 57, 62],
   "Open G": [38, 43, 50, 55, 59, 62],
 };
 export const frequency = (midi: number) => 440 * 2 ** ((midi - 69) / 12);

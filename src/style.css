@@ -1496,3 +1496,87 @@ dialog .fineprint {
     column-gap: 12px;
   }
 }
+
+.library-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.library-art {
+  flex-shrink: 0;
+}
+.art-3 {
+  background: #4b433c;
+  color: #e0cbaa;
+}
+.notation-note {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #887d98;
+  margin: -8px 0 20px;
+  padding: 12px 16px;
+  background: #f0edf6;
+  border: 1px solid #e4deef;
+  border-radius: 8px;
+}
+.detailed-score {
+  grid-template-columns: 1fr;
+}
+.detailed-score .tab-bar,
+.detailed-score .tab-bar:nth-child(even) {
+  padding: 0;
+}
+.fret.harmonic {
+  font-size: 10px;
+  min-width: 24px;
+  color: #8470b7;
+}
+.fret.muted {
+  color: #ae8171;
+}
+.fret.ghost {
+  font-size: 10px;
+  color: #999;
+}
+.song-info {
+  min-width: 0;
+}
+.song-info h2 {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 680px) {
+  .song-info h2 {
+    font-size: 17px;
+  }
+  .notation-note {
+    font-size: 10px;
+  }
+  .song-card > .text-button {
+    max-width: 55px;
+    white-space: normal;
+    flex-shrink: 0;
+  }
+  .detailed-score .fret {
+    font-size: 10px;
+  }
+  .detailed-score .fret.harmonic {
+    font-size: 8px;
+    min-width: 19px;
+  }
+  .detailed-score .fret.ghost {
+    font-size: 8px;
+  }
+}
+.tempo-control input {
+  width: 46px;
+}
+@media (max-width: 680px) {
+  .score-toolbar {
+    flex-wrap: wrap;
+  }
+  .score-toolbar b,
+  .score-toolbar .muted {
+    white-space: nowrap;
+  }
+}

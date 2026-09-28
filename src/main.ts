@@ -17,7 +17,9 @@ import {
   starts,
   validateScore,
 } from "./score.ts";
-import type { Score } from "./score.ts";
+import type { Score, TabNote } from "./score.ts";
+import { SOMETHING_JUST_LIKE_THIS } from "./songs/something-just-like-this.ts";
+const LIBRARY = [...DEMOS, SOMETHING_JUST_LIKE_THIS];
 
 const $ = <T extends HTMLElement = HTMLElement>(selector: string) =>
   document.querySelector<T>(selector)!;
@@ -38,6 +40,10 @@ try {
 } catch {
   /* Ignore obsolete or malformed saved scores. */
 }
+const requestedSong = LIBRARY.find(
+  (s) => s.id && s.id === new URLSearchParams(location.search).get("song"),
+);
+if (requestedSong) score = structuredClone(requestedSong);
 let eventStarts = starts(score),
   index = 0,
   playing = false,
@@ -67,6 +73,7 @@ $("#app").innerHTML = `
 <main><header class="topbar"><span>工作空间 <span class="slash">/</span> <b>练习室</b></span><div class="top-right"><span class="local-dot"></span> 本地音频处理 <span class="avatar">S</span></div></header>
 <div class="content"><section class="page-heading"><div><div class="eyebrow">LESS SCROLLING. MORE PLAYING.</div><h1>让音乐，自然流动<span>。</span></h1><p>把翻谱交给我们，专注指尖的每一个音。</p></div><button id="import-button" class="button secondary"><span>↥</span> 导入曲谱</button></section>
 <section class="song-card"><div class="song-art"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M30 80Q5 58 29 42q12-5 19 1l27-29 11 11-30 28q5 12-5 23-11 14-21 4Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="39" cy="60" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m24 74 51-51m-47 54 51-51M22 68l13 12" stroke="currentColor"/></svg></div><div class="song-info"><div class="song-eyebrow">ACOUSTIC GUITAR <span>·</span> 六线谱</div><h2 id="song-title"></h2><p id="song-artist"></p><div class="tags"><span id="tuning-tag"></span><span id="time-tag"></span><span id="capo-tag"></span></div></div><button id="edit-button" class="text-button">编辑曲谱 ↗</button></section>
+<p id="notation-note" class="notation-note" hidden></p>
 <div class="workspace"><div class="practice-column"><section class="transport card"><div class="mode-tabs" role="group" aria-label="播放模式"><button id="tempo-mode" class="selected">◷ 节拍播放</button><button id="follow-mode">⌁ 智能跟奏 <span>MIC</span></button></div><div class="transport-controls"><button id="rewind" class="icon-button" aria-label="回到开头">↤</button><button id="play" class="play-button" aria-label="播放">${iconPlay}</button><div class="tempo-control"><label for="bpm">速度 <span>♩ = BPM</span></label><div><button id="slower" aria-label="减慢速度">−</button><input id="bpm" type="number" min="30" max="240" aria-label="每分钟四分音符数"/><button id="faster" aria-label="加快速度">＋</button></div></div><div class="transport-divider"></div><label class="check-control"><input id="metronome" type="checkbox" checked/>节拍器</label><label class="check-control"><input id="sound" type="checkbox" checked/>示范音</label><label class="count-control">预备<select id="count-in" aria-label="预备小节"><option value="1">1 小节</option><option value="0">无</option><option value="2">2 小节</option></select></label></div><div class="transport-bottom"><span id="mode-help">按设定速度播放，谱面随当前音符自动滚动。</span><span id="beat-dots"></span></div></section>
 <section class="score-card card"><div class="score-toolbar"><div><span class="section-icon">≡</span><b>六线谱</b><span id="bar-position" class="muted"></span></div><div class="score-actions"><label class="check-control"><input id="loop" type="checkbox"/>循环</label><select id="loop-start" aria-label="循环起始小节"></select><span>—</span><select id="loop-end" aria-label="循环结束小节"></select><button id="export" class="icon-button" aria-label="导出 JSON 曲谱">↓</button></div></div><div class="progress-track"><div id="progress"></div></div><div id="score" class="score-scroll" tabindex="0" aria-label="六线谱，点击音符跳转"></div><div class="score-footer"><span><i class="legend-dot"></i> 当前音符</span><span>点击音符定位 · 空格播放 / 暂停</span></div></section>
 <div id="status" class="status" role="status" aria-live="polite">准备好了，从第一个音开始。</div><div class="practice-note"><span>✦</span><div><b>慢一点，也是在进步。</b><p>先让每一个音清晰，再一点点加快速度。</p></div><span class="note-lines">////</span></div></div>
@@ -122,10 +129,26 @@ function renderStrings() {
   $("#tuner-hint").textContent =
     `${score.capo ? `谱面 Capo ${score.capo}：${capo ? "按夹后空弦音高调音" : "先取下变调夹调准空弦，再夹到指定品位"}。` : "点击弦锁定目标，再次点击恢复自动选弦。"} 调音时请暂停示范音。`;
 }
+function fretLabel(n: TabNote) {
+  const value =
+    n.technique === "muted"
+      ? "×"
+      : n.technique === "harmonic"
+        ? `◇${n.fret}`
+        : String(n.fret);
+  return n.ghost ? `(${value})` : value;
+}
 function renderScore() {
   eventStarts = starts(score);
   const bar = beatsPerBar(score);
   $("#song-title").textContent = score.title;
+  const hasTechniques = score.events.some((e) =>
+    e.notes.some((n) => n.technique || n.ghost),
+  );
+  $("#notation-note").hidden = !hasTechniques;
+  $("#notation-note").textContent =
+    "谱面记号：◇12 自然泛音 · × 闷音/打板 · ( ) 弱奏 · P.M. 掌根制音。示范音为简化合成音，击勾弦、滑音和扫弦按离散音近似播放；此和弦谱请使用节拍模式。";
+  $("#score").classList.toggle("detailed-score", hasTechniques);
   $("#song-artist").textContent = score.artist;
   $("#tuning-tag").textContent =
     `${tuningName()} · ${score.tuning.map(noteName).join(" ")}`;
@@ -150,14 +173,14 @@ function renderScore() {
     const notes = score.events
       .map((event, i) => ({ event, i, beat: eventStarts[i] }))
       .filter((e) => e.beat >= b * bar && e.beat < (b + 1) * bar);
-    return `<div class="tab-bar" id="bar-${b}"><div class="bar-heading"><span>${String(b + 1).padStart(2, "0")}</span><span>${b === 0 ? escape(tuningName()) : ""}</span></div><div class="staff"><div class="staff-labels">${[
+    return `<div class="tab-bar" id="bar-${b}"><div class="bar-heading"><span>${String(b + 1).padStart(2, "0")}</span><span>${escape(score.barAnnotations?.[String(b + 1)] ?? (b === 0 ? tuningName() : ""))}</span></div><div class="staff"><div class="staff-labels">${[
       ...score.tuning,
     ]
       .reverse()
       .map((n) => `<span>${noteName(n).replace(/\d/g, "")}</span>`)
       .join(
         "",
-      )}</div><div class="staff-body">${Array.from({ length: 6 }, (_, i) => `<div class="staff-line" style="top:${i * 28 + 12}px"></div>`).join("")}${notes.map(({ event, i, beat }) => `<button class="tab-event" data-event="${i}" aria-label="音符 ${i + 1}，${event.notes.length ? event.notes.map((n) => `${n.string} 弦 ${n.fret} 品`).join("，") : "休止"}" style="left:${4 + ((beat - b * bar) / bar) * 90}%;width:${Math.min((event.beats / bar) * 90, 18)}%">${event.notes.length ? event.notes.map((n) => `<span class="fret" style="top:${(n.string - 1) * 28}px">${n.fret}</span>`).join("") : '<span class="rest">𝄽</span>'}<span class="rhythm">${event.beats < 1 ? "♪" : "♩"}</span></button>`).join("")}<div class="beat-labels">${Array.from({ length: score.timeSignature[0] }, (_, i) => `<span>${i + 1}</span>`).join("")}</div></div></div></div>`;
+      )}</div><div class="staff-body">${Array.from({ length: 6 }, (_, i) => `<div class="staff-line" style="top:${i * 28 + 12}px"></div>`).join("")}${notes.map(({ event, i, beat }) => `<button class="tab-event" data-event="${i}" aria-label="音符 ${i + 1}，${event.notes.length ? event.notes.map((n) => `${n.string} 弦 ${fretLabel(n)}`).join("，") : "休止"}" style="left:${4 + ((beat - b * bar) / bar) * 90}%;width:${Math.min((event.beats / bar) * 90, 18)}%">${event.notes.length ? event.notes.map((n) => `<span class="fret ${n.technique ?? ""} ${n.ghost ? "ghost" : ""}" style="top:${(n.string - 1) * 28}px">${fretLabel(n)}</span>`).join("") : '<span class="rest">𝄽</span>'}<span class="rhythm">${event.beats < 0.5 ? "♬" : event.beats < 1 ? "♪" : event.beats === 1.5 ? "♩·" : event.beats >= 4 ? "𝅝" : "♩"}</span></button>`).join("")}<div class="beat-labels">${Array.from({ length: score.timeSignature[0] }, (_, i) => `<span>${i + 1}</span>`).join("")}</div></div></div></div>`;
   });
   $("#score").innerHTML = bars.join("");
   $("#beat-dots").innerHTML = Array.from(
@@ -178,7 +201,7 @@ function updatePosition(scroll = true) {
     `${((eventStarts[index] ?? 0) / totalBeats()) * 100}%`;
   const e = score.events[index];
   $("#target-note").textContent = e.notes.length
-    ? `下一个音 · ${e.notes.map((n) => noteName(eventPitch(score, n))).join(" + ")}`
+    ? `下一个音 · ${e.notes.map((n) => (n.technique === "muted" ? "×" : noteName(eventPitch(score, n)))).join(" + ")}`
     : "下一拍 · 休止";
   if (scroll && b !== lastBar) {
     const bar = $(`#bar-${b}`),
@@ -360,11 +383,19 @@ function schedule() {
     const t = startTime + (eventStarts[nextEvent] - startBeat) * seconds;
     if (t > lookAhead) break;
     if (t >= ctx.currentTime - 0.03 && $<HTMLInputElement>("#sound").checked) {
-      for (const n of score.events[nextEvent].notes)
+      const event = score.events[nextEvent];
+      const when = Math.max(t, ctx.currentTime);
+      const pitched = event.notes.filter((n) => n.technique !== "muted");
+      if (event.notes.some((n) => n.technique === "muted"))
+        audio.percussion(when);
+      for (const n of pitched)
         audio.tone(
           frequency(eventPitch(score, n)),
-          Math.max(t, ctx.currentTime),
-          Math.min(score.events[nextEvent].beats * seconds * 0.9, 1.4),
+          when,
+          Math.min(event.beats * seconds * 0.9, 1.4),
+          false,
+          (n.ghost ? 0.45 : 1) / Math.sqrt(Math.max(1, pitched.length)),
+          n.technique === "harmonic",
         );
     }
     nextEvent++;
@@ -452,9 +483,14 @@ async function play() {
     status("已暂停。");
     return;
   }
-  if (mode === "follow" && score.events.some((e) => e.notes.length > 1)) {
+  if (
+    mode === "follow" &&
+    score.events.some(
+      (e) => e.notes.length > 1 || e.notes.some((n) => n.technique === "muted"),
+    )
+  ) {
     status(
-      "这份谱子包含同时发声的和弦，当前跟奏仅支持单音。请切换节拍播放。",
+      "这份谱子包含同时发声的和弦或打板，当前跟奏仅支持单音。请切换节拍播放。",
       true,
     );
     return;
@@ -508,6 +544,10 @@ function changeScore(next: Score) {
   pause();
   stopMic();
   score = next;
+  const url = new URL(location.href);
+  if (score.id) url.searchParams.set("song", score.id);
+  else url.searchParams.delete("song");
+  history.replaceState(null, "", url);
   completed = false;
   index = 0;
   selectedString = -1;
@@ -522,13 +562,14 @@ function openEditor(current: boolean) {
   $("#editor-error").textContent = "";
   $<HTMLDialogElement>("#editor").showModal();
 }
-$("#library").innerHTML = DEMOS.map(
+$("#library").innerHTML = LIBRARY.map(
   (s, i) =>
-    `<button class="library-item" data-demo="${i}"><span class="library-art art-${i}">♫</span><span>${escape(s.title)}<small>${i === 0 ? "Standard tuning" : i === 1 ? "Drop D" : "DADGAD · Capo 2"}</small></span><span class="library-arrow">↗</span></button>`,
+    `<button class="library-item" data-demo="${i}" title="${escape(s.title)}" aria-label="载入 ${escape(s.title)}"><span class="library-art art-${i}">♫</span><span class="library-title">${escape(s.title)}<small>${i === 0 ? "Standard tuning" : i === 1 ? "Drop D" : i === 2 ? "DADGAD · Capo 2" : "CGDGAD · Capo 5"}</small></span><span class="library-arrow">↗</span></button>`,
 ).join("");
 $("#library").addEventListener("click", (e) => {
   const button = (e.target as HTMLElement).closest<HTMLElement>("[data-demo]");
-  if (button) changeScore(structuredClone(DEMOS[Number(button.dataset.demo)]));
+  if (button)
+    changeScore(structuredClone(LIBRARY[Number(button.dataset.demo)]));
 });
 $("#play").onclick = () => void play();
 $("#rewind").onclick = () => {
