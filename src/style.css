@@ -1266,8 +1266,26 @@ main {
   min-height: 0;
   flex: 1;
   padding: 14px 18px;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
-  gap: 16px 24px;
+  --bars-per-row: 3;
+  --bar-min-width: 220px;
+  --bar-gap: 16px;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(
+      min(
+        100%,
+        max(
+          var(--bar-min-width),
+          calc(
+            (100% - (var(--bars-per-row) - 1) * var(--bar-gap)) /
+              var(--bars-per-row)
+          )
+        )
+      ),
+      1fr
+    )
+  );
+  gap: 16px var(--bar-gap);
   scroll-padding: 12px;
   overscroll-behavior: contain;
 }
@@ -1461,7 +1479,7 @@ main {
   font-size: 10px;
 }
 .large-score {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 570px), 1fr));
+  --bar-min-width: 300px;
 }
 .large-score .fret {
   font-size: 19px;
@@ -1582,11 +1600,7 @@ main {
     max-width: 45%;
   }
   .score-scroll {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
     gap: 16px;
-  }
-  .large-score {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));
   }
 }
 @media (max-width: 680px) {
@@ -2072,4 +2086,16 @@ main {
   .count-control {
     position: static;
   }
+}
+
+.score-actions {
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+
+.loop-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }

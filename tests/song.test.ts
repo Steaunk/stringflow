@@ -1,8 +1,10 @@
 import { test } from "node:test";
+import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import {
   SOMETHING_JUST_LIKE_THIS as song,
   songBars,
+  refreshSavedArrangement,
 } from "../src/songs/something-just-like-this.ts";
 import { eventPitch, parseScore, validateScore } from "../src/score.ts";
 import { noteName } from "../src/music.ts";
@@ -73,7 +75,7 @@ test("notation preserves opening rhythm, ghost notes, 12th-fret harmonics, and n
     [72, 74, 79],
   );
   assert.equal(bars[85].at(-1)?.beats, 1);
-  assert.equal(bars[99].at(-1)?.beats, 1);
+  assert.equal(bars[99].at(-1)?.beats, 0.5);
   assert.deepEqual(parseScore(JSON.stringify(song)), song);
 });
 test("import rejects unsupported special-note metadata", () => {
@@ -100,4 +102,93 @@ test("import rejects unsupported special-note metadata", () => {
   assert.throws(() =>
     validateScore({ ...song, barAnnotations: { 1: "x".repeat(121) } }),
   );
+});
+
+// Positions transcribed independently from the printed PDF; beats below start at zero.
+test("PDF audit preserves bar 19 melody alignment and the sparse bass in bars 10, 43 and 65", () => {
+  const bars = songBars();
+  const onString = (bar: number, string: number) => {
+    let beat = 0;
+    const result: number[][] = [];
+    for (const e of bars[bar - 1]) {
+      for (const n of e.notes)
+        if (n.string === string) result.push([beat, n.fret]);
+      beat += e.beats;
+    }
+    return result;
+  };
+  assert.deepEqual(onString(19, 3), [
+    [1.5, 2],
+    [2, 2],
+    [2.5, 2],
+  ]);
+  assert.deepEqual(onString(19, 2), [
+    [0, 3],
+    [3, 3],
+    [3.5, 2],
+  ]);
+  assert.deepEqual(onString(19, 6), [
+    [0, 0],
+    [0.5, 0],
+    [1, 0],
+    [1.5, 0],
+    [2, 0],
+    [2.5, 2],
+    [3, 2],
+    [3.5, 2],
+  ]);
+  assert.deepEqual(onString(10, 6), [
+    [0, 4],
+    [2.5, 2],
+  ]);
+  assert.deepEqual(onString(43, 6), [
+    [0, 0],
+    [1, 0],
+    [1.5, 0],
+    [2, 0],
+    [2.5, 2],
+    [3, 2],
+    [3.5, 2],
+  ]);
+  assert.deepEqual(onString(65, 6), [
+    [0, 0],
+    [1.5, 0],
+    [2.5, 2],
+    [3.5, 2],
+  ]);
+  assert.deepEqual(
+    bars[99].map((e) => e.beats),
+    Array(8).fill(0.5),
+  );
+  assert.deepEqual(onString(100, 3), [
+    [1, 0],
+    [2, 0],
+    [3, 0],
+  ]);
+  assert.deepEqual(onString(100, 1), [[2.5, 0]]);
+  assert.deepEqual(onString(100, 4), [
+    [0, 5],
+    [1.5, 5],
+    [3.5, 4],
+  ]);
+  assert.equal(song.events.length, 823);
+});
+test("saved previous library score receives corrections while user note edits and tempo survive", () => {
+  const previous = validateScore(
+    JSON.parse(
+      readFileSync(
+        new URL("./fixtures/something-before-2026-09-29.json", import.meta.url),
+        "utf8",
+      ),
+    ),
+  );
+  previous.bpm = 90;
+  const refreshed = refreshSavedArrangement(previous);
+  assert.deepEqual(refreshed.events, song.events);
+  assert.equal(refreshed.bpm, 90);
+  assert.equal(previous.events.length, 822);
+  const edited = structuredClone(previous);
+  edited.events[0].notes[0].fret = 1;
+  assert.deepEqual(refreshSavedArrangement(edited), edited);
+  assert.equal(refreshSavedArrangement(song), song);
 });

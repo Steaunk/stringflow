@@ -15,7 +15,7 @@ test("imported song opens directly, tunes according to the source, and renders a
     "CGDGAD · C2 G2 D3 G3 A3 D4",
   );
   await expect(page.locator(".tab-bar")).toHaveCount(101);
-  await expect(page.locator(".tab-event")).toHaveCount(822);
+  await expect(page.locator(".tab-event")).toHaveCount(823);
   await expect(page.locator("#bar-28 .harmonic").first()).toHaveText("◇12");
   await expect(page.locator("#bar-28 .muted").first()).toHaveText("×");
   await expect(page.locator("#bar-100 .rest")).toBeAttached();

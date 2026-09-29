@@ -100,3 +100,38 @@ test("harmonic audio sustains independently of notation and damps on the same st
   expect(energy.ring).toBeGreaterThan(0.01);
   expect(energy.damped).toBeLessThan(energy.ring * 0.01);
 });
+
+test("row count selects 3, 4 or 5 bars, persists across reload and adapts on mobile", async ({
+  page,
+}) => {
+  await page.goto("/?song=something-just-like-this");
+  const columns = () =>
+    page.locator("#score").evaluate((el) => {
+      const bars = [...el.querySelectorAll(".tab-bar")];
+      const top = bars[0].getBoundingClientRect().top;
+      return bars.filter(
+        (b) => Math.abs(b.getBoundingClientRect().top - top) < 1,
+      ).length;
+    });
+  for (const n of [3, 4, 5]) {
+    await page.locator("#bars-per-row").selectOption(String(n));
+    await expect.poll(columns).toBe(n);
+  }
+  await page.reload();
+  await expect(page.locator("#bars-per-row")).toHaveValue("5");
+  await expect.poll(columns).toBe(5);
+  await page.locator("#bar-18 .bar-start").click();
+  await expect(page.locator("#bar-position")).toHaveText("19 / 101 小节");
+  await expect(page.locator("#play")).toHaveAttribute("aria-label", "暂停");
+  await page.locator("#bars-per-row").selectOption("4");
+  await expect(page.locator("#play")).toHaveAttribute("aria-label", "暂停");
+  await page.locator("#play").click();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect.poll(columns).toBe(1);
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(390);
+  await page.locator("#bars-per-row").selectOption("3");
+  await page.setViewportSize({ width: 1440, height: 1080 });
+  await expect.poll(columns).toBe(3);
+});

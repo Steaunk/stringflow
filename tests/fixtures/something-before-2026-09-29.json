@@ -1,0 +1,5013 @@
+{
+  "version": 1,
+  "id": "something-just-like-this",
+  "title": "Something Just Like This",
+  "artist": "The Chainsmokers & Coldplay · Youngso Kim / 金永所改编",
+  "bpm": 112,
+  "timeSignature": [4, 4],
+  "tuning": [36, 43, 50, 55, 57, 62],
+  "capo": 5,
+  "letRing": true,
+  "events": [
+    {
+      "beats": 1,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 5 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 1,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5, "ghost": true }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 1, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 5 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 1,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    {
+      "beats": 1.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 5 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 4 }] },
+    {
+      "beats": 1.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    {
+      "beats": 1.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 5 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 4 }] },
+    {
+      "beats": 1.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 3, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 3 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0, "link": "pull" }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 4 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 4 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0, "link": "pull" }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 2 },
+        { "string": 2, "fret": 3 },
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 2 },
+        { "string": 2, "fret": 3 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 3 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 3 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 2 },
+        { "string": 2, "fret": 3 },
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 2 },
+        { "string": 2, "fret": 3 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 2 },
+        { "string": 2, "fret": 3 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 3 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 3, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0, "technique": "muted" },
+        { "string": 6, "fret": 0, "technique": "muted" }
+      ],
+      "strum": "down"
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" },
+        { "string": 6, "fret": 0, "technique": "muted" }
+      ],
+      "strum": "down"
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" },
+        { "string": 6, "fret": 0, "technique": "muted" }
+      ],
+      "strum": "down"
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 4 },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 5, "fret": 5 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 0 },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 2 },
+        { "string": 5, "fret": 0, "technique": "muted" },
+        { "string": 6, "fret": 0, "technique": "muted" }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 4 },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 5, "fret": 5 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 3, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0, "link": "pull" },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 2 },
+        { "string": 2, "fret": 3 },
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 2 },
+        { "string": 5, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 2 },
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 2 },
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 2 },
+        { "string": 2, "fret": 3 },
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 2 },
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 2 },
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 3, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0, "technique": "muted" },
+        { "string": 6, "fret": 0, "technique": "muted" }
+      ],
+      "strum": "down"
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 1,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 4 }
+      ],
+      "strum": "down"
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 4, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 4 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 4 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 7 },
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" },
+        { "string": 6, "fret": 0, "technique": "muted" }
+      ],
+      "strum": "down"
+    },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 5, "link": "slide" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 4 },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 5, "fret": 5 },
+        { "string": 6, "fret": 0 }
+      ],
+      "strum": "down"
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4 }] },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 4, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 5, "fret": 0, "technique": "muted" },
+        { "string": 6, "fret": 0, "technique": "muted" }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5, "link": "slide" }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0, "link": "pull" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4, "link": "hammer" }] },
+    {
+      "beats": 1,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 5, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 4, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 2, "link": "pull" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.25,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 5, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 0, "technique": "muted" }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 5, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 5, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 5 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 3 },
+        { "string": 4, "fret": 2 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 2 },
+        { "string": 4, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 5, "fret": 0, "technique": "muted" },
+        { "string": 6, "fret": 0, "technique": "muted" }
+      ],
+      "strum": "down"
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 4 },
+        { "string": 5, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ],
+      "percussion": "body-tap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 5, "link": "slide" },
+        { "string": 5, "fret": 4, "link": "slide" },
+        { "string": 6, "fret": 4, "link": "slide" }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 1,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 5, "link": "slide" },
+        { "string": 5, "fret": 4, "link": "slide" },
+        { "string": 6, "fret": 4, "link": "slide" }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" },
+        { "string": 6, "fret": 0, "technique": "muted" }
+      ],
+      "strum": "down"
+    },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 2 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 2, "fret": 0 },
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" },
+        { "string": 6, "fret": 0, "technique": "muted" }
+      ],
+      "strum": "down"
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "down"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "strum": "up"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0, "technique": "muted" },
+        { "string": 4, "fret": 0, "technique": "muted" },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ],
+      "percussion": "string-slap"
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 2 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ],
+      "palmMute": true
+    },
+    {
+      "beats": 0.5,
+      "notes": [{ "string": 6, "fret": 0, "ghost": true, "technique": "muted" }]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        {
+          "string": 1,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 2,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        },
+        {
+          "string": 3,
+          "fret": 12,
+          "technique": "harmonic",
+          "harmonicAttack": "tap"
+        }
+      ]
+    },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 4, "fret": 4 },
+        { "string": 5, "fret": 0, "technique": "muted" }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 4 }] },
+    {
+      "beats": 1,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 5 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 1,
+      "notes": [
+        { "string": 6, "fret": 4 },
+        { "string": 5, "fret": 4 },
+        { "string": 4, "fret": 5 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5, "ghost": true }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 1, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 0 },
+        { "string": 5, "fret": 0 },
+        { "string": 4, "fret": 5 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 6, "fret": 2 },
+        { "string": 5, "fret": 2 },
+        { "string": 4, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 1,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.25, "notes": [{ "string": 2, "fret": 2, "link": "hammer" }] },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 2 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 2, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 2, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 3, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 2 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 5, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 1,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 4 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 0 },
+        { "string": 6, "fret": 0 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 4 },
+        { "string": 5, "fret": 2 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 1, "fret": 0 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 4, "fret": 5 },
+        { "string": 5, "fret": 4 },
+        { "string": 6, "fret": 4 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 6, "fret": 4, "ghost": true }] },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 0.5, "notes": [{ "string": 4, "fret": 5 }] },
+    {
+      "beats": 0.5,
+      "notes": [
+        { "string": 1, "fret": 0 },
+        { "string": 6, "fret": 2 }
+      ]
+    },
+    { "beats": 0.5, "notes": [{ "string": 3, "fret": 0 }] },
+    { "beats": 1, "notes": [{ "string": 4, "fret": 4 }] },
+    { "beats": 4, "notes": [] }
+  ],
+  "barAnnotations": {
+    "1": "let ring",
+    "2": "let ring",
+    "3": "let ring",
+    "4": "let ring",
+    "5": "let ring",
+    "6": "let ring",
+    "7": "let ring",
+    "8": "let ring",
+    "9": "let ring",
+    "10": "let ring",
+    "11": "let ring",
+    "12": "let ring",
+    "13": "let ring",
+    "14": "let ring",
+    "15": "let ring",
+    "16": "let ring",
+    "17": "let ring",
+    "18": "let ring",
+    "19": "let ring",
+    "20": "let ring",
+    "21": "let ring",
+    "22": "let ring",
+    "23": "let ring",
+    "24": "let ring",
+    "25": "let ring",
+    "26": "let ring",
+    "27": "let ring",
+    "28": "闷弦 · let ring",
+    "29": "P.M. · Harm. · let ring",
+    "30": "P.M. · Harm. · let ring",
+    "31": "P.M. · Harm. · let ring",
+    "32": "闷弦 · let ring",
+    "33": "P.M. · Harm. · let ring",
+    "34": "P.M. · Harm. · let ring",
+    "35": "P.M. · Harm. · let ring",
+    "36": "P.M. · Harm. · let ring",
+    "37": "闷弦 · let ring",
+    "38": "闷弦 · let ring",
+    "39": "let ring",
+    "40": "let ring",
+    "41": "let ring",
+    "42": "let ring",
+    "43": "let ring",
+    "44": "let ring",
+    "45": "let ring",
+    "46": "let ring",
+    "47": "let ring",
+    "48": "let ring",
+    "49": "let ring",
+    "50": "let ring",
+    "51": "let ring",
+    "52": "闷弦 · let ring",
+    "53": "P.M. · Harm. · let ring",
+    "54": "P.M. · Harm. · let ring",
+    "55": "P.M. · Harm. · let ring",
+    "56": "扫弦 · 击弦 · 滑音 · let ring",
+    "57": "P.M. · Harm. · let ring",
+    "58": "P.M. · Harm. · let ring",
+    "59": "P.M. · Harm. · let ring",
+    "60": "P.M. · Harm. · let ring",
+    "61": "let ring",
+    "62": "let ring",
+    "63": "let ring",
+    "64": "let ring",
+    "65": "let ring",
+    "66": "let ring",
+    "67": "let ring",
+    "68": "闷弦 · let ring",
+    "69": "let ring",
+    "70": "let ring",
+    "71": "let ring",
+    "72": "let ring",
+    "73": "let ring",
+    "74": "let ring",
+    "75": "let ring",
+    "76": "let ring",
+    "77": "let ring",
+    "78": "闷弦 · let ring",
+    "79": "let ring",
+    "80": "let ring",
+    "81": "let ring",
+    "82": "闷弦 · let ring",
+    "83": "let ring",
+    "84": "闷弦 · let ring",
+    "85": "P.M. · Harm. · let ring",
+    "86": "P.M. · Harm. · let ring",
+    "87": "P.M. · Harm. · let ring",
+    "88": "滑音 · 扫弦 · let ring",
+    "89": "P.M. · Harm. · let ring",
+    "90": "P.M. · Harm. · let ring",
+    "91": "P.M. · Harm. · let ring",
+    "92": "P.M. · Harm. · let ring",
+    "93": "let ring",
+    "94": "let ring",
+    "95": "let ring",
+    "96": "let ring",
+    "97": "let ring",
+    "98": "let ring",
+    "99": "let ring",
+    "100": "let ring",
+    "101": "全小节休止 · 结束"
+  }
+}
