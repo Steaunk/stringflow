@@ -1,7 +1,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { ScoreFollower } from "../src/follower.ts";
-import { TimingPractice, practiceTargets } from "../src/practice.ts";
+import {
+  TimingPractice,
+  practiceTargets,
+  practiceScoreKey,
+  reportMatchesScore,
+} from "../src/practice.ts";
 import type { ListeningFrame } from "../src/listening.ts";
 import { DEMOS } from "../src/score.ts";
 const frame = (
@@ -148,4 +153,39 @@ test("late attacks remain eligible while their spectrum is being confirmed", () 
   const row = p.update(frame([60]), 1390, 0.78);
   assert.equal(row?.result, "late");
   assert.equal(row?.offsetMs, 150);
+});
+
+test("timing reports follow the score identity, not coincidentally matching note indices", () => {
+  const score = structuredClone(DEMOS[0]);
+  const rows = practiceTargets(score).map((t) => ({
+    ...t,
+    result: "on-time" as const,
+    offsetMs: 0,
+  }));
+  const report = {
+    title: score.title,
+    scoreKey: practiceScoreKey(score),
+    date: "",
+    bpm: score.bpm,
+    barBeats: 4,
+    beatUnit: 1,
+    startBeat: 0,
+    endBeat: 32,
+    completed: true,
+    latencyMs: 0,
+    rows,
+  };
+  assert.equal(reportMatchesScore(report, score), true);
+  score.bpm = 120;
+  assert.equal(reportMatchesScore(report, score), true);
+  assert.equal(
+    reportMatchesScore({ ...report, scoreKey: undefined }, score),
+    true,
+  );
+  score.events[0].notes[0].fret++;
+  assert.equal(reportMatchesScore(report, score), false);
+  assert.equal(
+    reportMatchesScore({ ...report, scoreKey: undefined }, score),
+    false,
+  );
 });

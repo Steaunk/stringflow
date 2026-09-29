@@ -90,13 +90,17 @@ test("clock-led microphone practice keeps clicking, tracks early/late/missed not
     timeout: 8000,
   });
   await expect(page.locator("#practice-results")).toBeVisible();
-  await page.locator("#practice-results summary").click();
-  const rows = page.locator("#practice-rows tr");
-  await expect(rows).toHaveCount(4);
-  await expect(rows.nth(0)).toHaveClass("result-early");
-  await expect(rows.nth(1)).toHaveClass("result-late");
-  await expect(rows.nth(2)).toHaveClass("result-unheard");
-  await expect(rows.nth(3)).toHaveClass(/result-(on-time|late)/);
+  const notes = page.locator(".tab-event");
+  await expect(notes.nth(0)).toHaveAttribute("data-timing", "early");
+  await expect(notes.nth(1)).toHaveAttribute("data-timing", "late");
+  await expect(notes.nth(2)).toHaveAttribute("data-timing", "unheard");
+  await expect(notes.nth(3)).toHaveAttribute("data-timing", /on-time|late/);
+  const colors = await notes.evaluateAll((els) =>
+    els
+      .slice(0, 3)
+      .map((el) => getComputedStyle(el.querySelector(".fret")!).color),
+  );
+  expect(new Set(colors).size).toBe(3);
   await expect(page.locator('[data-event="3"]')).toHaveClass(/heard/);
   const state = await page.evaluate(() => {
     const s = window as unknown as {
@@ -117,11 +121,47 @@ test("clock-led microphone practice keeps clicking, tracks early/late/missed not
     .slice(1)
     .forEach((t, i) => expect(t - state.clicks[i]).toBeCloseTo(0.5, 5));
   await page.reload();
-  await page.locator("#practice-results summary").click();
-  await expect(page.locator("#practice-rows tr")).toHaveCount(4);
+  await expect(page.locator(".tab-event[data-timing]")).toHaveCount(4);
+  await expect(page.locator('[data-event="0"]')).toHaveAttribute(
+    "data-timing",
+    "early",
+  );
+  await page.locator('[data-event="0"]').hover();
+  await expect(page.locator("#timing-detail")).toContainText("提前");
+  await page.locator("#toggle-timing").click();
+  await expect(page.locator(".tab-event[data-timing]")).toHaveCount(0);
+  await page.locator("#toggle-timing").click();
+  await expect(page.locator(".tab-event[data-timing]")).toHaveCount(4);
   const download = page.waitForEvent("download");
   await page.locator("#export-practice").click();
   expect((await download).suggestedFilename()).toBe("stringflow-practice.json");
+  await page.evaluate(() => {
+    const reports = JSON.parse(localStorage.getItem("stringflow-practice")!);
+    const other = structuredClone(reports[0]);
+    other.rows[0].result = "late";
+    other.rows[0].offsetMs = 140;
+    localStorage.setItem(
+      "stringflow-practice",
+      JSON.stringify([other, ...reports]),
+    );
+  });
+  await page.reload();
+  await expect(page.locator('[data-event="0"]')).toHaveAttribute(
+    "data-timing",
+    "late",
+  );
+  await page.locator("#practice-history").selectOption("1");
+  await expect(page.locator('[data-event="0"]')).toHaveAttribute(
+    "data-timing",
+    "early",
+  );
+  await page.locator("#edit-button").click();
+  const changed = JSON.parse(await page.locator("#score-input").inputValue());
+  changed.events[0].notes[0].fret = 1;
+  await page.locator("#score-input").fill(JSON.stringify(changed));
+  await page.locator("#apply-score").click();
+  await expect(page.locator(".tab-event[data-timing]")).toHaveCount(0);
+  await expect(page.locator("#timing-detail")).toContainText("不匹配");
   expect(errors).toEqual([]);
 });
 test("free following recovers from a missed note without advancing again on its tail", async ({
@@ -170,8 +210,7 @@ test("silent practice finishes, count-in cancellation saves no empty run, and mo
   await expect(page.locator("#play")).toHaveAttribute("aria-label", "播放", {
     timeout: 5000,
   });
-  await page.locator("#practice-results summary").click();
-  await expect(page.locator("#practice-rows .result-unheard")).toHaveCount(4);
+  await expect(page.locator(".tab-event[data-timing=unheard]")).toHaveCount(4);
   await page.screenshot({ path: "/tmp/stringflow-practice-mobile.png" });
 });
 

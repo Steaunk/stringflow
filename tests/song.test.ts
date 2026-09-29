@@ -192,3 +192,28 @@ test("saved previous library score receives corrections while user note edits an
   assert.deepEqual(refreshSavedArrangement(edited), edited);
   assert.equal(refreshSavedArrangement(song), song);
 });
+
+test("bars 46 and 51 preserve sparse bass attacks and upgrade the previous library copy", () => {
+  const bar = songBars()[45];
+  assert.deepEqual(bar[1], { beats: 0.5, notes: [{ string: 4, fret: 0 }] });
+  assert.deepEqual(
+    bar.map((e) => e.notes.find((n) => n.string === 6)?.fret ?? null),
+    [4, null, 4, 4, 4, 2, 2, 2],
+  );
+  assert.deepEqual(songBars()[50][2], {
+    beats: 0.25,
+    notes: [{ string: 2, fret: 0 }],
+  });
+  const previous = structuredClone(song);
+  let beat = 0;
+  for (const event of previous.events) {
+    if (beat === 45 * 4 + 0.5) event.notes.push({ string: 6, fret: 4 });
+    if (beat === 50 * 4 + 0.75) event.notes.push({ string: 6, fret: 0 });
+    beat += event.beats;
+  }
+  previous.bpm = 85;
+  assert.deepEqual(refreshSavedArrangement(previous).events, song.events);
+  assert.equal(refreshSavedArrangement(previous).bpm, 85);
+  previous.events[0].notes[0].fret = 1;
+  assert.deepEqual(refreshSavedArrangement(previous), previous);
+});

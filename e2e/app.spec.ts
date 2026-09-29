@@ -104,13 +104,7 @@ test("mobile layout fits viewport and editor is usable", async ({ page }) => {
   await expect(page.locator("#score-input")).toBeVisible();
   await page.locator("#apply-score").click();
   await expect(page.locator("#song-title")).toHaveText("我的第一段旋律");
-  await page.screenshot({ path: "test-results/mobile.png", fullPage: true });
 });
-test("desktop interface screenshot", async ({ page }) => {
-  await page.goto("/");
-  await page.screenshot({ path: "test-results/desktop.png", fullPage: true });
-});
-
 test("selecting a distant note automatically scrolls its bar into view", async ({
   page,
 }) => {

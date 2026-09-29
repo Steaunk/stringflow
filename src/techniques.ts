@@ -45,7 +45,7 @@ export function techniqueDescription(event: TabEvent) {
         : "上扫 1 弦到 6 弦"
       : "",
     event.percussion === "body-tap"
-      ? "拍琴身"
+      ? "拍击"
       : event.percussion === "string-slap"
         ? "拍弦"
         : "",

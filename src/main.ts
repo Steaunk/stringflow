@@ -8,7 +8,12 @@ import "./style.css";
 import { AudioEngine } from "./audio.ts";
 import { beatX, rhythmMarkup, restSymbol } from "./notation.ts";
 import { ScoreFollower } from "./follower.ts";
-import { practiceTargets, TimingPractice } from "./practice.ts";
+import {
+  practiceTargets,
+  TimingPractice,
+  practiceScoreKey,
+  reportMatchesScore,
+} from "./practice.ts";
 import type { PracticeReport, TimingRow } from "./practice.ts";
 import { ListeningAnalyzer, targetMatch } from "./listening.ts";
 import {
@@ -67,6 +72,8 @@ let eventStarts = starts(score),
 let targets = practiceTargets(score);
 let practice: TimingPractice | null = null;
 let reports: PracticeReport[] = [];
+let timingMarksVisible = true;
+let timingElements = new Map<number, HTMLElement>();
 try {
   reports = JSON.parse(localStorage.getItem("stringflow-practice") ?? "[]")
     .filter(
@@ -103,8 +110,8 @@ $("#app").innerHTML = `
 <div class="content">
 <section class="song-card"><div class="song-info"><h1 id="song-title"></h1><p id="song-artist"></p></div><div class="tags"><span id="tuning-tag"></span><span id="time-tag"></span><span id="capo-tag"></span></div></section>
 <div class="workspace"><div class="practice-column"><section class="transport card"><div class="mode-tabs" role="group" aria-label="播放模式"><button id="tempo-mode" class="selected">◷ 节拍播放</button><button id="follow-mode">⌁ 智能跟奏 <span>MIC</span></button><button id="practice-mode">◷ 节拍跟随 <span>MIC</span></button></div><div class="transport-controls"><button id="rewind" class="icon-button" aria-label="回到开头">↤</button><button id="play" class="play-button" aria-label="播放">${iconPlay}</button><div class="tempo-control"><label for="bpm">速度 <span>♩ = BPM</span></label><div><button id="slower" aria-label="减慢速度">−</button><input id="bpm" type="number" min="30" max="240" aria-label="每分钟四分音符数"/><button id="faster" aria-label="加快速度">＋</button></div></div><div class="transport-divider"></div><label class="check-control"><input id="metronome" type="checkbox" checked/>节拍器</label><label class="check-control"><input id="sound" type="checkbox" checked/>示范音</label><label class="count-control">预备<select id="count-in" aria-label="预备小节"><option value="1">1 小节</option><option value="0">无</option><option value="2">2 小节</option></select></label></div><div class="transport-bottom"><span id="mode-help">按设定速度播放，谱面随当前音符自动滚动。</span><span id="beat-dots"></span></div></section>
-<section id="follow-panel" class="follow-panel card" hidden aria-label="跟奏状态"><div class="follow-feedback"><b id="target-note"></b><span id="follow-heard">点击播放开启麦克风</span></div><div class="follow-input"><meter id="follow-level" min="0" max="1" value="0" aria-label="麦克风输入音量"></meter><span id="follow-signal">未开启</span></div><span id="played-position" hidden>尚未识别弹奏位置</span><button id="follow-next" class="text-button" aria-label="手动跳到下一音">跳过 ›</button></section><section class="score-card card"><div class="score-toolbar"><div><span class="section-icon">≡</span><b>六线谱</b><span id="bar-position" class="muted"></span><span id="ring-tag" class="muted" hidden>let ring</span></div><div class="score-actions"><label class="zoom-control">谱面<select id="score-size" aria-label="谱面大小"><option value="normal">标准</option><option value="large">放大</option></select></label><label class="zoom-control" title="窄屏或放大谱面时会自动减少每行小节数">每行<select id="bars-per-row" aria-label="每行小节数"><option value="3">3 小节</option><option value="4">4 小节</option><option value="5">5 小节</option></select></label><button id="focus-score" class="text-button" aria-pressed="false">专注</button><div class="loop-controls"><label class="check-control"><input id="loop" type="checkbox"/>循环</label><select id="loop-start" aria-label="循环起始小节"></select><span>—</span><select id="loop-end" aria-label="循环结束小节"></select></div><button id="export" class="icon-button" aria-label="导出 JSON 曲谱">↓</button></div></div><div class="progress-track"><div id="progress"></div></div><div id="score" class="score-scroll" tabindex="0" aria-label="六线谱，点击音符或小节从此播放"></div><div class="score-footer"><details class="notation-key"><summary>记号 / 音色</summary><label class="tone-setting">泛音空间 <select id="harmonic-space" aria-label="泛音空间"><option value="0">干声</option><option value="0.2">自然</option><option value="0.38" selected>空灵</option></select></label><label id="latency-control" hidden>输入延迟补偿 <input id="input-latency" type="number" min="-300" max="500" step="10" value="0" aria-label="输入延迟补偿毫秒"/> ms</label><p id="notation-note"></p><p>下方数字是拍点，&amp; 是半拍。单符杠：八分音符；双符杠：十六分音符；圆点：附点。</p></details><span>点击音符 / 小节播放 · 空格暂停 / 继续</span></div></section>
-<details id="practice-results" class="practice-results card" hidden><summary>练习记录 <span id="practice-summary"></span></summary><div class="report-controls"><select id="practice-history" aria-label="历史练习"></select><button id="export-practice" class="text-button">导出记录</button></div><p class="fineprint">偏差为麦克风检测估计，±80 ms 内记为合拍；“未识别”不等于弹错。仅在本机保存最近 5 次记录。</p><div class="report-table"><table><thead><tr><th>小节 / 拍</th><th>音高</th><th>节奏偏差</th></tr></thead><tbody id="practice-rows"></tbody></table></div></details><div id="status" class="status" role="status" aria-live="polite">已就绪。</div></div>
+<section id="follow-panel" class="follow-panel card" hidden aria-label="跟奏状态"><div class="follow-feedback"><b id="target-note"></b><span id="follow-heard">点击播放开启麦克风</span></div><div class="follow-input"><meter id="follow-level" min="0" max="1" value="0" aria-label="麦克风输入音量"></meter><span id="follow-signal">未开启</span></div><span id="played-position" hidden>尚未识别弹奏位置</span><button id="follow-next" class="text-button" aria-label="手动跳到下一音">跳过 ›</button></section><section class="score-card card"><div class="score-toolbar"><div><span class="section-icon">≡</span><b>六线谱</b><span id="bar-position" class="muted"></span><span id="ring-tag" class="muted" hidden>let ring</span></div><div class="score-actions"><label class="zoom-control">谱面<select id="score-size" aria-label="谱面大小"><option value="normal">标准</option><option value="large">放大</option></select></label><label class="zoom-control" title="窄屏或放大谱面时会自动减少每行小节数">每行<select id="bars-per-row" aria-label="每行小节数"><option value="3">3 小节</option><option value="4">4 小节</option><option value="5">5 小节</option></select></label><button id="focus-score" class="text-button" aria-pressed="false">专注</button><div class="loop-controls"><label class="check-control"><input id="loop" type="checkbox"/>循环</label><select id="loop-start" aria-label="循环起始小节"></select><span>—</span><select id="loop-end" aria-label="循环结束小节"></select></div><button id="export" class="icon-button" aria-label="导出 JSON 曲谱">↓</button></div></div><section id="practice-results" class="practice-results" hidden aria-label="谱面练习记录"><div class="report-controls"><label>练习记录 <select id="practice-history" aria-label="历史练习"></select></label><span id="practice-summary"></span><button id="toggle-timing" class="text-button" aria-pressed="true">隐藏标记</button><button id="export-practice" class="text-button">导出记录</button></div><div class="timing-legend" aria-label="节奏颜色图例"><span class="legend-early">偏快 · 提前</span><span class="legend-late">偏慢 · 拖后</span><span class="legend-on-time">合拍</span><span class="legend-unheard">未识别</span><span id="timing-detail" role="status">音符颜色表示节奏偏差</span></div></section><div class="progress-track"><div id="progress"></div></div><div id="score" class="score-scroll" tabindex="0" aria-label="六线谱，点击音符或小节从此播放"></div><div class="score-footer"><details class="notation-key"><summary>记号 / 音色</summary><label class="tone-setting">泛音空间 <select id="harmonic-space" aria-label="泛音空间"><option value="0">干声</option><option value="0.2">自然</option><option value="0.38" selected>空灵</option></select></label><label id="latency-control" hidden>输入延迟补偿 <input id="input-latency" type="number" min="-300" max="500" step="10" value="0" aria-label="输入延迟补偿毫秒"/> ms</label><p id="notation-note"></p><p>下方数字是拍点，&amp; 是半拍。单符杠：八分音符；双符杠：十六分音符；圆点：附点。</p></details><span>点击音符 / 小节播放 · 空格暂停 / 继续</span></div></section>
+<div id="status" class="status" role="status" aria-live="polite">已就绪。</div></div>
 </div></div></main><dialog id="tuner" aria-label="随谱调音"><section class="tuner-card card"><div class="panel-heading"><h3>调音器</h3><button id="close-tuner" class="icon-button" aria-label="关闭调音器">×</button></div><p class="panel-description">按谱面定弦调音。</p><select id="tuning-preset" aria-label="调弦方案"></select><div class="tuner-display"><span id="tuner-state" class="tuner-state">等待麦克风</span><div id="detected-note" class="detected-note">—<small>轻拨一根空弦</small></div><div class="tuner-scale"><span>偏低</span><span>准</span><span>偏高</span><div class="scale-lines"></div><div id="needle" class="needle"></div></div><div id="cents" class="cents">— cents</div><div id="frequency" class="frequency">A4 = 440 Hz</div></div><div id="strings" class="strings"></div><label class="check-control capo-check"><input id="tune-capo" type="checkbox"/>已夹变调夹，按夹后空弦调音</label><button id="mic-button" class="button mic-button">◉ 开启麦克风</button><button id="reference" class="text-button reference">♪ 播放选中弦的参考音</button><p id="tuner-hint" class="fineprint"></p></section>
 <p id="tuner-feedback" role="status"></p></dialog>
 <dialog id="editor"><form method="dialog"><div class="dialog-heading"><div><h2>导入 / 编辑曲谱</h2></div><button class="icon-button" aria-label="关闭编辑器">×</button></div></form><p>支持 JSON 曲谱与等时值文本六线谱；图片、PDF 和 Guitar Pro 尚未支持。</p><div class="editor-actions"><label class="button secondary file-button">选择文件<input id="file" type="file" accept=".json,.txt,.tab"/></label><button id="ascii-example" class="text-button">文本谱示例</button><button id="json-current" class="text-button">当前谱 JSON</button></div><textarea id="score-input" spellcheck="false" aria-label="曲谱内容"></textarea><p class="fineprint">文本谱：1 弦到 6 弦排列，品数按列对齐；@step 以四分音符为单位。@tuning 从低音 6 弦到高音 1 弦。变调夹用 @capo 指定。</p><p id="editor-error" class="error" role="alert"></p><div class="dialog-footer"><span>只保存于当前浏览器</span><button id="apply-score" class="button primary">载入曲谱 →</button></div></dialog>`;
@@ -182,7 +189,7 @@ function renderScore() {
   );
   $("#notation-note").hidden = !hasTechniques;
   $("#notation-note").textContent =
-    "H + 弧线：击弦 · P + 弧线：勾弦 · S + 斜线：滑音 · ↑：6→1 弦下扫 · ↓：1→6 弦上扫 · 拍：拍琴身 · 拍弦 / ×：无固定音高的弦击打 · P.M.：掌根制音 · ◇12：八度泛音 · T.H.：拍泛音（品位相对变调夹） · ( )：弱奏 · let ring：保留余音。";
+    "H + 弧线：击弦 · P + 弧线：勾弦 · S + 斜线：滑音 · ↑：6→1 弦下扫 · ↓：1→6 弦上扫 · 拍：拍击（原谱未注明部位） · 拍弦 / ×：无固定音高的弦击打 · P.M.：掌根制音 · ◇12：八度泛音 · T.H.：拍泛音（品位相对变调夹） · ( )：弱奏 · let ring：保留余音。";
 
   $("#song-artist").textContent = score.artist;
   $("#tuning-tag").textContent =
@@ -219,6 +226,12 @@ function renderScore() {
       )}</div><div class="staff-body">${Array.from({ length: 6 }, (_, i) => `<div class="staff-line" style="top:${i * 22 + 10}px"></div>`).join("")}${notes.map(({ event, i, beat }) => `<button class="tab-event" data-event="${i}" aria-label="音符 ${i + 1}，${event.notes.length ? event.notes.map((n) => `${n.string} 弦 ${fretLabel(n)}`).join("，") : event.percussion ? "拍击" : "休止"}${techniqueDescription(event) ? `，${techniqueDescription(event)}` : ""}" title="${event.beats} 拍${techniqueDescription(event) ? ` · ${techniqueDescription(event)}` : ""}" style="left:${beatX(beat - b * bar, bar)}%">${event.notes.length ? event.notes.map((n) => `<span class="fret ${n.technique ?? ""} ${n.ghost ? "ghost" : ""}" style="top:${(n.string - 1) * 22}px">${fretLabel(n)}</span>`).join("") : event.percussion ? `<span class="percussion-hit">${event.percussion === "body-tap" ? "✦" : "×"}</span>` : `<span class="rest">${restSymbol(event.beats)}</span>`}</button>`).join("")}${techniqueMarkup(score, eventStarts, b, bar, links)}${rhythmMarkup(notes, b * bar, bar, score.timeSignature)}<div class="beat-labels">${Array.from({ length: score.timeSignature[0] * 2 }, (_, i) => `<span class="${i % 2 ? "offbeat" : "onbeat"}" style="left:${beatX(i * (2 / score.timeSignature[1]), bar)}%">${i % 2 ? "&" : i / 2 + 1}</span>`).join("")}</div><div class="beat-grid" aria-hidden="true">${Array.from({ length: score.timeSignature[0] }, (_, i) => `<i style="left:${beatX(i * (4 / score.timeSignature[1]), bar)}%"></i>`).join("")}</div><div class="playhead" aria-hidden="true"></div></div></div></div>`;
   });
   $("#score").innerHTML = bars.join("");
+  timingElements = new Map(
+    [...document.querySelectorAll<HTMLElement>(".tab-event")].map((el) => [
+      Number(el.dataset.event),
+      el,
+    ]),
+  );
   $("#score").scrollTop = 0;
   $("#beat-dots").innerHTML = Array.from(
     { length: score.timeSignature[0] },
@@ -400,10 +413,11 @@ function onFollowFrame(samples: Float32Array, sampleRate: number, now: number) {
     const beat = clockBeat();
     if (beat >= endBeat) return;
     const row = practice.update(frame, now, beat);
+    paintTimingRows(practice.rows);
     if (row) {
       document.querySelector(".tab-event.heard")?.classList.remove("heard");
       const el = $(`[data-event="${row.index}"]`);
-      el?.classList.add("heard", `timing-${row.result}`);
+      el?.classList.add("heard");
       $("#played-position").textContent =
         `检测位置 ${locationLabel(row.beat, beatsPerBar(score), 4 / score.timeSignature[1])} · ${resultLabel(row)}`;
     }
@@ -600,7 +614,14 @@ function beginTempo(countIn: boolean, anchor?: number) {
     : 0;
   startTime = anchor ?? ctx.currentTime + 0.07 + (count * 60) / score.bpm;
   if (mode === "practice") {
-    $<HTMLDetailsElement>("#practice-results").open = false;
+    clearTimingMarks();
+    timingMarksVisible = true;
+    $("#practice-results").hidden = false;
+    $("#practice-history").innerHTML = "<option>本次练习 · 进行中</option>";
+    $<HTMLSelectElement>("#practice-history").disabled = true;
+    $<HTMLButtonElement>("#export-practice").disabled = true;
+    $("#practice-summary").textContent = "";
+    updateTimingToggle();
     practice = new TimingPractice(
       targets,
       score.bpm,
@@ -610,15 +631,8 @@ function beginTempo(countIn: boolean, anchor?: number) {
       practiceFollower,
     );
     document
-      .querySelectorAll(".heard, .timing-early, .timing-late, .timing-on-time")
-      .forEach((el) =>
-        el.classList.remove(
-          "heard",
-          "timing-early",
-          "timing-late",
-          "timing-on-time",
-        ),
-      );
+      .querySelectorAll(".heard")
+      .forEach((el) => el.classList.remove("heard"));
     $("#played-position").textContent = "尚未识别弹奏位置";
   }
   nextEvent = index;
@@ -758,6 +772,7 @@ function changeScore(next: Score) {
   selectedString = -1;
   lastBar = -1;
   renderScore();
+  renderReports();
   status("曲谱已载入，定弦与变调夹已同步。");
 }
 function openEditor(current: boolean) {
@@ -1093,6 +1108,7 @@ function savePractice(complete: boolean) {
   if (rows.length) {
     reports.unshift({
       title: score.title,
+      scoreKey: practiceScoreKey(score),
       date: new Date().toISOString(),
       bpm: score.bpm,
       barBeats: beatsPerBar(score),
@@ -1109,14 +1125,56 @@ function savePractice(complete: boolean) {
     } catch {
       status("浏览器存储已满，本次记录仍可导出。", true);
     }
-    renderReports();
   }
   practice = null;
+  renderReports();
+}
+function clearTimingMarks() {
+  for (const el of timingElements.values()) {
+    if (!el.dataset.timing) continue;
+    el.classList.remove(`timing-${el.dataset.timing}`);
+    delete el.dataset.timing;
+    el.title = el.dataset.noteTitle ?? "";
+    el.setAttribute("aria-label", el.dataset.noteLabel ?? "");
+    delete el.dataset.timingDetail;
+  }
+  $("#timing-detail").textContent = "音符颜色表示节奏偏差";
+}
+function paintTimingRows(rows: TimingRow[]) {
+  if (!timingMarksVisible) return;
+  for (const row of rows) {
+    if (row.result === "pending") continue;
+    const el = timingElements.get(row.index);
+    if (!el || el.dataset.timing === row.result) continue;
+    el.dataset.noteTitle ??= el.title;
+    el.dataset.noteLabel ??= el.getAttribute("aria-label") ?? "";
+    if (el.dataset.timing) el.classList.remove(`timing-${el.dataset.timing}`);
+    el.dataset.timing = row.result;
+    el.classList.add(`timing-${row.result}`);
+    const detail = `${locationLabel(row.beat, beatsPerBar(score), 4 / score.timeSignature[1])} · ${resultLabel(row)}`;
+    el.dataset.timingDetail = detail;
+    el.title = `${el.dataset.noteTitle} · ${detail}`;
+    el.setAttribute(
+      "aria-label",
+      `${el.dataset.noteLabel}，${resultLabel(row)}`,
+    );
+  }
+}
+function updateTimingToggle() {
+  $("#toggle-timing").textContent = timingMarksVisible
+    ? "隐藏标记"
+    : "显示标记";
+  $("#toggle-timing").setAttribute("aria-pressed", String(timingMarksVisible));
 }
 function renderReports(selected = 0) {
+  clearTimingMarks();
   $("#practice-results").hidden = !reports.length;
   if (!reports.length) return;
-  $("#practice-history").innerHTML = reports
+  selected = Math.max(0, Math.min(reports.length - 1, selected));
+  const history = $<HTMLSelectElement>("#practice-history");
+  history.disabled = false;
+  $<HTMLButtonElement>("#export-practice").disabled = false;
+  history.innerHTML = reports
     .map(
       (r, i) =>
         `<option value="${i}" ${i === selected ? "selected" : ""}>${escape(r.title)} · ${escape(new Date(r.date).toLocaleString())} · ${r.bpm} BPM${r.completed ? "" : " · 部分练习"}</option>`,
@@ -1126,16 +1184,28 @@ function renderReports(selected = 0) {
   const count = (result: string) =>
     report.rows.filter((r) => r.result === result).length;
   $("#practice-summary").textContent =
-    `合拍 ${count("on-time")} · 提前 ${count("early")} · 拖后 ${count("late")} · 未识别 ${count("unheard")}`;
-  $("#practice-rows").innerHTML = report.rows
-    .map(
-      (r) =>
-        `<tr class="result-${escape(r.result)}"><td>${locationLabel(r.beat, report.barBeats, report.beatUnit ?? 1)}</td><td>${r.pitches.map(noteName).join(" + ") || "拍击"}</td><td>${escape(resultLabel(r))}</td></tr>`,
-    )
-    .join("");
+    `合拍 ${count("on-time")} · 偏快 ${count("early")} · 偏慢 ${count("late")} · 未识别 ${count("unheard")}`;
+  if (reportMatchesScore(report, score)) paintTimingRows(report.rows);
+  else $("#timing-detail").textContent = "此记录与当前曲谱不匹配，未标记音符。";
+  updateTimingToggle();
 }
-$("#practice-history").onchange = () =>
+$("#practice-history").onchange = () => {
+  timingMarksVisible = true;
   renderReports(Number($<HTMLSelectElement>("#practice-history").value));
+};
+$("#toggle-timing").onclick = () => {
+  timingMarksVisible = !timingMarksVisible;
+  clearTimingMarks();
+  if (practice) paintTimingRows(practice.rows);
+  else renderReports(Number($<HTMLSelectElement>("#practice-history").value));
+  updateTimingToggle();
+};
+for (const event of ["pointerover", "focusin"])
+  $("#score").addEventListener(event, (e) => {
+    const el = (e.target as HTMLElement).closest<HTMLElement>("[data-timing]");
+    if (el?.dataset.timingDetail)
+      $("#timing-detail").textContent = el.dataset.timingDetail;
+  });
 $("#export-practice").onclick = () => {
   const report =
     reports[Number($<HTMLSelectElement>("#practice-history").value)];
