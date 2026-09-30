@@ -110,7 +110,6 @@ export function techniqueMarkup(
     const x1 = from < begin ? 0 : beatX(from - begin, barBeats);
     const x2 = to >= end ? 99 : beatX(to - begin, barBeats);
     if (x2 <= x1) continue;
-    const label = { hammer: "H", pull: "P", slide: "S", tie: "⌒" }[link.kind];
     const path =
       link.kind === "slide"
         ? link.toFret > link.fromFret
@@ -118,7 +117,7 @@ export function techniqueMarkup(
           : "M 3 3 L 97 15"
         : "M 2 16 Q 50 -5 98 16";
     items.push(
-      `<span class="note-link ${link.kind}" data-link="${link.kind}" data-link-from="${link.from}" data-link-to="${link.to}" data-link-string="${link.string}" style="left:${x1}%;width:${x2 - x1}%;top:${(link.string - 1) * 22 - 12}px" title="${LINK_NAMES[link.kind]}"><svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path d="${path}" vector-effect="non-scaling-stroke"/></svg><b>${label}</b></span>`,
+      `<span class="note-link ${link.kind}" data-link="${link.kind}" data-link-from="${link.from}" data-link-to="${link.to}" data-link-string="${link.string}" style="left:${x1}%;width:${x2 - x1}%;top:${(link.string - 1) * 22 - 12}px" title="${LINK_NAMES[link.kind]}"><svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path d="${path}" vector-effect="non-scaling-stroke"/></svg></span>`,
     );
   }
   return `<div class="technique-overlay" aria-hidden="true">${items.join("")}</div>`;

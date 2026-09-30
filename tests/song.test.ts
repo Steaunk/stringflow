@@ -193,7 +193,7 @@ test("saved previous library score receives corrections while user note edits an
   assert.equal(refreshSavedArrangement(song), song);
 });
 
-test("bars 46 and 51 preserve sparse bass attacks and upgrade the previous library copy", () => {
+test("bars 46 and 51 preserve sparse bass attacks and all published copies upgrade safely", () => {
   const bar = songBars()[45];
   assert.deepEqual(bar[1], { beats: 0.5, notes: [{ string: 4, fret: 0 }] });
   assert.deepEqual(
@@ -206,6 +206,29 @@ test("bars 46 and 51 preserve sparse bass attacks and upgrade the previous libra
   });
   const previous = structuredClone(song);
   let beat = 0;
+  for (const event of previous.events) {
+    if (beat === 55 * 4 || beat === 87 * 4) delete event.palmMute;
+    if ([31 * 4 + 1, 31 * 4 + 3, 87 * 4 + 1, 87 * 4 + 3].includes(beat)) {
+      const at = event.notes.findIndex((n) => n.string === 5);
+      event.notes.splice(at, 0, { string: 4, fret: 0, technique: "muted" });
+    }
+    if (beat === 55 * 4 + 2 || beat === 55 * 4 + 2.5) {
+      event.notes.unshift({ string: 1, fret: 0 });
+      event.notes.find((n) => n.string === 3)!.fret = 0;
+    }
+    if (beat === 55 * 4 + 3)
+      event.notes.splice(3, 0, { string: 4, fret: 0, technique: "muted" });
+    beat += event.beats;
+  }
+  previous.barAnnotations![56] = "扫弦 · 击弦 · 滑音 · let ring";
+  previous.barAnnotations![88] = "滑音 · 扫弦 · let ring";
+  previous.barAnnotations![1] = "自定义说明";
+  const refreshed = refreshSavedArrangement(previous);
+  assert.deepEqual(refreshed.events, song.events);
+  assert.equal(refreshed.barAnnotations![56], "let ring");
+  assert.equal(refreshed.barAnnotations![88], "let ring");
+  assert.equal(refreshed.barAnnotations![1], "自定义说明");
+  beat = 0;
   for (const event of previous.events) {
     if (beat === 45 * 4 + 0.5) event.notes.push({ string: 6, fret: 4 });
     if (beat === 50 * 4 + 0.75) event.notes.push({ string: 6, fret: 0 });

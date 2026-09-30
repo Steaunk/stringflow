@@ -26,7 +26,9 @@ function snapshot(path) {
   return url;
 }
 const previousAudio = snapshot("src/audio.ts");
-const browser = await chromium.launch();
+const browser = await chromium.launch({
+  ignoreDefaultArgs: ["--disable-dev-shm-usage"],
+});
 const temp = mkdtempSync(join(tmpdir(), "stringflow-slap-"));
 try {
   const page = await browser.newPage();
@@ -40,6 +42,8 @@ try {
     "bars29-32-before",
     "bars29-32-after",
   ]) {
+    if (process.argv.length > 2 && !process.argv.slice(2).includes(name))
+      continue;
     const channels = await page.evaluate(
       async ({ name, base, previousAudio }) => {
         const previous = name.endsWith("before");

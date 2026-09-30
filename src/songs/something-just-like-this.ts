@@ -37,7 +37,7 @@ const rows: Record<number, string> = {
   29: "6:0+5:0+4:2 3:x+4:x+5:x 1:h12+2:h12+3:h12 6:0+5:0+4:2 6:2+5:2+4:4 6:gx 1:h12+2:h12+3:h12 6:2+5:2+4:4",
   30: "6:4+5:4+4:5 6:gx 1:h12+2:h12+3:h12 6:4+5:4+4:5 6:4+5:4+4:5 6:2+5:2+4:4 1:h12+2:h12+3:h12 6:2+5:2+4:4",
   31: "=29",
-  32: "3:0+4:5+5:x 4:5 2:0+3:0+4:x+5:x+6:x 2:0@0.25 2:2@0.25 2:2+6:4 2:0+6:2 1:0+2:0+3:0+4:x+5:x+6:x 3:0",
+  32: "3:0+4:5+5:x 4:5 2:0+3:0+5:x+6:x 2:0@0.25 2:2@0.25 2:2+6:4 2:0+6:2 1:0+2:0+3:0+5:x+6:x 3:0",
   33: "=29",
   34: "=30",
   35: "=29",
@@ -61,7 +61,7 @@ const rows: Record<number, string> = {
   53: "=29",
   54: "=30",
   55: "=29",
-  56: "4:5+5:4+6:4@1 4:5+5:4+6:4 3:0+4:5+5:4@0.25 3:4@0.25 1:0+2:0+3:0+4:5+5:4 1:0+2:0+3:0+4:5+5:4 1:7+2:0+3:0+4:x+5:x+6:x 1:5",
+  56: "4:5+5:4+6:4@1 4:5+5:4+6:4 3:0+4:5+5:4@0.25 3:4@0.25 2:0+3:4+4:5+5:4 2:0+3:0+4:5+5:4 1:7+2:0+3:0+5:x+6:x 1:5",
   57: "=29",
   58: "=30",
   59: "=29",
@@ -93,7 +93,7 @@ const rows: Record<number, string> = {
   85: "6:0+5:0+4:2 3:x+4:x+5:x 1:h12+2:h12+3:h12 6:0+5:0+4:2 6:2+5:2+4:4 6:2+5:2+4:4 3:x+4:4+5:2+6:2 4:5+5:4+6:4",
   86: "6:4+5:4+4:5 6:gx 1:h12+2:h12+3:h12 6:4+5:4+4:5 6:4+5:4+4:5 6:2+5:2+4:4 1:h12+2:h12+3:h12@1",
   87: "=29",
-  88: "3:0+4:5+5:4+6:4 4:5+5:4+6:4 2:0+3:0+4:x+5:x+6:x 2:0@0.25 2:2@0.25 2:2+6:4 2:0+6:2 1:0+2:0+3:0+4:x+5:x+6:x 3:0",
+  88: "3:0+4:5+5:4+6:4 4:5+5:4+6:4 2:0+3:0+5:x+6:x 2:0@0.25 2:2@0.25 2:2+6:4 2:0+6:2 1:0+2:0+3:0+5:x+6:x 3:0",
   89: "=29",
   90: "=30",
   91: "=29",
@@ -202,8 +202,10 @@ const palmMutes: Record<number, number[]> = {
   29: [0, 1.5, 2, 3.5],
   30: [0, 2.5],
   36: [0],
+  56: [0],
   85: [0, 1.5, 3.5],
   86: [0, 2.5],
+  88: [0],
 };
 // Downstroke travels 6 → 1, drawn ↑ on TAB (high string at the top).
 const strums: Record<number, [number, "down" | "up"][]> = {
@@ -323,8 +325,6 @@ export const SOMETHING_JUST_LIKE_THIS: Score = {
         ].includes(bar)
       )
         return [bar, "P.M. · Harm. · let ring"];
-      if (bar === 56) return [bar, "扫弦 · 击弦 · 滑音 · let ring"];
-      if (bar === 88) return [bar, "滑音 · 扫弦 · let ring"];
       if ([28, 32, 37, 38, 52, 68, 78, 82, 84].includes(bar))
         return [bar, "闷弦 · let ring"];
       return [bar, "let ring"];
@@ -339,8 +339,14 @@ export function refreshSavedArrangement(saved: Score): Score {
     ![822, 823].includes(saved.events.length)
   )
     return saved;
-  const previousRows = {
+  const lastRows = {
     ...rows,
+    32: "3:0+4:5+5:x 4:5 2:0+3:0+4:x+5:x+6:x 2:0@0.25 2:2@0.25 2:2+6:4 2:0+6:2 1:0+2:0+3:0+4:x+5:x+6:x 3:0",
+    88: "3:0+4:5+5:4+6:4 4:5+5:4+6:4 2:0+3:0+4:x+5:x+6:x 2:0@0.25 2:2@0.25 2:2+6:4 2:0+6:2 1:0+2:0+3:0+4:x+5:x+6:x 3:0",
+    56: "4:5+5:4+6:4@1 4:5+5:4+6:4 3:0+4:5+5:4@0.25 3:4@0.25 1:0+2:0+3:0+4:5+5:4 1:0+2:0+3:0+4:5+5:4 1:7+2:0+3:0+4:x+5:x+6:x 1:5",
+  };
+  const previousRows = {
+    ...lastRows,
     46: "2:2+6:4 4:0+6:4 3:0+6:4 2:2+6:4 2:2+6:4 2:2+6:2 2:2+6:2 1:0+6:2",
     51: "2:3+6:0 6:0@0.25 2:0+6:0@0.25 6:0 3:0+6:0 2:0+6:0 2:0+6:2 2:3+6:2 2:2+6:2",
   };
@@ -352,8 +358,38 @@ export function refreshSavedArrangement(saved: Score): Score {
       65: "3:0+6:0 4:0 1:0 3:0+6:0@0.25 3:2@0.25 3:4 3:0+6:2@0.25 3:2@0.25 3:4+6:2 6:2",
       100: "4:5+5:4+6:4 6:g4 3:0 4:5 1:0+6:2 3:0 4:4@1",
     });
-  const previous = songBars(previousRows).flat();
-  return JSON.stringify(saved.events) === JSON.stringify(previous)
-    ? { ...saved, events: structuredClone(SOMETHING_JUST_LIKE_THIS.events) }
-    : saved;
+  const legacyEvents = (source: Record<number, string>) => {
+    const bars = songBars(source);
+    // These two P.M. marks were absent from every earlier published version.
+    delete bars[55][0].palmMute;
+    delete bars[87][0].palmMute;
+    return bars.flat();
+  };
+  const serialized = JSON.stringify(saved.events);
+  const current = JSON.stringify(SOMETHING_JUST_LIKE_THIS.events);
+  const unchanged = serialized === current;
+  if (
+    !unchanged &&
+    ![lastRows, previousRows].some(
+      (source) => serialized === JSON.stringify(legacyEvents(source)),
+    )
+  )
+    return saved;
+  const barAnnotations = { ...saved.barAnnotations };
+  let cleaned = false;
+  for (const [bar, old] of [
+    [56, "扫弦 · 击弦 · 滑音 · let ring"],
+    [88, "滑音 · 扫弦 · let ring"],
+  ] as const) {
+    if (barAnnotations[bar] === old) {
+      barAnnotations[bar] = "let ring";
+      cleaned = true;
+    }
+  }
+  if (unchanged && !cleaned) return saved;
+  return {
+    ...saved,
+    events: structuredClone(SOMETHING_JUST_LIKE_THIS.events),
+    ...(cleaned ? { barAnnotations } : {}),
+  };
 }

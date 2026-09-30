@@ -1855,20 +1855,6 @@ main {
   stroke: currentColor;
   stroke-width: 1.3;
 }
-.note-link b {
-  position: absolute;
-  left: 50%;
-  top: -4px;
-  transform: translateX(-50%);
-  font:
-    9px ui-monospace,
-    monospace;
-  padding: 0 2px;
-  background: white;
-}
-.note-link.slide b {
-  top: 2px;
-}
 .strum-arrow {
   position: absolute;
   border-left: 1.5px solid #526c8a;

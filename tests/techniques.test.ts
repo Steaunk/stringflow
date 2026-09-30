@@ -24,7 +24,88 @@ const at = (bar: number, beat: number) => {
 test("source arcs, strum arrows, PM and body tap are attached to exact notes and beats", () => {
   assert.equal(at(8, 2.25).notes.find((n) => n.string === 2)?.link, "hammer");
   assert.equal(at(9, 3).notes[0].link, "pull");
+  // Bar 56 checked against the enlarged original: no high open string on beat 3,
+  // and only strings 5/6 are muted on beat 4. Each group below is one onset.
+  const bar56 = songBars()[55];
+  assert.deepEqual(
+    bar56.map((e) => e.beats),
+    [1, 0.5, 0.25, 0.25, 0.5, 0.5, 0.5, 0.5],
+  );
+  assert.deepEqual(
+    bar56.map((e) =>
+      e.notes.map((n) => [n.string, n.technique === "muted" ? "x" : n.fret]),
+    ),
+    [
+      [
+        [4, 5],
+        [5, 4],
+        [6, 4],
+      ],
+      [
+        [4, 5],
+        [5, 4],
+        [6, 4],
+      ],
+      [
+        [3, 0],
+        [4, 5],
+        [5, 4],
+      ],
+      [[3, 4]],
+      [
+        [2, 0],
+        [3, 4],
+        [4, 5],
+        [5, 4],
+      ],
+      [
+        [2, 0],
+        [3, 0],
+        [4, 5],
+        [5, 4],
+      ],
+      [
+        [1, 7],
+        [2, 0],
+        [3, 0],
+        [5, "x"],
+        [6, "x"],
+      ],
+      [[1, 5]],
+    ],
+  );
+  assert.equal(at(56, 1.75).notes[0].link, "hammer");
   assert.equal(at(56, 3.5).notes[0].link, "slide");
+  // P.M. positions read from all three printed pages, including both missed starts.
+  const expectedPM = new Map<number, number[]>();
+  for (const bar of [29, 31, 33, 35, 53, 55, 57, 59, 87, 89, 91])
+    expectedPM.set(bar, [0, 1.5, 2, 3.5]);
+  for (const bar of [30, 34, 54, 58, 86, 90]) expectedPM.set(bar, [0, 2.5]);
+  for (const bar of [36, 56, 60, 88, 92]) expectedPM.set(bar, [0]);
+  expectedPM.set(85, [0, 1.5, 3.5]);
+  for (const [i, bar] of songBars().entries()) {
+    let beat = 0;
+    const actual: number[] = [];
+    for (const e of bar) {
+      if (e.palmMute) actual.push(beat);
+      beat += e.beats;
+    }
+    assert.deepEqual(
+      actual,
+      expectedPM.get(i + 1) ?? [],
+      `P.M. in bar ${i + 1}`,
+    );
+  }
+  for (const bar of [32, 56, 88]) {
+    for (const beat of bar === 56 ? [3] : [1, 3]) {
+      assert.deepEqual(
+        at(bar, beat)
+          .notes.filter((n) => n.technique === "muted")
+          .map((n) => n.string),
+        [5, 6],
+      );
+    }
+  }
   assert.equal(at(29, 0).palmMute, true);
   assert.equal(at(29, 1).palmMute, undefined);
   assert.equal(at(29, 0.5).percussion, "string-slap");

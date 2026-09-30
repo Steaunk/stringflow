@@ -189,7 +189,7 @@ function renderScore() {
   );
   $("#notation-note").hidden = !hasTechniques;
   $("#notation-note").textContent =
-    "H + 弧线：击弦 · P + 弧线：勾弦 · S + 斜线：滑音 · ↑：6→1 弦下扫 · ↓：1→6 弦上扫 · 拍：拍击（原谱未注明部位） · 拍弦 / ×：无固定音高的弦击打 · P.M.：掌根制音 · ◇12：八度泛音 · T.H.：拍泛音（品位相对变调夹） · ( )：弱奏 · let ring：保留余音。";
+    "弧线：击弦 / 勾弦 · 斜线：滑音 · ↑：6→1 弦下扫 · ↓：1→6 弦上扫 · 拍：拍击（原谱未注明部位） · 拍弦 / ×：无固定音高的弦击打 · P.M.：掌根制音 · ◇12：八度泛音 · T.H.：拍泛音（品位相对变调夹） · ( )：弱奏 · let ring：保留余音。";
 
   $("#song-artist").textContent = score.artist;
   $("#tuning-tag").textContent =

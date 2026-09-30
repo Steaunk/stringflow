@@ -13,6 +13,27 @@ test("source performance symbols survive import/export and appear at their actua
     page.locator("#bar-28 .event-technique").filter({ hasText: "P.M." }),
   ).toHaveCount(4);
   await expect(page.locator('#bar-87 [data-link="slide"]')).toHaveCount(3);
+  await expect(page.locator(".note-link b")).toHaveCount(0);
+  for (const bar of [55, 87]) {
+    await expect(
+      page.locator(`#bar-${bar} .event-technique`).filter({ hasText: "P.M." }),
+    ).toHaveCount(1);
+    await expect(
+      page.locator(`#bar-${bar} .tab-event`).first(),
+    ).toHaveAttribute("aria-label", /掌根制音/);
+  }
+  await expect(page.locator("#bar-55 .bar-heading")).not.toContainText(
+    /扫弦|击弦|滑音/,
+  );
+  await expect(page.locator('#bar-55 [data-link="hammer"] path')).toHaveCount(
+    1,
+  );
+  await expect(page.locator('#bar-55 [data-link="slide"] path')).toHaveCount(1);
+  await expect(page.locator("#bar-55 .tab-event").nth(4)).toHaveAttribute(
+    "aria-label",
+    /2 弦 0，3 弦 4，4 弦 5，5 弦 4/,
+  );
+  await expect(page.locator("#bar-55 .muted")).toHaveCount(2);
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.locator("#bar-84").evaluate((el) => {
     const container = document.querySelector("#score")!;
@@ -157,7 +178,7 @@ test("clicking a down-strummed chord schedules low-to-high attacks without count
     expect(strokes[i].time - strokes[i - 1].time).toBeCloseTo(0.012, 4);
 });
 
-test("bar 32 sweeps three dead strings once, then sounds the upper strings in physical order", async ({
+test("bar 32 sweeps two dead strings once, then sounds the upper strings in physical order", async ({
   page,
 }) => {
   await page.goto("/?song=something-just-like-this");
@@ -213,11 +234,11 @@ test("bar 32 sweeps three dead strings once, then sounds the upper strings in ph
     return { brushes: s.brushes, percussion: s.percussion, notes: s.notes };
   });
   expect(state.brushes).toHaveLength(1);
-  expect(state.brushes[0][1]).toBe(3);
+  expect(state.brushes[0][1]).toBe(2);
   expect(state.percussion).toBe(0);
   const stroke = state.notes.filter((n) => n.time < state.brushes[0][0] + 0.08);
   expect(stroke.map((n) => n.string)).toEqual([3, 2]);
   expect(stroke.every((n) => n.strummed)).toBe(true);
-  expect(state.notes[0].time - state.brushes[0][0]).toBeCloseTo(0.036, 4);
+  expect(state.notes[0].time - state.brushes[0][0]).toBeCloseTo(0.024, 4);
   expect(state.notes[1].time - state.notes[0].time).toBeCloseTo(0.012, 4);
 });
