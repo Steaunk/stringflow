@@ -171,6 +171,26 @@ test("PDF audit preserves bar 19 melody alignment and the sparse bass in bars 10
     [1.5, 5],
     [3.5, 4],
   ]);
+  assert.deepEqual(onString(74, 3), [
+    [0, 4],
+    [1.5, 4],
+    [2, 4],
+    [2.5, 4],
+    [3, 4],
+    [3.5, 2],
+  ]);
+  assert.deepEqual(onString(74, 4), [[1, 0]]);
+  assert.deepEqual(onString(74, 6), [
+    [0, 4],
+    [0.5, 4],
+    [1, 4],
+    [1.5, 4],
+    [2, 4],
+    [2.5, 2],
+    [3, 2],
+  ]);
+  assert.ok(bars[73].every((e) => e.beats === 0.5));
+  assert.equal(bars[73][7].notes[0].link, "pull");
   assert.equal(song.events.length, 823);
 });
 test("saved previous library score receives corrections while user note edits and tempo survive", () => {
@@ -206,6 +226,18 @@ test("bars 46 and 51 preserve sparse bass attacks and all published copies upgra
   });
   const previous = structuredClone(song);
   let beat = 0;
+  for (const event of previous.events) {
+    if (beat === 73 * 4 + 0.5) event.notes.unshift({ string: 4, fret: 0 });
+    if (beat === 73 * 4 + 1) event.notes[0] = { string: 3, fret: 4 };
+    beat += event.beats;
+  }
+  previous.bpm = 89;
+  assert.deepEqual(refreshSavedArrangement(previous).events, song.events);
+  assert.equal(refreshSavedArrangement(previous).bpm, 89);
+  const userEdit = structuredClone(previous);
+  userEdit.events[0].notes[0].fret = 1;
+  assert.deepEqual(refreshSavedArrangement(userEdit), userEdit);
+  beat = 0;
   for (const event of previous.events) {
     if (beat === 55 * 4 || beat === 87 * 4) delete event.palmMute;
     if ([31 * 4 + 1, 31 * 4 + 3, 87 * 4 + 1, 87 * 4 + 3].includes(beat)) {
