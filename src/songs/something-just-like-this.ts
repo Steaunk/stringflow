@@ -1,8 +1,7 @@
 import type { Score, TabEvent, TabNote, NoteLink } from "../score.ts";
 
-// Local transcription of the user's score. One row per printed measure.
-// The PDF says Harm.; tap articulation is corroborated by the Youngso arrangement
-// transcriber notes: https://www.guitarworld.com.cn/pu/q13170 (see docs/harmonics.md).
+// Fingerstyle arrangement data, one row per printed measure.
+// The score says Harm.; tap articulation follows arrangement transcriber notes: https://www.guitarworld.com.cn/pu/q13170 (see docs/harmonics.md).
 // s:f = string:fret; + = simultaneous; @ = duration in quarter-note beats
 // (default 0.5); h12 = octave slap harmonic; x = muted; g = parenthesized ghost note.
 const rows: Record<number, string> = {
@@ -245,9 +244,9 @@ const strums: Record<number, [number, "down" | "up"][]> = {
   ],
 };
 
-export function songBars(sourceRows = rows): TabEvent[][] {
+export function songBars(): TabEvent[][] {
   const parseBar = (bar: number): TabEvent[] => {
-    const row = sourceRows[bar];
+    const row = rows[bar];
     if (!row) throw new Error(`Missing source bar ${bar}`);
     const events: TabEvent[] = row.startsWith("=")
       ? structuredClone(parseBar(Number(row.slice(1))))
@@ -299,7 +298,7 @@ export function songBars(sourceRows = rows): TabEvent[][] {
       throw new Error(`Bar ${bar} must contain exactly four beats`);
     return events;
   };
-  if (Object.keys(sourceRows).length !== 101)
+  if (Object.keys(rows).length !== 101)
     throw new Error("Expected 101 printed measures");
   return Array.from({ length: 101 }, (_, i) => parseBar(i + 1));
 }
@@ -331,70 +330,3 @@ export const SOMETHING_JUST_LIKE_THIS: Score = {
     }),
   ),
 };
-
-/** Upgrade only an exact copy of the previous built-in event data; retain edits and BPM. */
-export function refreshSavedArrangement(saved: Score): Score {
-  if (
-    saved.id !== SOMETHING_JUST_LIKE_THIS.id ||
-    ![822, 823].includes(saved.events.length)
-  )
-    return saved;
-  const auditedRows = {
-    ...rows,
-    74: "3:4+6:4 4:0+6:4 3:4+6:4 3:4+6:4 3:4+6:4 3:4+6:2 3:4+6:2 3:2",
-  };
-  const lastRows = {
-    ...auditedRows,
-    32: "3:0+4:5+5:x 4:5 2:0+3:0+4:x+5:x+6:x 2:0@0.25 2:2@0.25 2:2+6:4 2:0+6:2 1:0+2:0+3:0+4:x+5:x+6:x 3:0",
-    88: "3:0+4:5+5:4+6:4 4:5+5:4+6:4 2:0+3:0+4:x+5:x+6:x 2:0@0.25 2:2@0.25 2:2+6:4 2:0+6:2 1:0+2:0+3:0+4:x+5:x+6:x 3:0",
-    56: "4:5+5:4+6:4@1 4:5+5:4+6:4 3:0+4:5+5:4@0.25 3:4@0.25 1:0+2:0+3:0+4:5+5:4 1:0+2:0+3:0+4:5+5:4 1:7+2:0+3:0+4:x+5:x+6:x 1:5",
-  };
-  const previousRows = {
-    ...lastRows,
-    46: "2:2+6:4 4:0+6:4 3:0+6:4 2:2+6:4 2:2+6:4 2:2+6:2 2:2+6:2 1:0+6:2",
-    51: "2:3+6:0 6:0@0.25 2:0+6:0@0.25 6:0 3:0+6:0 2:0+6:0 2:0+6:2 2:3+6:2 2:2+6:2",
-  };
-  if (saved.events.length === 822)
-    Object.assign(previousRows, {
-      10: "2:2+6:4 4:4 3:0 1:0 3:0+6:2 4:4 3:0 2:0@0.25 2:2@0.25",
-      19: "2:3+6:0 6:0 3:2+6:0 3:2+6:0 3:2+6:0 2:3+6:2 2:2+6:2 6:2",
-      43: "2:2+6:0 2:0+6:0 2:0+6:0 3:2+6:0 2:0+6:0 3:2+6:2 2:0+6:2 3:0+6:2",
-      65: "3:0+6:0 4:0 1:0 3:0+6:0@0.25 3:2@0.25 3:4 3:0+6:2@0.25 3:2@0.25 3:4+6:2 6:2",
-      100: "4:5+5:4+6:4 6:g4 3:0 4:5 1:0+6:2 3:0 4:4@1",
-    });
-  const legacyEvents = (source: Record<number, string>) => {
-    const bars = songBars(source);
-    // These two P.M. marks were absent from every earlier published version.
-    delete bars[55][0].palmMute;
-    delete bars[87][0].palmMute;
-    return bars.flat();
-  };
-  const serialized = JSON.stringify(saved.events);
-  const current = JSON.stringify(SOMETHING_JUST_LIKE_THIS.events);
-  const unchanged = serialized === current;
-  if (
-    !unchanged &&
-    serialized !== JSON.stringify(songBars(auditedRows).flat()) &&
-    ![lastRows, previousRows].some(
-      (source) => serialized === JSON.stringify(legacyEvents(source)),
-    )
-  )
-    return saved;
-  const barAnnotations = { ...saved.barAnnotations };
-  let cleaned = false;
-  for (const [bar, old] of [
-    [56, "扫弦 · 击弦 · 滑音 · let ring"],
-    [88, "滑音 · 扫弦 · let ring"],
-  ] as const) {
-    if (barAnnotations[bar] === old) {
-      barAnnotations[bar] = "let ring";
-      cleaned = true;
-    }
-  }
-  if (unchanged && !cleaned) return saved;
-  return {
-    ...saved,
-    events: structuredClone(SOMETHING_JUST_LIKE_THIS.events),
-    ...(cleaned ? { barAnnotations } : {}),
-  };
-}

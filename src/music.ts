@@ -26,12 +26,3 @@ export const centsFrom = (hz: number, midi: number) =>
   1200 * Math.log2(hz / frequency(midi));
 export const noteName = (midi: number) =>
   `${NAMES[((Math.round(midi) % 12) + 12) % 12]}${Math.floor(Math.round(midi) / 12) - 1}`;
-export function parseNote(value: string): number {
-  const m = /^([A-Ga-g])([#♯b♭]?)(-?\d)$/.exec(value.trim());
-  if (!m) throw new Error(`无法识别音名 ${value}，请使用 E2、F#2 等格式。`);
-  return (
-    { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 }[m[1].toUpperCase()]! +
-    (m[2] === "#" || m[2] === "♯" ? 1 : m[2] ? -1 : 0) +
-    (Number(m[3]) + 1) * 12
-  );
-}

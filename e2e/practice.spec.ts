@@ -14,10 +14,15 @@ const score = {
   })),
 };
 async function setup(page: Page, timed: boolean) {
-  await page.addInitScript(
-    (s) => localStorage.setItem("stringflow-score", JSON.stringify(s)),
-    score,
-  );
+  // Supply a short built-in fixture through the dev module response only.
+  // Production no longer reads user-provided score data from localStorage.
+  await page.route("**/src/score.ts", async (route) => {
+    const response = await route.fetch();
+    await route.fulfill({
+      response,
+      body: `${await response.text()}\nDEMOS[0] = ${JSON.stringify(score)};`,
+    });
+  });
   await page.goto("/");
   await page.evaluate(async (timed) => {
     const path = "/src/audio.ts";
@@ -155,11 +160,8 @@ test("clock-led microphone practice keeps clicking, tracks early/late/missed not
     "data-timing",
     "early",
   );
-  await page.locator("#edit-button").click();
-  const changed = JSON.parse(await page.locator("#score-input").inputValue());
-  changed.events[0].notes[0].fret = 1;
-  await page.locator("#score-input").fill(JSON.stringify(changed));
-  await page.locator("#apply-score").click();
+  await page.locator("#toggle-library").click();
+  await page.locator('[data-demo="1"]').click();
   await expect(page.locator(".tab-event[data-timing]")).toHaveCount(0);
   await expect(page.locator("#timing-detail")).toContainText("不匹配");
   expect(errors).toEqual([]);

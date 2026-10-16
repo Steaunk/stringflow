@@ -1,6 +1,6 @@
 import { octaveHarmonicMidi } from "./harmonics.ts";
 import type { HarmonicAttack } from "./harmonics.ts";
-import { STANDARD, parseNote } from "./music.ts";
+import { STANDARD } from "./music.ts";
 export type NoteLink = "hammer" | "pull" | "slide" | "tie";
 export interface TabNote {
   string: number;
@@ -166,79 +166,8 @@ export function validateScore(raw: unknown): Score {
     }
   }
   if (s.events.reduce((sum, e) => sum + e.beats, 0) / beatsPerBar(s) > 512)
-    fail("曲谱最多支持 512 小节，请分段导入。");
+    fail("曲谱最多支持 512 小节。");
   return structuredClone(s);
-}
-export function parseScore(text: string): Score {
-  if (text.trimStart().startsWith("{")) return validateScore(JSON.parse(text));
-  const lines = text.trim().split(/\r?\n/);
-  const meta: Record<string, string> = {};
-  const rows: string[] = [];
-  for (const line of lines) {
-    if (!line.trim() || line.trimStart().startsWith("//")) continue;
-    const m = /^@(\w+)\s+(.+)$/.exec(line.trim());
-    if (m) meta[m[1]] = m[2];
-    else rows.push(line);
-  }
-  if (!rows.length || rows.length % 6)
-    throw new Error("文本谱每组须为六行，从 1 弦（高音）到 6 弦（低音）。");
-  const events: TabEvent[] = [];
-  const step = Number(meta.step ?? 0.5);
-  const signature = (meta.time ?? "4/4").split("/").map(Number) as [
-    number,
-    number,
-  ];
-  const barBeats = (signature[0] * 4) / signature[1];
-  for (let b = 0; b < rows.length; b += 6) {
-    const block = rows.slice(b, b + 6).map((row) => {
-      const pipe = row.indexOf("|");
-      if (pipe < 0) throw new Error("每行须包含 | 小节线。");
-      const body = row.slice(pipe + 1).trimEnd();
-      if (!body.endsWith("|") || /[^\d\-|\s]/.test(body))
-        throw new Error(
-          "文本谱仅支持品数、短横线和小节线；复杂节奏请用 JSON。",
-        );
-      return body.slice(0, -1).split("|");
-    });
-    if (block.some((row) => row.length !== block[0].length))
-      throw new Error("六根弦的小节数须一致。");
-    for (let bar = 0; bar < block[0].length; bar++) {
-      const parts = block.map((row) => row[bar]);
-      if (parts.some((p) => p.length !== parts[0].length))
-        throw new Error("六根弦的每小节字符数须一致，请对齐品数。");
-      const columns = new Map<number, TabNote[]>();
-      parts.forEach((part, stringIndex) => {
-        for (const match of part.matchAll(/\d+/g)) {
-          const col = match.index!;
-          columns.set(col, [
-            ...(columns.get(col) ?? []),
-            { string: stringIndex + 1, fret: Number(match[0]) },
-          ]);
-        }
-      });
-      const positions = [...columns.keys()].sort((a, b) => a - b);
-      if (
-        !positions.length ||
-        Math.abs(positions.length * step - barBeats) > 1e-6
-      )
-        throw new Error(
-          `文本谱每小节需 ${barBeats / step} 个起音列（@step ${step}）；不等长节奏与休止请用 JSON。`,
-        );
-      positions.forEach((p) =>
-        events.push({ beats: step, notes: columns.get(p)! }),
-      );
-    }
-  }
-  return validateScore({
-    version: 1,
-    title: meta.title ?? "我的练习曲",
-    artist: meta.artist ?? "导入的文本谱",
-    bpm: Number(meta.tempo ?? 80),
-    timeSignature: signature,
-    tuning: meta.tuning ? meta.tuning.split(/\s+/).map(parseNote) : STANDARD,
-    capo: Number(meta.capo ?? 0),
-    events,
-  });
 }
 const melody = [
   [6, 0],
@@ -317,4 +246,3 @@ export const DEMOS: Score[] = [
     ].map(([string, fret]) => ({ beats: 0.5, notes: [{ string, fret }] })),
   },
 ];
-export const ASCII_EXAMPLE = `@title 我的第一段旋律\n@artist 自定义文本谱\n@tempo 80\n@time 4/4\n@tuning E2 A2 D3 G3 B3 E4\n@capo 0\n@step 1\ne|--0--1--3--0--|\nB|--------------|\nG|--------------|\nD|--------------|\nA|--------------|\nE|--------------|`;

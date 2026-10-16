@@ -9,7 +9,7 @@ import {
   strokeNotes,
   techniqueMarkup,
 } from "../src/techniques.ts";
-import { parseScore, validateScore, starts } from "../src/score.ts";
+import { validateScore, starts } from "../src/score.ts";
 import { rhythmMarkup } from "../src/notation.ts";
 import { percussionSamples } from "../src/percussion.ts";
 
@@ -115,7 +115,7 @@ test("source arcs, strum arrows, PM and body tap are attached to exact notes and
   assert.equal(at(53, 0.5).percussion, "string-slap");
   assert.equal(at(52, 1.75).notes.find((n) => n.string === 2)?.link, "hammer");
   assert.equal(song.letRing, true);
-  assert.deepEqual(parseScore(JSON.stringify(song)), song);
+  assert.deepEqual(validateScore(song), song);
 });
 test("chord slide across bar 87/88 retains three independent source pitches and both drawn halves", () => {
   const timeline = starts(song),

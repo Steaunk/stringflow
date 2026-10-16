@@ -13,7 +13,7 @@ export interface TimingRow extends PracticeTarget {
 }
 export interface PracticeReport {
   title: string;
-  scoreKey?: string;
+  scoreKey: string;
   date: string;
   bpm: number;
   barBeats: number;
@@ -146,25 +146,5 @@ export function practiceScoreKey(score: Score) {
   return `score-v1-${hash.toString(16)}`;
 }
 export function reportMatchesScore(report: PracticeReport, score: Score) {
-  if (report.scoreKey) return report.scoreKey === practiceScoreKey(score);
-  // Earlier records had no identity. Require their actual targets to agree, never index alone.
-  if (
-    report.title !== score.title ||
-    report.barBeats !== (score.timeSignature[0] * 4) / score.timeSignature[1]
-  )
-    return false;
-  const targets = new Map(practiceTargets(score).map((t) => [t.index, t]));
-  return (
-    report.rows.length > 0 &&
-    report.rows.every((r) => {
-      const t = targets.get(r.index);
-      return (
-        t &&
-        t.beat === r.beat &&
-        t.percussive === r.percussive &&
-        JSON.stringify([...t.pitches].sort((a, b) => a - b)) ===
-          JSON.stringify([...r.pitches].sort((a, b) => a - b))
-      );
-    })
-  );
+  return report.scoreKey === practiceScoreKey(score);
 }

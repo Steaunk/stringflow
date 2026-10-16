@@ -23,20 +23,9 @@ import {
   midiFromHz,
   noteName,
 } from "./music.ts";
-import {
-  ASCII_EXAMPLE,
-  DEMOS,
-  beatsPerBar,
-  eventPitch,
-  parseScore,
-  starts,
-  validateScore,
-} from "./score.ts";
+import { DEMOS, beatsPerBar, eventPitch, starts } from "./score.ts";
 import type { Score, TabNote } from "./score.ts";
-import {
-  SOMETHING_JUST_LIKE_THIS,
-  refreshSavedArrangement,
-} from "./songs/something-just-like-this.ts";
+import { SOMETHING_JUST_LIKE_THIS } from "./songs/something-just-like-this.ts";
 const LIBRARY = [...DEMOS, SOMETHING_JUST_LIKE_THIS];
 
 const $ = <T extends HTMLElement = HTMLElement>(selector: string) =>
@@ -53,17 +42,26 @@ const audio = new AudioEngine(),
   follower = new ScoreFollower(),
   practiceFollower = new ScoreFollower(),
   listening = new ListeningAnalyzer();
-let score: Score = structuredClone(DEMOS[0]);
-try {
-  const saved = localStorage.getItem("stringflow-score");
-  if (saved) score = refreshSavedArrangement(validateScore(JSON.parse(saved)));
-} catch {
-  /* Ignore obsolete or malformed saved scores. */
-}
 const requestedSong = LIBRARY.find(
   (s) => s.id && s.id === new URLSearchParams(location.search).get("song"),
 );
-if (requestedSong) score = structuredClone(requestedSong);
+let score: Score = structuredClone(requestedSong ?? DEMOS[0]);
+try {
+  // Only restore a built-in selection and playback preferences, never score data.
+  const saved = JSON.parse(
+    localStorage.getItem("stringflow-playback") ?? "null",
+  );
+  const selected = Number.isInteger(saved?.libraryIndex)
+    ? LIBRARY[saved.libraryIndex]
+    : undefined;
+  if (selected && (!requestedSong || requestedSong === selected)) {
+    score = structuredClone(selected);
+    if (Number.isInteger(saved.bpm) && saved.bpm >= 30 && saved.bpm <= 240)
+      score.bpm = saved.bpm;
+  }
+} catch {
+  /* Ignore malformed playback preferences. */
+}
 let links = connections(score);
 let eventStarts = starts(score),
   index = 0,
@@ -78,11 +76,14 @@ try {
   reports = JSON.parse(localStorage.getItem("stringflow-practice") ?? "[]")
     .filter(
       (r: PracticeReport) =>
-        r && Array.isArray(r.rows) && Number.isFinite(r.bpm),
+        r &&
+        typeof r.scoreKey === "string" &&
+        Array.isArray(r.rows) &&
+        Number.isFinite(r.bpm),
     )
     .slice(0, 5);
 } catch {
-  /* Ignore obsolete local records. */
+  /* Ignore malformed local records. */
 }
 let startTime = 0,
   startBeat = 0,
@@ -105,16 +106,15 @@ const iconPlay =
 const iconPause =
   '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>';
 $("#app").innerHTML = `
-<div id="sidebar-shade" hidden></div><aside id="library-panel" class="sidebar" inert><button id="close-library" class="icon-button" aria-label="关闭曲库">×</button><a class="brand" href="${import.meta.env.BASE_URL}" aria-label="Stringflow 首页"><span class="brand-icon">≋</span>stringflow<span class="brand-dot">.</span></a><div class="nav-active"><span>♫</span> 六线谱练习室</div><div class="sidebar-label library-label">我的曲谱</div><div id="library"></div><button id="sidebar-import" class="sidebar-import">＋ 导入自己的曲谱</button></aside>
-<main><header class="topbar"><button id="toggle-library" class="button secondary" aria-expanded="false" aria-controls="library-panel">☰ 曲库</button><span class="app-name">stringflow<span>.</span></span><div class="top-right"><button id="open-tuner" class="button secondary">♮ 调音器</button><button id="import-button" class="button secondary">导入曲谱</button><button id="edit-button" class="text-button">编辑</button></div></header>
+<div id="sidebar-shade" hidden></div><aside id="library-panel" class="sidebar" inert><button id="close-library" class="icon-button" aria-label="关闭曲库">×</button><a class="brand" href="${import.meta.env.BASE_URL}" aria-label="Stringflow 首页"><span class="brand-icon">≋</span>stringflow<span class="brand-dot">.</span></a><div class="nav-active"><span>♫</span> 六线谱练习室</div><div class="sidebar-label library-label">内置曲库</div><div id="library"></div></aside>
+<main><header class="topbar"><button id="toggle-library" class="button secondary" aria-expanded="false" aria-controls="library-panel">☰ 曲库</button><span class="app-name">stringflow<span>.</span></span><div class="top-right"><button id="open-tuner" class="button secondary">♮ 调音器</button></div></header>
 <div class="content">
 <section class="song-card"><div class="song-info"><h1 id="song-title"></h1><p id="song-artist"></p></div><div class="tags"><span id="tuning-tag"></span><span id="time-tag"></span><span id="capo-tag"></span></div></section>
-<div class="workspace"><div class="practice-column"><section class="transport card"><div class="mode-tabs" role="group" aria-label="播放模式"><button id="tempo-mode" class="selected">◷ 节拍播放</button><button id="follow-mode">⌁ 智能跟奏 <span>MIC</span></button><button id="practice-mode">◷ 节拍跟随 <span>MIC</span></button></div><div class="transport-controls"><button id="rewind" class="icon-button" aria-label="回到开头">↤</button><button id="play" class="play-button" aria-label="播放">${iconPlay}</button><div class="tempo-control"><label for="bpm">速度 <span>♩ = BPM</span></label><div><button id="slower" aria-label="减慢速度">−</button><input id="bpm" type="number" min="30" max="240" aria-label="每分钟四分音符数"/><button id="faster" aria-label="加快速度">＋</button></div></div><div class="transport-divider"></div><label class="check-control"><input id="metronome" type="checkbox" checked/>节拍器</label><label class="check-control"><input id="sound" type="checkbox" checked/>示范音</label><label class="count-control">预备<select id="count-in" aria-label="预备小节"><option value="1">1 小节</option><option value="0">无</option><option value="2">2 小节</option></select></label></div><div class="transport-bottom"><span id="mode-help">按设定速度播放，谱面随当前音符自动滚动。</span><span id="beat-dots"></span></div></section>
-<section id="follow-panel" class="follow-panel card" hidden aria-label="跟奏状态"><div class="follow-feedback"><b id="target-note"></b><span id="follow-heard">点击播放开启麦克风</span></div><div class="follow-input"><meter id="follow-level" min="0" max="1" value="0" aria-label="麦克风输入音量"></meter><span id="follow-signal">未开启</span></div><span id="played-position" hidden>尚未识别弹奏位置</span><button id="follow-next" class="text-button" aria-label="手动跳到下一音">跳过 ›</button></section><section class="score-card card"><div class="score-toolbar"><div><span class="section-icon">≡</span><b>六线谱</b><span id="bar-position" class="muted"></span><span id="ring-tag" class="muted" hidden>let ring</span></div><div class="score-actions"><label class="zoom-control">谱面<select id="score-size" aria-label="谱面大小"><option value="normal">标准</option><option value="large">放大</option></select></label><label class="zoom-control" title="窄屏或放大谱面时会自动减少每行小节数">每行<select id="bars-per-row" aria-label="每行小节数"><option value="3">3 小节</option><option value="4">4 小节</option><option value="5">5 小节</option></select></label><button id="focus-score" class="text-button" aria-pressed="false">专注</button><div class="loop-controls"><label class="check-control"><input id="loop" type="checkbox"/>循环</label><select id="loop-start" aria-label="循环起始小节"></select><span>—</span><select id="loop-end" aria-label="循环结束小节"></select></div><button id="export" class="icon-button" aria-label="导出 JSON 曲谱">↓</button></div></div><section id="practice-results" class="practice-results" hidden aria-label="谱面练习记录"><div class="report-controls"><label>练习记录 <select id="practice-history" aria-label="历史练习"></select></label><span id="practice-summary"></span><button id="toggle-timing" class="text-button" aria-pressed="true">隐藏标记</button><button id="export-practice" class="text-button">导出记录</button></div><div class="timing-legend" aria-label="节奏颜色图例"><span class="legend-early">偏快 · 提前</span><span class="legend-late">偏慢 · 拖后</span><span class="legend-on-time">合拍</span><span class="legend-unheard">未识别</span><span id="timing-detail" role="status">音符颜色表示节奏偏差</span></div></section><div class="progress-track"><div id="progress"></div></div><div id="score" class="score-scroll" tabindex="0" aria-label="六线谱，点击音符或小节从此播放"></div><div class="score-footer"><details class="notation-key"><summary>记号 / 音色</summary><label class="tone-setting">泛音空间 <select id="harmonic-space" aria-label="泛音空间"><option value="0">干声</option><option value="0.2">自然</option><option value="0.38" selected>空灵</option></select></label><label id="latency-control" hidden>输入延迟补偿 <input id="input-latency" type="number" min="-300" max="500" step="10" value="0" aria-label="输入延迟补偿毫秒"/> ms</label><p id="notation-note"></p><p>下方数字是拍点，&amp; 是半拍。单符杠：八分音符；双符杠：十六分音符；圆点：附点。</p></details><span>点击音符 / 小节播放 · 空格暂停 / 继续</span></div></section>
+<div class="workspace"><div class="practice-column"><section class="transport card"><div class="mode-tabs" role="group" aria-label="播放模式"><button id="tempo-mode" class="selected">◷ 节拍播放</button><button id="follow-mode">⌁ 智能跟奏 <span>MIC</span></button><button id="practice-mode">◷ 节拍跟随 <span>MIC</span></button></div><div class="transport-controls"><button id="rewind" class="icon-button" aria-label="回到开头">↤</button><button id="play" class="play-button" aria-label="播放" aria-keyshortcuts="Space" title="播放 / 暂停（空格）">${iconPlay}</button><div class="tempo-control"><label for="bpm">速度 <span>♩ = BPM</span></label><div><button id="slower" aria-label="减慢速度">−</button><input id="bpm" type="number" min="30" max="240" aria-label="每分钟四分音符数"/><button id="faster" aria-label="加快速度">＋</button></div></div><div class="transport-divider"></div><label class="check-control"><input id="metronome" type="checkbox" checked/>节拍器</label><label class="check-control"><input id="sound" type="checkbox" checked/>示范音</label><label class="count-control">预备<select id="count-in" aria-label="预备小节"><option value="1">1 小节</option><option value="0">无</option><option value="2">2 小节</option></select></label></div><div class="transport-bottom"><span id="mode-help">按设定速度播放，谱面随当前音符自动滚动。</span><span id="beat-dots"></span></div></section>
+<section id="follow-panel" class="follow-panel card" hidden aria-label="跟奏状态"><div class="follow-feedback"><b id="target-note"></b><span id="follow-heard">点击播放开启麦克风</span></div><div class="follow-input"><meter id="follow-level" min="0" max="1" value="0" aria-label="麦克风输入音量"></meter><span id="follow-signal">未开启</span></div><span id="played-position" hidden>尚未识别弹奏位置</span><button id="follow-next" class="text-button" aria-label="手动跳到下一音">跳过 ›</button></section><section class="score-card card"><div class="score-toolbar"><div><span class="section-icon">≡</span><b>六线谱</b><span id="bar-position" class="muted"></span><span id="ring-tag" class="muted" hidden>let ring</span></div><div class="score-actions"><label class="zoom-control">谱面<select id="score-size" aria-label="谱面大小"><option value="normal">标准</option><option value="large">放大</option></select></label><label class="zoom-control" title="窄屏或放大谱面时会自动减少每行小节数">每行<select id="bars-per-row" aria-label="每行小节数"><option value="3">3 小节</option><option value="4">4 小节</option><option value="5">5 小节</option></select></label><button id="focus-score" class="text-button" aria-pressed="false">专注</button><div class="loop-controls"><label class="check-control"><input id="loop" type="checkbox"/>循环</label><select id="loop-start" aria-label="循环起始小节"></select><span>—</span><select id="loop-end" aria-label="循环结束小节"></select></div><button id="export" class="icon-button" aria-label="导出 JSON 曲谱">↓</button></div></div><section id="practice-results" class="practice-results" hidden aria-label="谱面练习记录"><div class="report-controls"><label>练习记录 <select id="practice-history" aria-label="历史练习"></select></label><span id="practice-summary"></span><button id="toggle-timing" class="text-button" aria-pressed="true">隐藏标记</button><button id="export-practice" class="text-button">导出记录</button></div><div class="timing-legend" aria-label="节奏颜色图例"><span class="legend-early">偏快 · 提前</span><span class="legend-late">偏慢 · 拖后</span><span class="legend-on-time">合拍</span><span class="legend-unheard">未识别</span><span id="timing-detail" role="status">音符颜色表示节奏偏差</span></div></section><div class="progress-track"><div id="progress"></div></div><div id="score" class="score-scroll" tabindex="0" aria-label="六线谱，点击音符或小节从此播放"></div><div class="score-footer"><details class="notation-key"><summary>记号 / 音色</summary><label class="tone-setting">泛音空间 <select id="harmonic-space" aria-label="泛音空间"><option value="0">干声</option><option value="0.2">自然</option><option value="0.38" selected>空灵</option></select></label><label id="latency-control" hidden>输入延迟补偿 <input id="input-latency" type="number" min="-300" max="500" step="10" value="0" aria-label="输入延迟补偿毫秒"/> ms</label><p id="notation-note"></p><p>下方数字是拍点，&amp; 是半拍。单符杠：八分音符；双符杠：十六分音符；圆点：附点。</p></details><span>点击音符 / 小节播放 · 空格开始 / 暂停</span></div></section>
 <div id="status" class="status" role="status" aria-live="polite">已就绪。</div></div>
 </div></div></main><dialog id="tuner" aria-label="随谱调音"><section class="tuner-card card"><div class="panel-heading"><h3>调音器</h3><button id="close-tuner" class="icon-button" aria-label="关闭调音器">×</button></div><p class="panel-description">按谱面定弦调音。</p><select id="tuning-preset" aria-label="调弦方案"></select><div class="tuner-display"><span id="tuner-state" class="tuner-state">等待麦克风</span><div id="detected-note" class="detected-note">—<small>轻拨一根空弦</small></div><div class="tuner-scale"><span>偏低</span><span>准</span><span>偏高</span><div class="scale-lines"></div><div id="needle" class="needle"></div></div><div id="cents" class="cents">— cents</div><div id="frequency" class="frequency">A4 = 440 Hz</div></div><div id="strings" class="strings"></div><label class="check-control capo-check"><input id="tune-capo" type="checkbox"/>已夹变调夹，按夹后空弦调音</label><button id="mic-button" class="button mic-button">◉ 开启麦克风</button><button id="reference" class="text-button reference">♪ 播放选中弦的参考音</button><p id="tuner-hint" class="fineprint"></p></section>
-<p id="tuner-feedback" role="status"></p></dialog>
-<dialog id="editor"><form method="dialog"><div class="dialog-heading"><div><h2>导入 / 编辑曲谱</h2></div><button class="icon-button" aria-label="关闭编辑器">×</button></div></form><p>支持 JSON 曲谱与等时值文本六线谱；图片、PDF 和 Guitar Pro 尚未支持。</p><div class="editor-actions"><label class="button secondary file-button">选择文件<input id="file" type="file" accept=".json,.txt,.tab"/></label><button id="ascii-example" class="text-button">文本谱示例</button><button id="json-current" class="text-button">当前谱 JSON</button></div><textarea id="score-input" spellcheck="false" aria-label="曲谱内容"></textarea><p class="fineprint">文本谱：1 弦到 6 弦排列，品数按列对齐；@step 以四分音符为单位。@tuning 从低音 6 弦到高音 1 弦。变调夹用 @capo 指定。</p><p id="editor-error" class="error" role="alert"></p><div class="dialog-footer"><span>只保存于当前浏览器</span><button id="apply-score" class="button primary">载入曲谱 →</button></div></dialog>`;
+<p id="tuner-feedback" role="status"></p></dialog>`;
 
 function status(message: string, error = false) {
   $("#status").textContent = message;
@@ -123,9 +123,17 @@ function status(message: string, error = false) {
 }
 function persist() {
   try {
-    localStorage.setItem("stringflow-score", JSON.stringify(score));
+    localStorage.setItem(
+      "stringflow-playback",
+      JSON.stringify({
+        libraryIndex: LIBRARY.findIndex((s) =>
+          score.id ? s.id === score.id : s.title === score.title,
+        ),
+        bpm: score.bpm,
+      }),
+    );
   } catch {
-    status("浏览器无法保存曲谱；仍可练习或导出 JSON。");
+    status("浏览器无法保存播放偏好；仍可正常练习。");
   }
 }
 function totalBeats() {
@@ -260,9 +268,29 @@ function updatePosition(scroll = true) {
     const bar = $(`#bar-${b}`),
       container = $("#score");
     const top = bar.offsetTop;
+    const viewportBottom = container.scrollTop + container.clientHeight;
+    // Count actual layout rows so zoom, column count and narrow screens all
+    // keep one complete upcoming row available before turning the page.
+    const visibleRows = [
+      ...new Set(
+        [...container.querySelectorAll<HTMLElement>(".tab-bar")]
+          .filter(
+            (row) =>
+              row.offsetTop >= container.scrollTop &&
+              row.offsetTop + row.offsetHeight <= viewportBottom,
+          )
+          .map((row) => row.offsetTop),
+      ),
+    ];
+    const penultimateRow = visibleRows[Math.max(0, visibleRows.length - 2)];
+    const approachingBottom =
+      penultimateRow !== undefined &&
+      top >= penultimateRow &&
+      top > container.scrollTop + 16;
     if (
       top < container.scrollTop ||
-      top + bar.offsetHeight > container.scrollTop + container.clientHeight
+      top + bar.offsetHeight > viewportBottom ||
+      approachingBottom
     )
       container.scrollTo({
         top: top - 12,
@@ -775,14 +803,6 @@ function changeScore(next: Score) {
   renderReports();
   status("曲谱已载入，定弦与变调夹已同步。");
 }
-function openEditor(current: boolean) {
-  setLibrary(false);
-  $<HTMLTextAreaElement>("#score-input").value = current
-    ? JSON.stringify(score, null, 2)
-    : ASCII_EXAMPLE;
-  $("#editor-error").textContent = "";
-  $<HTMLDialogElement>("#editor").showModal();
-}
 $("#library").innerHTML = LIBRARY.map(
   (s, i) =>
     `<button class="library-item" data-demo="${i}" title="${escape(s.title)}" aria-label="载入 ${escape(s.title)}"><span class="library-art art-${i}">♫</span><span class="library-title">${escape(s.title)}<small>${i === 0 ? "Standard tuning" : i === 1 ? "Drop D" : i === 2 ? "DADGAD · Capo 2" : "CGDGAD · Capo 5"}</small></span><span class="library-arrow">↗</span></button>`,
@@ -936,38 +956,6 @@ $("#reference").onclick = async () => {
     status("无法启动参考音，请重试。", true);
   }
 };
-$("#import-button").onclick = $("#sidebar-import").onclick = () =>
-  openEditor(false);
-$("#edit-button").onclick = () => openEditor(true);
-$("#ascii-example").onclick = () => {
-  $<HTMLTextAreaElement>("#score-input").value = ASCII_EXAMPLE;
-};
-$("#json-current").onclick = () => {
-  $<HTMLTextAreaElement>("#score-input").value = JSON.stringify(score, null, 2);
-};
-$<HTMLInputElement>("#file").onchange = async (e) => {
-  const file = (e.target as HTMLInputElement).files?.[0];
-  if (!file) return;
-  if (file.size > 1_000_000) {
-    $("#editor-error").textContent = "曲谱文件请小于 1 MB。";
-    return;
-  }
-  try {
-    $<HTMLTextAreaElement>("#score-input").value = await file.text();
-    $("#editor-error").textContent = "";
-  } catch {
-    $("#editor-error").textContent = "无法读取文件，请重试。";
-  }
-};
-$("#apply-score").onclick = () => {
-  try {
-    changeScore(parseScore($<HTMLTextAreaElement>("#score-input").value));
-    $<HTMLDialogElement>("#editor").close();
-  } catch (e) {
-    $("#editor-error").textContent =
-      e instanceof Error ? e.message : "无法读取曲谱。";
-  }
-};
 $("#export").onclick = () => {
   const url = URL.createObjectURL(
     new Blob([JSON.stringify(score, null, 2)], { type: "application/json" }),
@@ -979,19 +967,23 @@ $("#export").onclick = () => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
 document.addEventListener("keydown", (e) => {
+  const target = e.target;
   if (
-    e.code === "Space" &&
-    !document.querySelector("dialog[open]") &&
-    (!["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(
-      (e.target as HTMLElement).tagName,
-    ) ||
-      Boolean(
-        (e.target as HTMLElement).closest("[data-event], [data-bar-start]"),
-      ))
-  ) {
-    e.preventDefault();
-    if (!e.repeat) void play();
-  }
+    e.code !== "Space" ||
+    e.altKey ||
+    e.ctrlKey ||
+    e.metaKey ||
+    e.shiftKey ||
+    e.isComposing ||
+    document.querySelector("dialog[open]") ||
+    document.body.classList.contains("library-open") ||
+    (target instanceof HTMLElement &&
+      (target.isContentEditable || target.closest("input, textarea, select")))
+  )
+    return;
+  // Prevent scrolling and a second native button click on keyup.
+  e.preventDefault();
+  if (!e.repeat) void play();
 });
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {

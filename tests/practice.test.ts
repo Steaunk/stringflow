@@ -178,14 +178,8 @@ test("timing reports follow the score identity, not coincidentally matching note
   assert.equal(reportMatchesScore(report, score), true);
   score.bpm = 120;
   assert.equal(reportMatchesScore(report, score), true);
-  assert.equal(
-    reportMatchesScore({ ...report, scoreKey: undefined }, score),
-    true,
-  );
+  assert.equal(reportMatchesScore({ ...report, scoreKey: "" }, score), false);
   score.events[0].notes[0].fret++;
   assert.equal(reportMatchesScore(report, score), false);
-  assert.equal(
-    reportMatchesScore({ ...report, scoreKey: undefined }, score),
-    false,
-  );
+  assert.equal(reportMatchesScore({ ...report, scoreKey: "" }, score), false);
 });

@@ -1,12 +1,10 @@
 import { test } from "node:test";
-import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import {
   SOMETHING_JUST_LIKE_THIS as song,
   songBars,
-  refreshSavedArrangement,
 } from "../src/songs/something-just-like-this.ts";
-import { eventPitch, parseScore, validateScore } from "../src/score.ts";
+import { eventPitch, validateScore } from "../src/score.ts";
 import { noteName } from "../src/music.ts";
 
 test("supplied arrangement has 101 complete measures including the final whole-bar rest", () => {
@@ -76,9 +74,9 @@ test("notation preserves opening rhythm, ghost notes, 12th-fret harmonics, and n
   );
   assert.equal(bars[85].at(-1)?.beats, 1);
   assert.equal(bars[99].at(-1)?.beats, 0.5);
-  assert.deepEqual(parseScore(JSON.stringify(song)), song);
+  assert.deepEqual(validateScore(song), song);
 });
-test("import rejects unsupported special-note metadata", () => {
+test("score validation rejects unsupported special-note metadata", () => {
   const invalid = (patch: Record<string, unknown>) => ({
     ...song,
     events: [{ beats: 4, notes: [{ string: 1, fret: 12, ...patch }] }],
@@ -193,27 +191,7 @@ test("PDF audit preserves bar 19 melody alignment and the sparse bass in bars 10
   assert.equal(bars[73][7].notes[0].link, "pull");
   assert.equal(song.events.length, 823);
 });
-test("saved previous library score receives corrections while user note edits and tempo survive", () => {
-  const previous = validateScore(
-    JSON.parse(
-      readFileSync(
-        new URL("./fixtures/something-before-2026-09-29.json", import.meta.url),
-        "utf8",
-      ),
-    ),
-  );
-  previous.bpm = 90;
-  const refreshed = refreshSavedArrangement(previous);
-  assert.deepEqual(refreshed.events, song.events);
-  assert.equal(refreshed.bpm, 90);
-  assert.equal(previous.events.length, 822);
-  const edited = structuredClone(previous);
-  edited.events[0].notes[0].fret = 1;
-  assert.deepEqual(refreshSavedArrangement(edited), edited);
-  assert.equal(refreshSavedArrangement(song), song);
-});
-
-test("bars 46 and 51 preserve sparse bass attacks and all published copies upgrade safely", () => {
+test("bars 46 and 51 preserve sparse bass attacks", () => {
   const bar = songBars()[45];
   assert.deepEqual(bar[1], { beats: 0.5, notes: [{ string: 4, fret: 0 }] });
   assert.deepEqual(
@@ -224,51 +202,4 @@ test("bars 46 and 51 preserve sparse bass attacks and all published copies upgra
     beats: 0.25,
     notes: [{ string: 2, fret: 0 }],
   });
-  const previous = structuredClone(song);
-  let beat = 0;
-  for (const event of previous.events) {
-    if (beat === 73 * 4 + 0.5) event.notes.unshift({ string: 4, fret: 0 });
-    if (beat === 73 * 4 + 1) event.notes[0] = { string: 3, fret: 4 };
-    beat += event.beats;
-  }
-  previous.bpm = 89;
-  assert.deepEqual(refreshSavedArrangement(previous).events, song.events);
-  assert.equal(refreshSavedArrangement(previous).bpm, 89);
-  const userEdit = structuredClone(previous);
-  userEdit.events[0].notes[0].fret = 1;
-  assert.deepEqual(refreshSavedArrangement(userEdit), userEdit);
-  beat = 0;
-  for (const event of previous.events) {
-    if (beat === 55 * 4 || beat === 87 * 4) delete event.palmMute;
-    if ([31 * 4 + 1, 31 * 4 + 3, 87 * 4 + 1, 87 * 4 + 3].includes(beat)) {
-      const at = event.notes.findIndex((n) => n.string === 5);
-      event.notes.splice(at, 0, { string: 4, fret: 0, technique: "muted" });
-    }
-    if (beat === 55 * 4 + 2 || beat === 55 * 4 + 2.5) {
-      event.notes.unshift({ string: 1, fret: 0 });
-      event.notes.find((n) => n.string === 3)!.fret = 0;
-    }
-    if (beat === 55 * 4 + 3)
-      event.notes.splice(3, 0, { string: 4, fret: 0, technique: "muted" });
-    beat += event.beats;
-  }
-  previous.barAnnotations![56] = "扫弦 · 击弦 · 滑音 · let ring";
-  previous.barAnnotations![88] = "滑音 · 扫弦 · let ring";
-  previous.barAnnotations![1] = "自定义说明";
-  const refreshed = refreshSavedArrangement(previous);
-  assert.deepEqual(refreshed.events, song.events);
-  assert.equal(refreshed.barAnnotations![56], "let ring");
-  assert.equal(refreshed.barAnnotations![88], "let ring");
-  assert.equal(refreshed.barAnnotations![1], "自定义说明");
-  beat = 0;
-  for (const event of previous.events) {
-    if (beat === 45 * 4 + 0.5) event.notes.push({ string: 6, fret: 4 });
-    if (beat === 50 * 4 + 0.75) event.notes.push({ string: 6, fret: 0 });
-    beat += event.beats;
-  }
-  previous.bpm = 85;
-  assert.deepEqual(refreshSavedArrangement(previous).events, song.events);
-  assert.equal(refreshSavedArrangement(previous).bpm, 85);
-  previous.events[0].notes[0].fret = 1;
-  assert.deepEqual(refreshSavedArrangement(previous), previous);
 });

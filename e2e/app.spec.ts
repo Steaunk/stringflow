@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-test("tempo playback, pause, score seek, and private local persistence", async ({
+test("tempo playback, pause, score seek, and local playback preferences", async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -26,18 +26,33 @@ test("tempo playback, pause, score seek, and private local persistence", async (
   await expect(page.locator("#bpm")).toHaveValue("240");
   expect(errors).toEqual([]);
 });
-test("score import handles validation, escaping, tuning and capo", async ({
+test("only built-in scores load, with no import or editing controls", async ({
   page,
 }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "stringflow-score",
+      JSON.stringify({
+        version: 1,
+        title: "旧的自定义曲谱",
+        artist: "",
+        bpm: 120,
+        timeSignature: [4, 4],
+        tuning: [40, 45, 50, 55, 59, 64],
+        capo: 0,
+        events: [{ beats: 4, notes: [{ string: 1, fret: 0 }] }],
+      }),
+    );
+  });
   await page.goto("/");
-  await page.locator("#import-button").click();
-  await page.locator("#score-input").fill("bad data");
-  await page.locator("#apply-score").click();
-  await expect(page.locator("#editor-error")).not.toBeEmpty();
-  await page.locator("#ascii-example").click();
-  await page.locator("#apply-score").click();
-  await expect(page.locator("#song-title")).toHaveText("我的第一段旋律");
+  await expect(page.locator("#song-title")).toHaveText("晚风练习曲");
+  await expect(
+    page.locator(
+      "#import-button, #sidebar-import, #edit-button, #editor, input[type=file]",
+    ),
+  ).toHaveCount(0);
   await page.locator("#toggle-library").click();
+  await expect(page.locator(".library-item")).toHaveCount(4);
   await page.locator('[data-demo="2"]').click();
   await expect(page.locator("#tuning-tag")).toContainText("DADGAD");
   await expect(page.locator("#capo-tag")).toHaveText("Capo 2");
@@ -46,13 +61,26 @@ test("score import handles validation, escaping, tuning and capo", async ({
   await page.locator("#tune-capo").check();
   await expect(page.locator('[data-string="0"]')).toContainText("E2");
   await page.locator("#close-tuner").click();
-  await page.locator("#edit-button").click();
-  const raw = JSON.parse(await page.locator("#score-input").inputValue());
-  raw.title = "<img src=x onerror=alert(1)>";
-  await page.locator("#score-input").fill(JSON.stringify(raw));
-  await page.locator("#apply-score").click();
-  await expect(page.locator("#song-title")).toHaveText(raw.title);
-  await expect(page.locator("#song-title img")).toHaveCount(0);
+  await page.reload();
+  await expect(page.locator("#tuning-tag")).toContainText("DADGAD");
+  const settings = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("stringflow-playback")!),
+  );
+  expect(settings).toEqual({ libraryIndex: 2, bpm: 90 });
+});
+test("a direct song link overrides saved playback selection", async ({
+  page,
+}) => {
+  await page.addInitScript(() =>
+    localStorage.setItem(
+      "stringflow-playback",
+      JSON.stringify({ libraryIndex: 2, bpm: 90 }),
+    ),
+  );
+  await page.goto("/?song=something-just-like-this");
+  await expect(page.locator("#song-title")).toHaveText(
+    "Something Just Like This",
+  );
 });
 test("loop stays in range and metronome mode finishes", async ({ page }) => {
   await page.goto("/");
@@ -86,24 +114,23 @@ test("denied microphone shows actionable messages for both notes and chords", as
   await page.locator("#play").click();
   await expect(page.locator("#status")).toContainText(/麦克风|设备/);
   await expect(page.locator("#play")).toHaveAttribute("aria-label", "播放");
-  await page.locator("#edit-button").click();
-  const raw = JSON.parse(await page.locator("#score-input").inputValue());
-  raw.events[0].notes.push({ string: 1, fret: 0 });
-  await page.locator("#score-input").fill(JSON.stringify(raw));
-  await page.locator("#apply-score").click();
+  await page.locator("#toggle-library").click();
+  await page.locator('[data-demo="3"]').click();
   await page.locator("#play").click();
   await expect(page.locator("#status")).toContainText(/麦克风|设备/);
 });
-test("mobile layout fits viewport and editor is usable", async ({ page }) => {
+test("mobile layout fits viewport and built-in library is usable", async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(390);
-  await page.locator("#import-button").click();
-  await expect(page.locator("#score-input")).toBeVisible();
-  await page.locator("#apply-score").click();
-  await expect(page.locator("#song-title")).toHaveText("我的第一段旋律");
+  await page.locator("#toggle-library").click();
+  await page.locator('[data-demo="1"]').click();
+  await expect(page.locator("#tuning-tag")).toContainText("Drop D");
+  await expect(page.locator("#library-panel")).toHaveAttribute("inert", "");
 });
 test("selecting a distant note automatically scrolls its bar into view", async ({
   page,

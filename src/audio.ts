@@ -79,21 +79,8 @@ export class AudioEngine {
     if (this.context.state !== "running") await this.context.resume();
     return this.context;
   }
-  tone(
-    hz: number,
-    time: number,
-    duration: number,
-    click = false,
-    volume = 1,
-    harmonic = false,
-    string?: number,
-  ) {
+  tone(hz: number, time: number, duration: number, click = false, volume = 1) {
     const ctx = this.context!;
-    if (harmonic && !click) {
-      this.harmonicNote(hz, time, { string: string ?? 1, volume });
-      return;
-    }
-    if (string !== undefined) this.dampString(string, time);
     const osc = ctx.createOscillator(),
       gain = ctx.createGain();
     osc.type = click ? "sine" : "triangle";
@@ -110,7 +97,7 @@ export class AudioEngine {
     osc.connect(gain).connect(ctx.destination);
     osc.start(time);
     osc.stop(time + duration + 0.02);
-    this.track(osc, gain, string);
+    this.track(osc, gain);
   }
   harmonicNote(
     hz: number,

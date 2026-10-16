@@ -1,6 +1,7 @@
+import { readFileSync } from "node:fs";
 import { test, expect } from "@playwright/test";
 
-test("source performance symbols survive import/export and appear at their actual positions", async ({
+test("source performance symbols survive export and appear at their actual positions", async ({
   page,
 }) => {
   await page.goto("/?song=something-just-like-this");
@@ -48,14 +49,16 @@ test("source performance symbols survive import/export and appear at their actua
       }).length,
   );
   expect(visible).toBeGreaterThanOrEqual(4);
-  await page.locator("#edit-button").click();
-  const raw = JSON.parse(await page.locator("#score-input").inputValue());
+  const download = page.waitForEvent("download");
+  await page.locator("#export").click();
+  const raw = JSON.parse(
+    readFileSync((await (await download).path())!, "utf8"),
+  );
   expect(
     raw.events.some(
       (e: { percussion?: string }) => e.percussion === "body-tap",
     ),
   ).toBe(true);
-  await page.locator("#apply-score").click();
   await expect(page.locator("#bar-84 .body-tap")).toHaveText("拍");
 });
 
