@@ -27,10 +27,10 @@ npm run test:e2e    # 浏览器测试，包括合成 WAV 麦克风输入
 
 `npm run build` 生成根路径部署产物；`npm run build:site` 生成 `/stringflow/` 子路径部署产物。构建结果均在 `dist/`，只需要静态文件托管服务，无后端或数据库。
 
-GitHub Pages 的项目站点地址为 `https://<owner>.github.io/stringflow/`，可由名为 `stringflow` 的独立仓库发布，无需复制到个人主页仓库。`.github/workflows/pages.yml` 提供手动发布：从 `main` 完成检查、构建和测试后，仅上传 `dist/`。设置方法：
+GitHub Pages 的项目站点地址为 `https://<owner>.github.io/stringflow/`，可由名为 `stringflow` 的独立仓库发布，无需复制到个人主页仓库。`.github/workflows/pages.yml` 在推送 `main` 时自动发布：完成检查、构建和测试后，仅上传 `dist/`，检查失败时不发布。其他分支和 Pull Request 运行独立 CI 检查。也支持手动重新发布。设置方法：
 
 1. 在仓库的 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。
-2. 在 **Actions → Publish GitHub Pages → Run workflow** 选择 `main` 发布，以工作流返回的地址为准。
+2. 推送到 `main` 即自动检查并发布。需要手动重发时，在 **Actions → Publish GitHub Pages → Run workflow** 选择 `main`。以工作流返回的地址为准。
 
 GitHub Free 账户的 Pages 使用公开仓库；支持私有仓库 Pages 的账户方案可保留源码私有。项目站点可能继承个人主页的自定义域名。参见 [GitHub Pages 文档](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)及[自定义工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
 
